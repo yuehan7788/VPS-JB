@@ -55,7 +55,7 @@ check_alias_conflict() {
 # 设置别名
 setup_alias() {
     local system_script="/usr/local/bin/VPS-JB.sh"
-    local github_url="https://raw.githubusercontent.com/yuehan7788/VPS-JB/refs/heads/yuehan7788-patch-36/VPS-JB.sh"
+    local github_url="https://raw.githubusercontent.com/yuehan7788/VPS-JB/refs/heads/main/VPS-JB.sh"
     
     # 删除可能存在的旧文件
     rm -f "/usr/local/bin/vps-jb"
