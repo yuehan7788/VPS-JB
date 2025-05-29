@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # 作者信息
-author="Your Name"
+author="Yu G"
 version="1.0.0"
 
 # 颜色定义
@@ -45,15 +45,11 @@ show_menu() {
     echo -e "${cyan}========================================${none}"
     echo -e "${green}        一键安装脚本合集 v$version${none}"
     echo -e "${cyan}========================================${none}"
-    echo -e "${yellow}1.${none} 安装 Xray"
-    echo -e "${yellow}2.${none} 安装 V2ray"
-    echo -e "${yellow}3.${none} 安装 Trojan"
-    echo -e "${yellow}4.${none} 安装 Shadowsocks"
-    echo -e "${yellow}5.${none} 安装 WireGuard"
-    echo -e "${yellow}6.${none} 安装 Docker"
-    echo -e "${yellow}7.${none} 安装 Nginx"
-    echo -e "${yellow}8.${none} 安装 Node.js"
-    echo -e "${yellow}9.${none} 安装 Python"
+    echo -e "${yellow}1.${none} 安装 Xray(233boy急速)"
+    echo -e "${yellow}2.${none} 安装 八合一键脚本mack-a&(歇斯底里)"
+    echo -e "${yellow}3.${none} 安装 FranzKafkaYu/x-ui"
+    echo -e "${yellow}4.${none} 安装 kejilong工具"
+   
     echo -e "${yellow}0.${none} 退出"
     echo -e "${cyan}========================================${none}"
     echo -n "请输入选项 [0-9]: "
@@ -77,29 +73,15 @@ main() {
                 run_install "https://github.com/233boy/Xray/raw/main/install.sh"
                 ;;
             2)
-                run_install "https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh"
+                run_install "https://raw.githubusercontent.com/mack-a/v2ray-agent/master/install.sh"
                 ;;
             3)
-                run_install "https://raw.githubusercontent.com/trojan-gfw/trojan-quickstart/master/install.sh"
+                run_install "https://raw.githubusercontent.com/FranzKafkaYu/x-ui/master/install.sh"
                 ;;
             4)
-                run_install "https://raw.githubusercontent.com/shadowsocks/shadowsocks-libev/master/install.sh"
+                run_install "kejilion.sh"
                 ;;
-            5)
-                run_install "https://raw.githubusercontent.com/angristan/wireguard-install/master/wireguard-install.sh"
-                ;;
-            6)
-                run_install "https://get.docker.com"
-                ;;
-            7)
-                run_install "https://raw.githubusercontent.com/nginx/nginx/master/auto/install"
-                ;;
-            8)
-                run_install "https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh"
-                ;;
-            9)
-                run_install "https://raw.githubusercontent.com/pyenv/pyenv-installer/master/bin/pyenv-installer"
-                ;;
+            
             0)
                 _green "感谢使用，再见！"
                 exit 0
