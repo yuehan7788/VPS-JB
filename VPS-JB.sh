@@ -134,6 +134,7 @@ setup_alias() {
     local system_script="/usr/local/bin/VPS-JB.sh"
     local alias_config="/etc/profile.d/vps-jb-bieming.sh"
     local github_url="https://raw.githubusercontent.com/yuehan7788/VPS-JB/refs/heads/yuehan7788-patch-1/VPS-JB.sh"
+    local show_info=$1  # 新增参数控制是否显示详细信息
     
     # 检查脚本是否已经安装
     if [[ ! -f "$system_script" ]] || [[ ! -s "$system_script" ]]; then
@@ -151,8 +152,8 @@ setup_alias() {
         # 显示下载文件大小
         local file_size=$(stat -c%s "$system_script" 2>/dev/null || stat -f%z "$system_script" 2>/dev/null)
         _green "下载完成，文件大小: ${file_size} 字节"
-    else
-        _green "检测到脚本已安装，将使用本地文件"
+    elif [[ "$show_info" != "true" ]]; then
+        return 0  # 如果不是首次安装且不需要显示信息，直接返回
     fi
     
     # 确保脚本有执行权限
@@ -191,27 +192,30 @@ setup_alias() {
     # 立即生效
     source ~/.bashrc
     
-    # 验证别名是否设置成功
-    if alias y >/dev/null 2>&1; then
-        _green "菜单快捷键 y 设置成功！"
-        _green "现在您可以使用以下命令来启动脚本："
-        _green "- y 或 vps-jb"
-        
-        # 显示当前别名设置
-        _yellow "当前别名设置："
-        alias y
-        
-        # 显示脚本文件信息
-        _yellow "脚本文件信息："
-        ls -l "$system_script"
-        _yellow "别名配置文件："
-        ls -l "$alias_config"
-        _yellow "软链接信息："
-        ls -l "$softlink"
-    else
-        _red "别名设置失败，请手动运行以下命令："
-        _yellow "echo 'alias y=\"bash $system_script\"' >> ~/.bashrc"
-        _yellow "source ~/.bashrc"
+    # 只在首次安装时显示详细信息
+    if [[ "$show_info" == "true" ]]; then
+        # 验证别名是否设置成功
+        if alias y >/dev/null 2>&1; then
+            _green "菜单快捷键<y>设置成功！"
+            _green "现在您可以使用以下命令来启动脚本："
+            _green "- <y> 或 <vps-jb>"
+            
+            # 显示当前别名设置
+            _yellow "当前别名设置："
+            alias y
+            
+            # 显示脚本文件信息
+            _yellow "脚本文件信息："
+            ls -l "$system_script"
+            _yellow "别名配置文件："
+            ls -l "$alias_config"
+            _yellow "软链接信息："
+            ls -l "$softlink"
+        else
+            _red "别名设置失败，请手动运行以下命令："
+            _yellow "echo 'alias y=\"bash $system_script\"' >> ~/.bashrc"
+            _yellow "source ~/.bashrc"
+        fi
     fi
 }
 
@@ -221,7 +225,9 @@ main() {
     local is_first_run=0
     if [[ ! -f "/usr/local/bin/VPS-JB.sh" ]]; then
         is_first_run=1
-        setup_alias
+        setup_alias "true"  # 首次安装时显示详细信息
+    else
+        setup_alias "false"  # 非首次安装时不显示详细信息
     fi
     
     # 直接显示菜单
