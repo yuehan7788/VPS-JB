@@ -131,12 +131,8 @@ setup_alias() {
         ls -l "$alias_config"
         _yellow "软链接信息："
         ls -l "$softlink"
-        
-        
     else
-        _red "别名设置失败，请手动运行以下命令："
-        _yellow "echo 'alias y=\"bash $system_script\"' >> ~/.bashrc"
-        _yellow "source ~/.bashrc"
+        _red "别名设置失败"
     fi
 }
 
