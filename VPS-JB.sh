@@ -55,7 +55,7 @@ check_alias_conflict() {
 # 设置别名
 setup_alias() {
     local system_script="/usr/local/bin/VPS-JB.sh"
-    local github_url="https://raw.githubusercontent.com/yuehan7788/VPS-JB/refs/heads/main/VPS-JB.sh"
+    local github_url="https://raw.githubusercontent.com/yuehan7788/VPS-JB/refs/heads/yuehan7788-patch-1/VPS-JB.sh"
     
     # 检查脚本是否已经安装
     if [[ ! -f "$system_script" ]]; then
