@@ -94,26 +94,8 @@ run_install() {
         return 1
     fi
     
-    # 对于不同的安装命令使用不同的处理方式
-    case "$install_cmd" in
-        "kejilion.sh")
-            # 本地脚本直接执行
-            bash "$install_cmd"
-            ;;
-        *)
-            # 远程脚本使用curl下载并执行，显示所有输出
-            echo "正在下载安装脚本..."
-            curl -L "$install_cmd" -o /tmp/install_script.sh
-            if [[ $? -eq 0 ]]; then
-                echo "下载完成，开始执行安装..."
-                bash /tmp/install_script.sh
-                rm -f /tmp/install_script.sh
-            else
-                _red "下载安装脚本失败"
-                return 1
-            fi
-            ;;
-    esac
+    # 直接执行安装命令
+    bash <(curl -sL "$install_cmd")
     
     # 检查安装结果
     if [[ $? -eq 0 ]]; then
