@@ -200,7 +200,7 @@ setup_alias() {
     if [[ $is_first_install -eq 1 ]] || [[ "$show_info" == "true" ]]; then
         # 验证别名是否设置成功
         if alias y >/dev/null 2>&1; then
-            _green "菜单快捷键<y>设置成功！"
+            _green "菜单快捷键<y>、<vps-jb>设置成功！"
             _green "现在您可以使用以下命令来启动脚本："
             _green "- <y> 或 <vps-jb>"
             
