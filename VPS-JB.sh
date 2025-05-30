@@ -59,15 +59,21 @@ setup_alias() {
     local github_url="https://raw.githubusercontent.com/yuehan7788/VPS-JB/refs/heads/yuehan7788-patch-1/VPS-JB.sh"
     
     # 检查脚本是否已经安装
-    if [[ ! -f "$system_script" ]]; then
+    if [[ ! -f "$system_script" ]] || [[ ! -s "$system_script" ]]; then
         _yellow "首次安装，正在从 GitHub 下载脚本..."
         
-        # 使用 wget 下载脚本，保持原始文件名
-        wget -qO "$system_script" "$github_url"
-        if [[ ! -f "$system_script" ]]; then
-            _red "下载脚本失败"
+        # 使用 wget 下载脚本，添加超时和重试
+        wget --timeout=10 --tries=3 --show-progress -qO "$system_script" "$github_url"
+        
+        # 验证下载是否成功
+        if [[ ! -f "$system_script" ]] || [[ ! -s "$system_script" ]]; then
+            _red "下载脚本失败，请检查网络连接或重试"
             return 1
         fi
+        
+        # 显示下载文件大小
+        local file_size=$(stat -c%s "$system_script" 2>/dev/null || stat -f%z "$system_script" 2>/dev/null)
+        _green "下载完成，文件大小: ${file_size} 字节"
     else
         _green "检测到脚本已安装，将使用本地文件"
     fi
@@ -75,8 +81,18 @@ setup_alias() {
     # 确保脚本有执行权限
     chmod +x "$system_script"
     
-    # 创建软链接
-    ln -sf "$system_script" "/usr/local/bin/vps-jb"
+    # 创建软链接（使用完整路径）
+    local softlink="/usr/local/bin/vps-jb"
+    if [[ -L "$softlink" ]]; then
+        rm -f "$softlink"
+    fi
+    ln -sf "$system_script" "$softlink"
+    chmod +x "$softlink"
+    
+    # 验证软链接是否创建成功
+    if [[ ! -L "$softlink" ]]; then
+        _yellow "警告: 软链接创建失败，但不会影响脚本使用"
+    fi
     
     # 设置别名到所有可能的配置文件中
     local alias_cmd="alias y='bash $system_script'"
@@ -113,6 +129,8 @@ setup_alias() {
         ls -l "$system_script"
         _yellow "别名配置文件："
         ls -l "$alias_config"
+        _yellow "软链接信息："
+        ls -l "$softlink"
         
         _yellow "请执行以下命令使别名立即生效："
         _yellow "source ~/.bashrc"
@@ -159,7 +177,7 @@ uninstall_script() {
     
     # 删除文件
     for file in "${files_to_remove[@]}"; do
-        if [[ -f "$file" ]]; then
+        if [[ -f "$file" ]] || [[ -L "$file" ]]; then
             rm -f "$file"
             _green "已删除: $file"
         fi
