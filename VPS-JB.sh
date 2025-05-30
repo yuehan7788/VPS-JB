@@ -118,11 +118,11 @@ setup_alias() {
     if alias y >/dev/null 2>&1; then
         _green "别名设置成功！"
         _green "现在您可以使用以下命令来启动脚本："
-        _green "- y 或 vbs-jb"
+        _green "- y 或 vps-jb"
         
         # 显示当前别名设置
         _yellow "当前别名设置："
-        alias y 或 vbs-jb
+        alias y
         
         # 显示脚本文件信息
         _yellow "脚本文件信息："
