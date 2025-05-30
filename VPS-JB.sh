@@ -67,21 +67,12 @@ setup_alias() {
             _red "下载脚本失败"
             return 1
         fi
-        
-        # 设置权限
-        chmod +x "$system_script"
-        
-        # 验证文件大小
-        local target_size=$(stat -c%s "$system_script" 2>/dev/null || stat -f%z "$system_script" 2>/dev/null)
-        _yellow "下载的文件大小: $target_size 字节"
-        
-        if [[ ! -s "$system_script" ]]; then
-            _red "下载的文件大小为0"
-            return 1
-        fi
     else
         _green "检测到脚本已安装，将使用本地文件"
     fi
+    
+    # 确保脚本有执行权限
+    chmod +x "$system_script"
     
     # 创建全局别名文件
     cat > "/etc/profile.d/vps-jb.sh" << EOF
@@ -106,11 +97,14 @@ EOF
         # 显示当前别名设置
         _yellow "当前别名设置："
         alias y
+        
+        # 显示脚本文件信息
+        _yellow "脚本文件信息："
+        ls -l "$system_script"
     else
         _red "别名设置失败，请手动运行以下命令："
-        _yellow "echo 'alias y=\"bash $system_script\"' > /etc/profile.d/vps-jb.sh"
-        _yellow "chmod +x /etc/profile.d/vps-jb.sh"
-        _yellow "source /etc/profile.d/vps-jb.sh"
+        _yellow "echo 'alias y=\"bash $system_script\"' >> ~/.bashrc"
+        _yellow "source ~/.bashrc"
     fi
 }
 
