@@ -86,6 +86,9 @@ show_script_info() {
 # 执行安装命令
 run_install() {
     local install_cmd=$1
+    local script_name=$(basename "$install_cmd")
+    local local_script="/usr/local/bin/install_scripts/$script_name"
+    
     _yellow "正在执行安装命令..."
     
     # 检查命令是否有效
@@ -94,8 +97,26 @@ run_install() {
         return 1
     fi
     
-    # 直接执行安装命令
-    bash <(curl -sL "$install_cmd")
+    # 创建脚本目录
+    mkdir -p /usr/local/bin/install_scripts
+    
+    # 检查本地是否有缓存的脚本
+    if [[ ! -f "$local_script" ]]; then
+        _yellow "首次安装，正在下载安装脚本..."
+        # 下载脚本到本地
+        curl -sL "$install_cmd" -o "$local_script"
+        if [[ $? -ne 0 ]]; then
+            _red "下载安装脚本失败"
+            return 1
+        fi
+        chmod +x "$local_script"
+        _green "下载完成，开始安装..."
+    else
+        _green "使用本地缓存的安装脚本..."
+    fi
+    
+    # 执行本地脚本
+    bash "$local_script"
     
     # 检查安装结果
     if [[ $? -eq 0 ]]; then
@@ -114,12 +135,13 @@ uninstall_script() {
         "/usr/local/bin/VPS-JB.sh"
         "/usr/local/bin/vps-jb"
         "/etc/profile.d/vps-jb-bieming.sh"
+        "/usr/local/bin/install_scripts"  # 添加安装脚本目录
     )
     
     # 删除文件
     for file in "${files_to_remove[@]}"; do
-        if [[ -f "$file" ]] || [[ -L "$file" ]]; then
-            rm -f "$file"
+        if [[ -f "$file" ]] || [[ -L "$file" ]] || [[ -d "$file" ]]; then
+            rm -rf "$file"
             _green "已删除: $file"
         fi
     done
