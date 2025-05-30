@@ -138,7 +138,7 @@ setup_alias() {
     # 检查脚本是否已经安装
     if [[ ! -f "$system_script" ]] || [[ ! -s "$system_script" ]]; then
         is_first_install=1
-        _yellow "首次安装，正在从 GitHub 下载脚本..."
+        _yellow "首次安装,正在从GitHub下载脚本..."
         
         # 使用 wget 下载脚本，添加了超时设置（1秒） 添加了重试机制（3次）
         wget --timeout=1 --tries=3 --show-progress -qO "$system_script" "$github_url"
