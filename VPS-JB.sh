@@ -223,6 +223,8 @@ main() {
                 ;;
             5)
                 uninstall_script
+                _green "脚本已卸载，程序将退出"
+                exit 0
                 ;;
             0)
                 _green "感谢使用，再见！"
