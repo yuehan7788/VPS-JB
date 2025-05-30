@@ -55,6 +55,7 @@ check_alias_conflict() {
 # 设置别名
 setup_alias() {
     local system_script="/usr/local/bin/VPS-JB.sh"
+    local alias_config="/etc/profile.d/vps-jb-bieming.sh"
     local github_url="https://raw.githubusercontent.com/yuehan7788/VPS-JB/refs/heads/yuehan7788-patch-1/VPS-JB.sh"
     
     # 检查脚本是否已经安装
@@ -91,8 +92,8 @@ setup_alias() {
     fi
     
     # 添加到 /etc/profile.d/
-    echo "$alias_cmd" > "/etc/profile.d/vps-jb.sh"
-    chmod +x "/etc/profile.d/vps-jb.sh"
+    echo "$alias_cmd" > "$alias_config"
+    chmod +x "$alias_config"
     
     # 立即生效
     source ~/.bashrc
@@ -110,6 +111,8 @@ setup_alias() {
         # 显示脚本文件信息
         _yellow "脚本文件信息："
         ls -l "$system_script"
+        _yellow "别名配置文件："
+        ls -l "$alias_config"
         
         _yellow "请执行以下命令使别名立即生效："
         _yellow "source ~/.bashrc"
@@ -130,6 +133,7 @@ show_menu() {
     echo -e "${yellow}2.${none} 安装 八合一键脚本mack-a&(歇斯底里)"
     echo -e "${yellow}3.${none} 安装 FranzKafkaYu/x-ui"
     echo -e "${yellow}4.${none} 安装 kejilong工具"
+    echo -e "${yellow}5.${none} 卸载脚本"
     echo -e "${yellow}0.${none} 退出"
     echo -e "${cyan}========================================${none}"
     echo -n "请输入选项 [0-9]: "
@@ -140,6 +144,44 @@ run_install() {
     local install_cmd=$1
     _yellow "正在执行安装命令..."
     bash <(wget -qO- -o- $install_cmd)
+}
+
+# 卸载脚本
+uninstall_script() {
+    _yellow "开始卸载脚本..."
+    
+    # 定义要删除的文件
+    local files_to_remove=(
+        "/usr/local/bin/VPS-JB.sh"
+        "/usr/local/bin/vps-jb"
+        "/etc/profile.d/vps-jb-bieming.sh"
+    )
+    
+    # 删除文件
+    for file in "${files_to_remove[@]}"; do
+        if [[ -f "$file" ]]; then
+            rm -f "$file"
+            _green "已删除: $file"
+        fi
+    done
+    
+    # 从 .bashrc 中移除别名
+    if [[ -f ~/.bashrc ]]; then
+        sed -i '/alias y=.*VPS-JB.sh/d' ~/.bashrc
+        _green "已从 .bashrc 中移除别名"
+    fi
+    
+    # 从 .bash_profile 中移除别名
+    if [[ -f ~/.bash_profile ]]; then
+        sed -i '/alias y=.*VPS-JB.sh/d' ~/.bash_profile
+        _green "已从 .bash_profile 中移除别名"
+    fi
+    
+    # 重新加载配置
+    source ~/.bashrc
+    
+    _green "脚本卸载完成！"
+    _yellow "请重新打开终端或执行 'source ~/.bashrc' 使更改生效"
 }
 
 # 主函数
@@ -161,10 +203,13 @@ main() {
             4)
                 run_install "kejilion.sh"
                 ;;
+            5)
+                uninstall_script
+                ;;
             0)
                 _green "感谢使用，再见！"
                 # 在退出前自动执行 source 命令
-                exec bash -c "source /etc/profile.d/vps-jb.sh; exec bash"
+                exec bash -c "source /etc/profile.d/vps-jb-bieming.sh; exec bash"
                 exit 0
                 ;;
             *)
