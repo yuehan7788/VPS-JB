@@ -80,6 +80,7 @@ show_script_info() {
     echo -e "${yellow}别名配置文件：${none} /etc/profile.d/vps-jb-bieming.sh"
     echo -e "${yellow}软链接路径：${none} /usr/local/bin/vps-jb"
     echo -e "${yellow}快捷命令：${none} y 或 vps-jb"
+    echo -e "${yellow}无响应中断操作：${none} Ctrl+C"
     echo -e "${cyan}========================================${none}"
 }
 
