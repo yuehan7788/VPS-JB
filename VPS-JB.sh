@@ -52,6 +52,83 @@ check_alias_conflict() {
     return 0
 }
 
+# 显示菜单
+show_menu() {
+    clear
+    echo -e "${cyan}========================================${none}"
+    echo -e "${green}        一键安装脚本合集 v$version${none}"
+    echo -e "${cyan}========================================${none}"
+    echo -e "${yellow}1.${none} 安装 Xray(233boy急速)"
+    echo -e "${yellow}2.${none} 安装 八合一键脚本mack-a&(歇斯底里)"
+    echo -e "${yellow}3.${none} 安装 FranzKafkaYu/x-ui"
+    echo -e "${yellow}4.${none} 安装 kejilong工具"
+    echo -e "${yellow}5.${none} 卸载脚本"
+    echo -e "${yellow}6.${none} 脚本信息"
+    echo -e "${yellow}0.${none} 退出"
+    echo -e "${cyan}========================================${none}"
+    echo -n "请输入选项 [0-9]: "
+}
+
+# 显示脚本信息
+show_script_info() {
+    clear
+    echo -e "${cyan}========================================${none}"
+    echo -e "${green}        脚本信息${none}"
+    echo -e "${cyan}========================================${none}"
+    echo -e "${yellow}脚本版本：${none} $version"
+    echo -e "${yellow}脚本安装路径：${none} /usr/local/bin/VPS-JB.sh"
+    echo -e "${yellow}别名配置文件：${none} /etc/profile.d/vps-jb-bieming.sh"
+    echo -e "${yellow}软链接路径：${none} /usr/local/bin/vps-jb"
+    echo -e "${yellow}快捷命令：${none} y 或 vps-jb"
+    echo -e "${cyan}========================================${none}"
+    echo
+    read -p "按回车键返回主菜单..."
+}
+
+# 执行安装命令
+run_install() {
+    local install_cmd=$1
+    _yellow "正在执行安装命令..."
+    bash <(wget -qO- -o- $install_cmd)
+}
+
+# 卸载脚本
+uninstall_script() {
+    _yellow "开始卸载脚本..."
+    
+    # 定义要删除的文件
+    local files_to_remove=(
+        "/usr/local/bin/VPS-JB.sh"
+        "/usr/local/bin/vps-jb"
+        "/etc/profile.d/vps-jb-bieming.sh"
+    )
+    
+    # 删除文件
+    for file in "${files_to_remove[@]}"; do
+        if [[ -f "$file" ]] || [[ -L "$file" ]]; then
+            rm -f "$file"
+            _green "已删除: $file"
+        fi
+    done
+    
+    # 从 .bashrc 中移除别名
+    if [[ -f ~/.bashrc ]]; then
+        sed -i '/alias y=.*VPS-JB.sh/d' ~/.bashrc
+        _green "已从 .bashrc 中移除别名"
+    fi
+    
+    # 从 .bash_profile 中移除别名
+    if [[ -f ~/.bash_profile ]]; then
+        sed -i '/alias y=.*VPS-JB.sh/d' ~/.bash_profile
+        _green "已从 .bash_profile 中移除别名"
+    fi
+    
+    # 重新加载配置
+    source ~/.bashrc
+    
+    _green "脚本卸载完成！"
+}
+
 # 设置别名
 setup_alias() {
     local system_script="/usr/local/bin/VPS-JB.sh"
@@ -116,7 +193,7 @@ setup_alias() {
     
     # 验证别名是否设置成功
     if alias y >/dev/null 2>&1; then
-        _green "别名设置成功！"
+        _green "菜单快捷键 y 设置成功！"
         _green "现在您可以使用以下命令来启动脚本："
         _green "- y 或 vps-jb"
         
@@ -138,68 +215,19 @@ setup_alias() {
     fi
 }
 
-# 显示菜单
-show_menu() {
-    clear
-    echo -e "${cyan}========================================${none}"
-    echo -e "${green}        一键安装脚本合集 v$version${none}"
-    echo -e "${cyan}========================================${none}"
-    echo -e "${yellow}1.${none} 安装 Xray(233boy急速)"
-    echo -e "${yellow}2.${none} 安装 八合一键脚本mack-a&(歇斯底里)"
-    echo -e "${yellow}3.${none} 安装 FranzKafkaYu/x-ui"
-    echo -e "${yellow}4.${none} 安装 kejilong工具"
-    echo -e "${yellow}5.${none} 卸载脚本"
-    echo -e "${yellow}0.${none} 退出"
-    echo -e "${cyan}========================================${none}"
-    echo -n "请输入选项 [0-9]: "
-}
-
-# 执行安装命令
-run_install() {
-    local install_cmd=$1
-    _yellow "正在执行安装命令..."
-    bash <(wget -qO- -o- $install_cmd)
-}
-
-# 卸载脚本
-uninstall_script() {
-    _yellow "开始卸载脚本..."
-    
-    # 定义要删除的文件
-    local files_to_remove=(
-        "/usr/local/bin/VPS-JB.sh"
-        "/usr/local/bin/vps-jb"
-        "/etc/profile.d/vps-jb-bieming.sh"
-    )
-    
-    # 删除文件
-    for file in "${files_to_remove[@]}"; do
-        if [[ -f "$file" ]] || [[ -L "$file" ]]; then
-            rm -f "$file"
-            _green "已删除: $file"
-        fi
-    done
-    
-    # 从 .bashrc 中移除别名
-    if [[ -f ~/.bashrc ]]; then
-        sed -i '/alias y=.*VPS-JB.sh/d' ~/.bashrc
-        _green "已从 .bashrc 中移除别名"
-    fi
-    
-    # 从 .bash_profile 中移除别名
-    if [[ -f ~/.bash_profile ]]; then
-        sed -i '/alias y=.*VPS-JB.sh/d' ~/.bash_profile
-        _green "已从 .bash_profile 中移除别名"
-    fi
-    
-    # 重新加载配置
-    source ~/.bashrc
-    
-    _green "脚本卸载完成！"
-}
-
 # 主函数
 main() {
+    # 检查是否是首次安装
+    local is_first_run=0
+    if [[ ! -f "/usr/local/bin/VPS-JB.sh" ]]; then
+        is_first_run=1
+    fi
+    
+    # 如果是首次运行，显示安装信息
+    if [[ $is_first_run -eq 1 ]]; then
+        setup_alias
+    fi
+    
     while true; do
         show_menu
         read -r choice
@@ -221,6 +249,9 @@ main() {
                 uninstall_script
                 _green "脚本已卸载，程序将退出"
                 exit 0
+                ;;
+            6)
+                show_script_info
                 ;;
             0)
                 _green "感谢使用，再见！"
