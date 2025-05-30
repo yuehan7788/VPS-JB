@@ -132,7 +132,9 @@ setup_alias() {
         _yellow "软链接信息："
         ls -l "$softlink"
     else
-        _red "别名设置失败"
+        _red "别名设置失败，请手动运行以下命令："
+        _yellow "echo 'alias y=\"bash $system_script\"' >> ~/.bashrc"
+        _yellow "source ~/.bashrc"
     fi
 }
 
@@ -194,7 +196,6 @@ uninstall_script() {
     source ~/.bashrc
     
     _green "脚本卸载完成！"
-    
 }
 
 # 主函数
