@@ -221,13 +221,10 @@ main() {
     local is_first_run=0
     if [[ ! -f "/usr/local/bin/VPS-JB.sh" ]]; then
         is_first_run=1
-    fi
-    
-    # 如果是首次运行，显示安装信息
-    if [[ $is_first_run -eq 1 ]]; then
         setup_alias
     fi
     
+    # 直接显示菜单
     while true; do
         show_menu
         read -r choice
