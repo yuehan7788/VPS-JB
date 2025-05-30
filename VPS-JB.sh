@@ -58,10 +58,10 @@ show_menu() {
     echo -e "${cyan}========================================${none}"
     echo -e "${green}        一键安装脚本合集 v$version${none}"
     echo -e "${cyan}========================================${none}"
-    echo -e "${yellow}1.${none} 安装 Xray(233boy急速)"
-    echo -e "${yellow}2.${none} 安装 八合一键脚本mack-a&(歇斯底里)"
+    echo -e "${yellow}1.${none} 安装 Xray(233boy急速)&命令xray"
+    echo -e "${yellow}2.${none} 安装 八合一键脚本mack-a&(歇斯底里)&命令vasma"
     echo -e "${yellow}3.${none} 安装 FranzKafkaYu/x-ui"
-    echo -e "${yellow}4.${none} 安装 kejilong工具"
+    echo -e "${yellow}4.${none} 安装 kejilong工具&命令k"
     echo -e "${yellow}5.${none} 卸载脚本"
     echo -e "${yellow}6.${none} 脚本信息"
     echo -e "${yellow}0.${none} 退出"
@@ -86,9 +86,6 @@ show_script_info() {
 # 执行安装命令
 run_install() {
     local install_cmd=$1
-    local script_name=$(basename "$install_cmd")
-    local local_script="/usr/local/bin/install_scripts/$script_name"
-    
     _yellow "正在执行安装命令..."
     
     # 检查命令是否有效
@@ -97,26 +94,8 @@ run_install() {
         return 1
     fi
     
-    # 创建脚本目录
-    mkdir -p /usr/local/bin/install_scripts
-    
-    # 检查本地是否有缓存的脚本
-    if [[ ! -f "$local_script" ]]; then
-        _yellow "首次安装，正在下载安装脚本..."
-        # 下载脚本到本地
-        curl -sL "$install_cmd" -o "$local_script"
-        if [[ $? -ne 0 ]]; then
-            _red "下载安装脚本失败"
-            return 1
-        fi
-        chmod +x "$local_script"
-        _green "下载完成，开始安装..."
-    else
-        _green "使用本地缓存的安装脚本..."
-    fi
-    
-    # 执行本地脚本
-    bash "$local_script"
+    # 直接执行安装命令
+    bash <(curl -sL "$install_cmd")
     
     # 检查安装结果
     if [[ $? -eq 0 ]]; then
@@ -135,13 +114,12 @@ uninstall_script() {
         "/usr/local/bin/VPS-JB.sh"
         "/usr/local/bin/vps-jb"
         "/etc/profile.d/vps-jb-bieming.sh"
-        "/usr/local/bin/install_scripts"  # 添加安装脚本目录
     )
     
     # 删除文件
     for file in "${files_to_remove[@]}"; do
-        if [[ -f "$file" ]] || [[ -L "$file" ]] || [[ -d "$file" ]]; then
-            rm -rf "$file"
+        if [[ -f "$file" ]] || [[ -L "$file" ]]; then
+            rm -f "$file"
             _green "已删除: $file"
         fi
     done
