@@ -135,9 +135,11 @@ setup_alias() {
     local alias_config="/etc/profile.d/vps-jb-bieming.sh"
     local github_url="https://raw.githubusercontent.com/yuehan7788/VPS-JB/refs/heads/yuehan7788-patch-1/VPS-JB.sh"
     local show_info=$1  # 新增参数控制是否显示详细信息
+    local is_first_install=0
     
     # 检查脚本是否已经安装
     if [[ ! -f "$system_script" ]] || [[ ! -s "$system_script" ]]; then
+        is_first_install=1
         _yellow "首次安装，正在从 GitHub 下载脚本..."
         
         # 使用 wget 下载脚本，添加了超时设置（1秒） 添加了重试机制（3次）
@@ -154,6 +156,8 @@ setup_alias() {
         _green "下载完成，文件大小: ${file_size} 字节"
     elif [[ "$show_info" != "true" ]]; then
         return 0  # 如果不是首次安装且不需要显示信息，直接返回
+    else
+        _green "检测到脚本已安装，将使用本地文件"
     fi
     
     # 确保脚本有执行权限
@@ -192,8 +196,8 @@ setup_alias() {
     # 立即生效
     source ~/.bashrc
     
-    # 只在首次安装时显示详细信息
-    if [[ "$show_info" == "true" ]]; then
+    # 在首次安装或需要显示信息时显示详细信息
+    if [[ $is_first_install -eq 1 ]] || [[ "$show_info" == "true" ]]; then
         # 验证别名是否设置成功
         if alias y >/dev/null 2>&1; then
             _green "菜单快捷键<y>设置成功！"
