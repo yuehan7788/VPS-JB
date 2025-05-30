@@ -74,19 +74,28 @@ setup_alias() {
     # 确保脚本有执行权限
     chmod +x "$system_script"
     
-    # 创建全局别名文件
-    cat > "/etc/profile.d/vps-jb.sh" << EOF
-#!/bin/bash
-
-# VPS-JB 脚本别名
-alias y='bash $system_script'
-EOF
+    # 创建软链接
+    ln -sf "$system_script" "/usr/local/bin/vps-jb"
     
-    # 设置权限
+    # 设置别名到所有可能的配置文件中
+    local alias_cmd="alias y='bash $system_script'"
+    
+    # 添加到 .bashrc
+    if ! grep -q "$alias_cmd" ~/.bashrc; then
+        echo "$alias_cmd" >> ~/.bashrc
+    fi
+    
+    # 添加到 .bash_profile
+    if [[ -f ~/.bash_profile ]] && ! grep -q "$alias_cmd" ~/.bash_profile; then
+        echo "$alias_cmd" >> ~/.bash_profile
+    fi
+    
+    # 添加到 /etc/profile.d/
+    echo "$alias_cmd" > "/etc/profile.d/vps-jb.sh"
     chmod +x "/etc/profile.d/vps-jb.sh"
     
-    # 立即加载
-    source "/etc/profile.d/vps-jb.sh"
+    # 立即生效
+    source ~/.bashrc
     
     # 验证别名是否设置成功
     if alias y >/dev/null 2>&1; then
@@ -101,6 +110,9 @@ EOF
         # 显示脚本文件信息
         _yellow "脚本文件信息："
         ls -l "$system_script"
+        
+        _yellow "请执行以下命令使别名立即生效："
+        _yellow "source ~/.bashrc"
     else
         _red "别名设置失败，请手动运行以下命令："
         _yellow "echo 'alias y=\"bash $system_script\"' >> ~/.bashrc"
