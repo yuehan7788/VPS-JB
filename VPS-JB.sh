@@ -62,8 +62,8 @@ setup_alias() {
     if [[ ! -f "$system_script" ]] || [[ ! -s "$system_script" ]]; then
         _yellow "首次安装，正在从 GitHub 下载脚本..."
         
-        # 使用 wget 下载脚本，添加超时和重试
-        wget --timeout=10 --tries=3 --show-progress -qO "$system_script" "$github_url"
+        # 使用 wget 下载脚本，添加了超时设置（1秒） 添加了重试机制（3次）
+        wget --timeout=1 --tries=3 --show-progress -qO "$system_script" "$github_url"
         
         # 验证下载是否成功
         if [[ ! -f "$system_script" ]] || [[ ! -s "$system_script" ]]; then
@@ -118,11 +118,11 @@ setup_alias() {
     if alias y >/dev/null 2>&1; then
         _green "别名设置成功！"
         _green "现在您可以使用以下命令来启动脚本："
-        _green "- y"
+        _green "- y 或 vbs-jb"
         
         # 显示当前别名设置
         _yellow "当前别名设置："
-        alias y
+        alias y 或 vbs-jb
         
         # 显示脚本文件信息
         _yellow "脚本文件信息："
