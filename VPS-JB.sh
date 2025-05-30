@@ -101,8 +101,17 @@ run_install() {
             bash "$install_cmd"
             ;;
         *)
-            # 远程脚本使用curl下载并执行
-            curl -sSL "$install_cmd" | bash
+            # 远程脚本使用curl下载并执行，显示所有输出
+            echo "正在下载安装脚本..."
+            curl -L "$install_cmd" -o /tmp/install_script.sh
+            if [[ $? -eq 0 ]]; then
+                echo "下载完成，开始执行安装..."
+                bash /tmp/install_script.sh
+                rm -f /tmp/install_script.sh
+            else
+                _red "下载安装脚本失败"
+                return 1
+            fi
             ;;
     esac
     
