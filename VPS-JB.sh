@@ -81,8 +81,6 @@ show_script_info() {
     echo -e "${yellow}软链接路径：${none} /usr/local/bin/vps-jb"
     echo -e "${yellow}快捷命令：${none} y 或 vps-jb"
     echo -e "${cyan}========================================${none}"
-    echo
-    read -p "按回车键返回主菜单..."
 }
 
 # 执行安装命令
