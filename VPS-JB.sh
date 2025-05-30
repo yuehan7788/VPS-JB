@@ -57,30 +57,30 @@ setup_alias() {
     local system_script="/usr/local/bin/VPS-JB.sh"
     local github_url="https://raw.githubusercontent.com/yuehan7788/VPS-JB/refs/heads/main/VPS-JB.sh"
     
-    # 删除可能存在的旧文件
-    rm -f "/usr/local/bin/vps-jb"
-    rm -f "$system_script"
-    rm -f "/etc/profile.d/vps-jb.sh"
-    
-    _yellow "正在从 GitHub 下载脚本..."
-    
-    # 使用 wget 下载脚本，保持原始文件名
-    wget -qO "$system_script" "$github_url"
+    # 检查脚本是否已经安装
     if [[ ! -f "$system_script" ]]; then
-        _red "下载脚本失败"
-        return 1
-    fi
-    
-    # 设置权限
-    chmod +x "$system_script"
-    
-    # 验证文件大小
-    local target_size=$(stat -c%s "$system_script" 2>/dev/null || stat -f%z "$system_script" 2>/dev/null)
-    _yellow "下载的文件大小: $target_size 字节"
-    
-    if [[ ! -s "$system_script" ]]; then
-        _red "下载的文件大小为0"
-        return 1
+        _yellow "首次安装，正在从 GitHub 下载脚本..."
+        
+        # 使用 wget 下载脚本，保持原始文件名
+        wget -qO "$system_script" "$github_url"
+        if [[ ! -f "$system_script" ]]; then
+            _red "下载脚本失败"
+            return 1
+        fi
+        
+        # 设置权限
+        chmod +x "$system_script"
+        
+        # 验证文件大小
+        local target_size=$(stat -c%s "$system_script" 2>/dev/null || stat -f%z "$system_script" 2>/dev/null)
+        _yellow "下载的文件大小: $target_size 字节"
+        
+        if [[ ! -s "$system_script" ]]; then
+            _red "下载的文件大小为0"
+            return 1
+        fi
+    else
+        _green "检测到脚本已安装，将使用本地文件"
     fi
     
     # 创建全局别名文件
