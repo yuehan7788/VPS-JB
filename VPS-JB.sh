@@ -87,7 +87,31 @@ show_script_info() {
 run_install() {
     local install_cmd=$1
     _yellow "正在执行安装命令..."
-    bash <(wget -qO- -o- $install_cmd)
+    
+    # 检查命令是否有效
+    if [[ -z "$install_cmd" ]]; then
+        _red "安装命令无效"
+        return 1
+    fi
+    
+    # 对于不同的安装命令使用不同的处理方式
+    case "$install_cmd" in
+        "kejilion.sh")
+            # 本地脚本直接执行
+            bash "$install_cmd"
+            ;;
+        *)
+            # 远程脚本使用curl下载并执行
+            curl -sSL "$install_cmd" | bash
+            ;;
+    esac
+    
+    # 检查安装结果
+    if [[ $? -eq 0 ]]; then
+        _green "安装命令执行完成"
+    else
+        _red "安装命令执行失败"
+    fi
 }
 
 # 卸载脚本
