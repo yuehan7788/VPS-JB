@@ -92,7 +92,7 @@ show_script_info() {
     echo -e "${yellow}软链接路径：${none}       = /usr/local/bin/vps-jb"
     echo -e "${yellow}快捷命令：${none}         = y 或 vps-jb"
     echo -e "${yellow}无响应中断操作：${none}    = Ctrl+C"
-    echo -e "${yellow}Xray(233boy急速)：${none} = 命令 xray"
+    echo -e "${yellow}Xray(233boy急速)：${none}= 命令 xray"
     echo -e "${yellow}八合一键脚本mack-a：${none}= (歇斯底里) & 命令 vasma"
     echo -e "${yellow}kejilong工具：${none}      = 命令 k"
     echo -e "${cyan}========================================${none}"
