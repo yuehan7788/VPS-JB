@@ -73,49 +73,40 @@ show_menu() {
 show_script_info() {
     clear
     echo -e "${cyan}========================================${none}"
-    echo -e "${green}        脚本信息 (方式一)${none}"
-    echo -e "${cyan}========================================${none}"
-    printf "${yellow}%-24s${none} = %s\n" "脚本版本" "$version"
-    printf "${yellow}%-24s${none} = %s\n" "脚本安装路径" "/usr/local/bin/VPS-JB.sh"
-    printf "${yellow}%-24s${none} = %s\n" "别名配置文件" "/etc/profile.d/vps-jb-bieming.sh"
-    printf "${yellow}%-24s${none} = %s\n" "软链接路径" "/usr/local/bin/vps-jb"
-    printf "${yellow}%-24s${none} = %s\n" "快捷命令" "y 或 vps-jb"
-    printf "${yellow}%-24s${none} = %s\n" "无响应中断操作" "Ctrl+C"
-    printf "${yellow}%-24s${none} = %s\n" "Xray(233boy急速)" "命令 xray"
-    printf "${yellow}%-24s${none} = %s\n" "八合一键脚本mack-a" "(歇斯底里) & 命令 vasma"
-    printf "${yellow}%-24s${none} = %s\n" "kejilong工具" "命令 k"
+    echo -e "${green}        脚本信息${none}"
     echo -e "${cyan}========================================${none}"
     
-    echo -e "\n"
+    # 计算最大宽度
+    local max_width=0
+    local items=(
+        "脚本版本"
+        "脚本安装路径"
+        "别名配置文件"
+        "软链接路径"
+        "快捷命令"
+        "无响应中断操作"
+        "Xray(233boy急速)"
+        "八合一键脚本mack-a"
+        "kejilong工具"
+    )
     
-    echo -e "${cyan}========================================${none}"
-    echo -e "${green}        脚本信息 (方式二)${none}"
-    echo -e "${cyan}========================================${none}"
-    printf "${yellow}%-30s${none} = %s\n" "脚本版本" "$version"
-    printf "${yellow}%-30s${none} = %s\n" "脚本安装路径" "/usr/local/bin/VPS-JB.sh"
-    printf "${yellow}%-30s${none} = %s\n" "别名配置文件" "/etc/profile.d/vps-jb-bieming.sh"
-    printf "${yellow}%-30s${none} = %s\n" "软链接路径" "/usr/local/bin/vps-jb"
-    printf "${yellow}%-30s${none} = %s\n" "快捷命令" "y 或 vps-jb"
-    printf "${yellow}%-30s${none} = %s\n" "无响应中断操作" "Ctrl+C"
-    printf "${yellow}%-30s${none} = %s\n" "Xray(233boy急速)" "命令 xray"
-    printf "${yellow}%-30s${none} = %s\n" "八合一键脚本mack-a" "(歇斯底里) & 命令 vasma"
-    printf "${yellow}%-30s${none} = %s\n" "kejilong工具" "命令 k"
-    echo -e "${cyan}========================================${none}"
+    for item in "${items[@]}"; do
+        local width=${#item}
+        if [ $width -gt $max_width ]; then
+            max_width=$width
+        fi
+    done
     
-    echo -e "\n"
-    
-    echo -e "${cyan}========================================${none}"
-    echo -e "${green}        脚本信息 (方式三)${none}"
-    echo -e "${cyan}========================================${none}"
-    printf "${yellow}%-20s${none} = %s\n" "脚本版本" "$version"
-    printf "${yellow}%-20s${none} = %s\n" "脚本安装路径" "/usr/local/bin/VPS-JB.sh"
-    printf "${yellow}%-20s${none} = %s\n" "别名配置文件" "/etc/profile.d/vps-jb-bieming.sh"
-    printf "${yellow}%-20s${none} = %s\n" "软链接路径" "/usr/local/bin/vps-jb"
-    printf "${yellow}%-20s${none} = %s\n" "快捷命令" "y 或 vps-jb"
-    printf "${yellow}%-20s${none} = %s\n" "无响应中断操作" "Ctrl+C"
-    printf "${yellow}%-20s${none} = %s\n" "Xray(233boy急速)" "命令 xray"
-    printf "${yellow}%-20s${none} = %s\n" "八合一键脚本mack-a" "(歇斯底里) & 命令 vasma"
-    printf "${yellow}%-20s${none} = %s\n" "kejilong工具" "命令 k"
+    # 显示信息
+    printf "${yellow}%-${max_width}s${none} = %s\n" "脚本版本" "$version"
+    printf "${yellow}%-${max_width}s${none} = %s\n" "脚本安装路径" "/usr/local/bin/VPS-JB.sh"
+    printf "${yellow}%-${max_width}s${none} = %s\n" "别名配置文件" "/etc/profile.d/vps-jb-bieming.sh"
+    printf "${yellow}%-${max_width}s${none} = %s\n" "软链接路径" "/usr/local/bin/vps-jb"
+    printf "${yellow}%-${max_width}s${none} = %s\n" "快捷命令" "y 或 vps-jb"
+    printf "${yellow}%-${max_width}s${none} = %s\n" "无响应中断操作" "Ctrl+C"
+    printf "${yellow}%-${max_width}s${none} = %s\n" "Xray(233boy急速)" "命令 xray"
+    printf "${yellow}%-${max_width}s${none} = %s\n" "八合一键脚本mack-a" "(歇斯底里) & 命令 vasma"
+    printf "${yellow}%-${max_width}s${none} = %s\n" "kejilong工具" "命令 k"
     echo -e "${cyan}========================================${none}"
 }
 
