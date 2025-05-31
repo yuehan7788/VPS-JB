@@ -91,8 +91,27 @@ show_script_info() {
 run_install() {
     local install_cmd=$1
     local option_num=$2  # 新增参数：选项编号
-    local script_name=$(basename "$install_cmd")
-    local local_script="/usr/local/bin/install_scripts/option${option_num}_${script_name}"
+    
+    # 根据选项编号设置不同的文件名
+    case $option_num in
+        1)
+            local script_name="xray_install.sh"
+            ;;
+        2)
+            local script_name="mack_a_install.sh"
+            ;;
+        3)
+            local script_name="xui_install.sh"
+            ;;
+        4)
+            local script_name="kejilong_install.sh"
+            ;;
+        *)
+            local script_name="unknown_install.sh"
+            ;;
+    esac
+    
+    local local_script="/usr/local/bin/install_scripts/${script_name}"
     
     _yellow "正在执行安装命令..."
     
