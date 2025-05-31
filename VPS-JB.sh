@@ -306,9 +306,9 @@ spawn bash -c "curl -sL https://raw.githubusercontent.com/mack-a/v2ray-agent/mas
 
 # 等待并选择选项1（安装mack-a脚本）
 expect {
-    "请选择" { 
+    "20.卸载脚本\r\n==============================================================\r\n请选择" { 
         send "1\r"
-        return
+        exp_continue
     }
     "是否继续" { 
         send "y\r"
@@ -338,11 +338,6 @@ expect {
         send "\r"
         exp_continue
     }
-    "20.卸载脚本" {
-        # 等待菜单完全显示
-        sleep 2
-        exp_continue
-    }
     "功能 1/1 : 选择核心安装" {
         # 等待菜单完全显示
         sleep 2
@@ -353,7 +348,7 @@ expect {
         sleep 2
         exp_continue
     }
-    "请选择:" {
+    "==============================================================\r\n请选择:" {
         # 检查是否在核心选择菜单中
         if {[string match "*功能 1/1 : 选择核心安装*" $expect_out(buffer)]} {
             send "2\r"  # 选择sing-box
