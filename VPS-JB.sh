@@ -296,7 +296,7 @@ auto_install_macka_singbox() {
         # 创建expect脚本来自动安装mack-a
         cat > /tmp/install_macka.exp << EOF
 #!/usr/bin/expect -f
-set timeout -1
+set timeout 300  # 设置超时时间为300秒
 
 # 设置中文环境
 set env(LANG) "zh_CN.UTF-8"
@@ -307,22 +307,53 @@ spawn bash -c "curl -sL https://raw.githubusercontent.com/mack-a/v2ray-agent/mas
 
 # 等待并选择选项1
 expect {
-    "请选择" { send "1\r" }
-    timeout { exit 1 }
-}
-
-# 处理所有yes/no提示
-while {1} {
-    expect {
-        "是否继续" { send "y\r" }
-        "是否安装" { send "y\r" }
-        "是否卸载" { send "n\r" }
-        "是否删除" { send "n\r" }
-        "是否更新" { send "y\r" }
-        "是否重启" { send "y\r" }
-        "按回车继续" { send "\r" }
-        "请选择" { send "1\r" }
-        timeout { break }
+    "请选择" { 
+        send "1\r"
+        exp_continue
+    }
+    "是否继续" { 
+        send "y\r"
+        exp_continue
+    }
+    "是否安装" { 
+        send "y\r"
+        exp_continue
+    }
+    "是否卸载" { 
+        send "n\r"
+        exp_continue
+    }
+    "是否删除" { 
+        send "n\r"
+        exp_continue
+    }
+    "是否更新" { 
+        send "y\r"
+        exp_continue
+    }
+    "是否重启" { 
+        send "y\r"
+        exp_continue
+    }
+    "按回车继续" { 
+        send "\r"
+        exp_continue
+    }
+    "版本管理" {
+        send "16\r"  # 选择core管理
+        exp_continue
+    }
+    "脚本管理" {
+        send "20\r"  # 选择卸载脚本
+        exp_continue
+    }
+    timeout {
+        puts "等待超时，但继续执行"
+        exp_continue
+    }
+    eof {
+        puts "安装完成"
+        exit 0
     }
 }
 
