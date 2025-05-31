@@ -348,11 +348,7 @@ expect {
         sleep 2
         exp_continue
     }
-    "1.Xray-core" {
-        # 等待菜单完全显示
-        sleep 2
-        exp_continue
-    }
+    
     "2.sing-box" {
         # 等待菜单完全显示
         sleep 2
