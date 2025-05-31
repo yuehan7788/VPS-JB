@@ -294,9 +294,10 @@ auto_install_macka_singbox() {
     if [[ ! -f "/usr/local/bin/v2ray-agent/install.sh" ]]; then
         _yellow "正在安装mack-a脚本..."
         # 创建expect脚本来自动安装mack-a
-        cat > /tmp/install_macka.exp << EOF
+        cat > /tmp/install_macka.exp << 'EOF'
 #!/usr/bin/expect -f
-# 设置超时时间为300秒
+
+# 设置超时时间
 set timeout 300
 
 # 设置中文环境
@@ -341,11 +342,11 @@ expect {
         exp_continue
     }
     "版本管理" {
-        send "16\r"  # 选择core管理
+        send "16\r"
         exp_continue
     }
     "脚本管理" {
-        send "20\r"  # 选择卸载脚本
+        send "20\r"
         exp_continue
     }
     timeout {
