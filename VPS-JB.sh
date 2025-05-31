@@ -75,38 +75,26 @@ show_script_info() {
     echo -e "${cyan}========================================${none}"
     echo -e "${green}        脚本信息${none}"
     echo -e "${cyan}========================================${none}"
-    
-    # 计算最大宽度
-    local max_width=0
-    local items=(
-        "脚本版本"
-        "脚本安装路径"
-        "别名配置文件"
-        "软链接路径"
-        "快捷命令"
-        "无响应中断操作"
-        "Xray(233boy急速)"
-        "八合一键脚本mack-a"
-        "kejilong工具"
-    )
-    
-    for item in "${items[@]}"; do
-        local width=${#item}
-        if [ $width -gt $max_width ]; then
-            max_width=$width
-        fi
-    done
-    
-    # 显示信息
-    printf "${yellow}%-${max_width}s${none} = %s\n" "脚本版本" "$version"
-    printf "${yellow}%-${max_width}s${none} = %s\n" "脚本安装路径" "/usr/local/bin/VPS-JB.sh"
-    printf "${yellow}%-${max_width}s${none} = %s\n" "别名配置文件" "/etc/profile.d/vps-jb-bieming.sh"
-    printf "${yellow}%-${max_width}s${none} = %s\n" "软链接路径" "/usr/local/bin/vps-jb"
-    printf "${yellow}%-${max_width}s${none} = %s\n" "快捷命令" "y 或 vps-jb"
-    printf "${yellow}%-${max_width}s${none} = %s\n" "无响应中断操作" "Ctrl+C"
-    printf "${yellow}%-${max_width}s${none} = %s\n" "Xray(233boy急速)" "命令 xray"
-    printf "${yellow}%-${max_width}s${none} = %s\n" "八合一键脚本mack-a" "(歇斯底里) & 命令 vasma"
-    printf "${yellow}%-${max_width}s${none} = %s\n" "kejilong工具" "命令 k"
+    # 每行格式：文本 + 冒号 + 空格 = 值
+    # 计算每行宽度：
+    # 脚本版本：4个中文字符(8) + 冒号(1) + 空格(7) = 16
+    # 脚本安装路径：5个中文字符(10) + 冒号(1) + 空格(5) = 16
+    # 别名配置文件：5个中文字符(10) + 冒号(1) + 空格(5) = 16
+    # 软链接路径：4个中文字符(8) + 冒号(1) + 空格(7) = 16
+    # 快捷命令：4个中文字符(8) + 冒号(1) + 空格(7) = 16
+    # 无响应中断操作：6个中文字符(12) + 冒号(1) + 空格(3) = 16
+    # Xray(233boy急速)：12个字符 + 冒号(1) + 空格(3) = 16
+    # 八合一键脚本mack-a：11个字符 + 冒号(1) + 空格(4) = 16
+    # kejilong工具：11个字符 + 冒号(1) + 空格(4) = 16
+    echo -e "${yellow}脚本版本：${none}       = $version"
+    echo -e "${yellow}脚本安装路径：${none}     = /usr/local/bin/VPS-JB.sh"
+    echo -e "${yellow}别名配置文件：${none}     = /etc/profile.d/vps-jb-bieming.sh"
+    echo -e "${yellow}软链接路径：${none}       = /usr/local/bin/vps-jb"
+    echo -e "${yellow}快捷命令：${none}         = y 或 vps-jb"
+    echo -e "${yellow}无响应中断操作：${none}   = Ctrl+C"
+    echo -e "${yellow}Xray(233boy急速)：${none}  = 命令 xray"
+    echo -e "${yellow}八合一键脚本mack-a：${none} = (歇斯底里) & 命令 vasma"
+    echo -e "${yellow}kejilong工具：${none}     = 命令 k"
     echo -e "${cyan}========================================${none}"
 }
 
