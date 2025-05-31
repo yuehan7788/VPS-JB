@@ -123,8 +123,10 @@ run_install() {
     rm -rf "$temp_dir"
     
     # 检查安装结果
-    if [[ $install_status -eq 0 ]]; then
+    if [[ $install_status -eq 0 ]] || [[ $install_status -eq 1 ]]; then
         _green "安装命令执行完成"
+        # 安装完成后直接退出到root命令行
+        exec bash
     else
         _red "安装命令执行失败"
     fi
@@ -314,8 +316,11 @@ main() {
                 ;;
         esac
         
-        echo
-        read -p "按回车键继续..."
+        # 只有在安装失败时才显示"按回车继续"
+        if [[ $install_status -ne 0 ]] && [[ $install_status -ne 1 ]]; then
+            echo
+            read -p "按回车键继续..."
+        fi
     done
 }
 
