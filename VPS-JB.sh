@@ -338,50 +338,19 @@ expect {
         send "\r"
         exp_continue
     }
-    "1.Xray-core" {
+    "20.卸载脚本" {
         # 等待菜单完全显示
         sleep 2
-        send "2\r"  # 选择sing-box
-        exp_continue
-    }
-    "请输入要配置的域名" {
-        # 暂停等待用户输入域名
+        # 暂停等待用户手动操作
         interact
-        exp_continue
-    }
-    "是否使用DNS API申请证书" {
-        send "n\r"
-        exp_continue
-    }
-    "1.letsencrypt" {
-        # 等待菜单完全显示
-        sleep 2
-        send "1\r"  # 选择letsencrypt
-        exp_continue
-    }
-    "请输入自定义UUID" {
-        send "\r"  # 使用默认UUID
-        exp_continue
-    }
-    "请输入自定义用户名" {
-        send "HB\r"  # 设置用户名
-        exp_continue
-    }
-    "请输入自定义端口" {
-        send "\r"  # 使用默认端口
-        exp_continue
     }
     timeout {
         puts "等待超时，但继续执行"
         exp_continue
     }
-    eof {
-        puts "安装完成"
-        exit 0
-    }
 }
 
-# 等待安装完成
+# 等待用户手动结束
 expect eof
 EOF
 
@@ -391,13 +360,6 @@ EOF
     # 运行expect脚本
     _yellow "开始自动化安装mack-a sing-box..."
     /tmp/install.exp
-
-    # 检查安装结果
-    if [[ $? -eq 0 ]]; then
-        _green "mack-a sing-box安装完成！"
-    else
-        _red "mack-a sing-box安装失败，请检查日志"
-    fi
 
     # 清理临时文件
     rm -f /tmp/install.exp
