@@ -83,35 +83,13 @@ show_script_info() {
     echo -e "${yellow}无响应中断操作：${none} Ctrl+C"
     echo -e "${yellow}Xray(233boy急速) & 命令 xray"
     echo -e "${yellow}八合一键脚本mack-a & (歇斯底里) & 命令 vasma"
-    echo -e "${yellow}ejilong工具 & 命令 k"
+    echo -e "${yellow}kejilong工具 & 命令 k"
     echo -e "${cyan}========================================${none}"
 }
 
 # 执行安装命令
 run_install() {
     local install_cmd=$1
-    local option_num=$2  # 新增参数：选项编号
-    
-    # 根据选项编号设置不同的文件名
-    case $option_num in
-        1)
-            local script_name="xray_install.sh"
-            ;;
-        2)
-            local script_name="mack_a_install.sh"
-            ;;
-        3)
-            local script_name="xui_install.sh"
-            ;;
-        4)
-            local script_name="kejilong_install.sh"
-            ;;
-        *)
-            local script_name="unknown_install.sh"
-            ;;
-    esac
-    
-    local local_script="/usr/local/bin/install_scripts/${script_name}"
     
     _yellow "正在执行安装命令..."
     
@@ -121,47 +99,31 @@ run_install() {
         return 1
     fi
     
-    # 创建脚本目录
-    mkdir -p /usr/local/bin/install_scripts
+    # 创建临时目录
+    local temp_dir=$(mktemp -d)
+    local temp_script="${temp_dir}/install.sh"
     
-    # 检查本地是否有缓存的脚本
-    if [[ ! -f "$local_script" ]]; then
-        _yellow "首次安装，正在下载安装脚本..."
-        # 下载脚本到本地
-        if ! curl -sL "$install_cmd" -o "$local_script"; then
-            _red "下载安装脚本失败"
-            return 1
-        fi
-        
-        # 验证下载的文件是否为空
-        if [[ ! -s "$local_script" ]]; then
-            _red "下载的脚本文件为空"
-            rm -f "$local_script"
-            return 1
-        fi
-        
-        # 验证文件内容
-        if ! grep -q "#!/bin/bash" "$local_script" && ! grep -q "#!/bin/sh" "$local_script"; then
-            _red "下载的文件不是有效的shell脚本"
-            rm -f "$local_script"
-            return 1
-        fi
-        
-        chmod +x "$local_script"
-        _green "下载完成，开始安装..."
-    else
-        _green "使用本地缓存的安装脚本..."
+    _yellow "正在下载安装脚本..."
+    # 下载脚本到临时目录
+    curl -sL "$install_cmd" -o "$temp_script"
+    if [[ $? -ne 0 ]]; then
+        _red "下载安装脚本失败"
+        rm -rf "$temp_dir"
+        return 1
     fi
     
-    # 显示当前使用的脚本信息
-    _yellow "当前使用的安装脚本：$local_script"
-    _yellow "脚本大小：$(du -h "$local_script" | cut -f1)"
+    chmod +x "$temp_script"
+    _green "下载完成，开始安装..."
     
-    # 执行本地脚本
-    bash "$local_script"
+    # 执行临时脚本
+    bash "$temp_script"
+    local install_status=$?
+    
+    # 清理临时文件
+    rm -rf "$temp_dir"
     
     # 检查安装结果
-    if [[ $? -eq 0 ]]; then
+    if [[ $install_status -eq 0 ]]; then
         _green "安装命令执行完成"
     else
         _red "安装命令执行失败"
@@ -314,25 +276,24 @@ main() {
     # 主菜单循环
     while true; do
         show_menu
-        read -n 1 -r choice
-        echo
+        read -r choice
         
         case $choice in
             1)
                 _yellow "正在安装 Xray(233boy急速)..."
-                run_install "https://raw.githubusercontent.com/233boy/v2ray/master/install.sh" "1"
+                run_install "https://github.com/233boy/Xray/raw/main/install.sh"
                 ;;
             2)
                 _yellow "正在安装 八合一键脚本mack-a&(歇斯底里)..."
-                run_install "https://raw.githubusercontent.com/mack-a/v2ray-agent/master/install.sh" "2"
+                run_install "https://raw.githubusercontent.com/mack-a/v2ray-agent/master/install.sh"
                 ;;
             3)
                 _yellow "正在安装 FranzKafkaYu/x-ui..."
-                run_install "https://raw.githubusercontent.com/FranzKafkaYu/x-ui/master/install_en.sh" "3"
+                run_install "https://raw.githubusercontent.com/FranzKafkaYu/x-ui/master/install.sh"
                 ;;
             4)
                 _yellow "正在安装 kejilong工具..."
-                run_install "https://raw.githubusercontent.com/kejilion/sh/main/kejilion.sh" "4"
+                run_install "kejilion.sh"
                 ;;
             5)
                 uninstall_script
@@ -353,6 +314,7 @@ main() {
                 ;;
         esac
         
+        echo
         read -p "按回车键继续..."
     done
 }
