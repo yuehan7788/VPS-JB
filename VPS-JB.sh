@@ -352,7 +352,7 @@ expect {
     "1.Xray-core" {
         # 等待菜单完全显示
         sleep 2
-        send "2\r"  # 选择sing-box
+        send "2\r"
         exp_continue
     }
     "请输入要配置的域名" {
