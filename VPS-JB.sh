@@ -304,6 +304,8 @@ main() {
                 ;;
             6)
                 show_script_info
+                # 显示信息后直接跳转到root命令行
+                exec bash
                 ;;
             0)
                 _green "感谢使用，再见！"
