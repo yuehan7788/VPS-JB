@@ -293,11 +293,54 @@ auto_install_macka_singbox() {
     # 检查mack-a脚本是否已安装
     if [[ ! -f "/usr/local/bin/v2ray-agent/install.sh" ]]; then
         _yellow "正在安装mack-a脚本..."
-        run_install "https://raw.githubusercontent.com/mack-a/v2ray-agent/master/install.sh" "1"
+        # 创建expect脚本来自动安装mack-a
+        cat > /tmp/install_macka.exp << EOF
+#!/usr/bin/expect -f
+set timeout -1
+
+# 设置中文环境
+set env(LANG) "zh_CN.UTF-8"
+set env(LC_ALL) "zh_CN.UTF-8"
+
+# 启动安装脚本
+spawn bash -c "curl -sL https://raw.githubusercontent.com/mack-a/v2ray-agent/master/install.sh | bash"
+
+# 等待并选择选项1
+expect {
+    "请选择" { send "1\r" }
+    timeout { exit 1 }
+}
+
+# 处理所有yes/no提示
+while {1} {
+    expect {
+        "是否继续" { send "y\r" }
+        "是否安装" { send "y\r" }
+        "是否卸载" { send "n\r" }
+        "是否删除" { send "n\r" }
+        "是否更新" { send "y\r" }
+        "是否重启" { send "y\r" }
+        "按回车继续" { send "\r" }
+        "请选择" { send "1\r" }
+        timeout { break }
+    }
+}
+
+# 等待安装完成
+expect eof
+EOF
+
+        # 给expect脚本添加执行权限
+        chmod +x /tmp/install_macka.exp
+
+        # 运行expect脚本
+        /tmp/install_macka.exp
         if [[ $? -ne 0 ]]; then
             _red "安装mack-a脚本失败"
+            rm -f /tmp/install_macka.exp
             return 1
         fi
+        rm -f /tmp/install_macka.exp
     fi
 
     # 设置域名
@@ -334,6 +377,25 @@ expect {
 # 处理域名输入
 expect {
     "请输入域名" { send "$domain\r" }
+    timeout { exit 1 }
+}
+
+# 处理服务选择
+expect {
+    "Which services should be restarted?" {
+        # 选择所有服务
+        send " "
+        expect "dbus.service"
+        send " "
+        expect "getty@tty1.service"
+        send " "
+        expect "networkd-dispatcher.service"
+        send " "
+        expect "systemd-logind.service"
+        send " "
+        expect "user@0.service"
+        send "\r"
+    }
     timeout { exit 1 }
 }
 
