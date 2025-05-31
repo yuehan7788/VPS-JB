@@ -65,6 +65,7 @@ show_menu() {
     echo -e "${yellow}5.${none} 卸载脚本"
     echo -e "${yellow}6.${none} 脚本信息"
     echo -e "${yellow}7.${none} 自动化安装 mack-a sing-box"
+    echo -e "${yellow}8.${none} 卸载expect工具"
     echo -e "${yellow}0.${none} 退出"
     echo -e "${cyan}========================================${none}"
     echo -n "请输入选项 [0-9]: "
@@ -373,6 +374,17 @@ EOF
     rm -f /tmp/install.exp
 }
 
+# 卸载expect
+uninstall_expect() {
+    _yellow "正在卸载expect工具..."
+    apt-get remove -y expect
+    if [[ $? -eq 0 ]]; then
+        _green "expect工具卸载成功！"
+    else
+        _red "expect工具卸载失败"
+    fi
+}
+
 # 主函数
 main() {
     # 检查是否是首次安装
@@ -418,6 +430,9 @@ main() {
                 ;;
             7)
                 auto_install_macka_singbox
+                ;;
+            8)
+                uninstall_expect
                 ;;
             0)
                 _green "感谢使用，再见！"
