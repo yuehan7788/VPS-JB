@@ -345,21 +345,13 @@ expect {
         send "\r"
         exp_continue
     }
-    "1.安装" {
-        # 等待菜单完全显示
-        sleep 2
-        send "1\r"
-        exp_continue
-    }
     "1.Xray-core" {
         # 等待菜单完全显示
         sleep 2
         send "2\r"  # 选择sing-box
         exp_continue
     }
-    "进度  3/8 : 初始化Nginx申请证书配置" {
-        # 等待域名输入提示
-        expect "请输入要配置的域名"
+    "请输入要配置的域名" {
         send "$env(domain)\r"
         exp_continue
     }
@@ -383,12 +375,6 @@ expect {
     }
     "请输入自定义端口" {
         send "\r"  # 使用默认端口
-        exp_continue
-    }
-    "请选择" {
-        # 等待菜单完全显示
-        sleep 2
-        send "1\r"
         exp_continue
     }
     timeout {
