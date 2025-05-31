@@ -86,15 +86,15 @@ show_script_info() {
     # Xray(233boy急速)：12个字符 + 冒号(1) + 空格(3) = 16
     # 八合一键脚本mack-a：11个字符 + 冒号(1) + 空格(4) = 16
     # kejilong工具：11个字符 + 冒号(1) + 空格(4) = 16
-    echo -e "${yellow}脚本版本：${none}       = $version"
+    echo -e "${yellow}脚本版本：${none}         = $version"
     echo -e "${yellow}脚本安装路径：${none}     = /usr/local/bin/VPS-JB.sh"
     echo -e "${yellow}别名配置文件：${none}     = /etc/profile.d/vps-jb-bieming.sh"
     echo -e "${yellow}软链接路径：${none}       = /usr/local/bin/vps-jb"
     echo -e "${yellow}快捷命令：${none}         = y 或 vps-jb"
-    echo -e "${yellow}无响应中断操作：${none}   = Ctrl+C"
-    echo -e "${yellow}Xray(233boy急速)：${none}  = 命令 xray"
-    echo -e "${yellow}八合一键脚本mack-a：${none} = (歇斯底里) & 命令 vasma"
-    echo -e "${yellow}kejilong工具：${none}     = 命令 k"
+    echo -e "${yellow}无响应中断操作：${none}    = Ctrl+C"
+    echo -e "${yellow}Xray(233boy急速)：${none} = 命令 xray"
+    echo -e "${yellow}八合一键脚本mack-a：${none}= (歇斯底里) & 命令 vasma"
+    echo -e "${yellow}kejilong工具：${none}      = 命令 k"
     echo -e "${cyan}========================================${none}"
 }
 
