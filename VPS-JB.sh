@@ -73,7 +73,7 @@ show_menu() {
 show_script_info() {
     clear
     echo -e "${cyan}========================================${none}"
-    echo -e "${green}        脚本信息 (方案一：制表符)${none}"
+    echo -e "${green}        脚本信息${none}"
     echo -e "${cyan}========================================${none}"
     echo -e "${yellow}脚本版本：${none}\t= $version"
     echo -e "${yellow}脚本安装路径：${none}\t= /usr/local/bin/VPS-JB.sh"
@@ -84,57 +84,6 @@ show_script_info() {
     echo -e "${yellow}Xray(233boy急速)：${none}\t= 命令 xray"
     echo -e "${yellow}八合一键脚本mack-a：${none}\t= (歇斯底里) & 命令 vasma"
     echo -e "${yellow}kejilong工具：${none}\t= 命令 k"
-    echo -e "${cyan}========================================${none}"
-    
-    echo -e "\n"
-    
-    echo -e "${cyan}========================================${none}"
-    echo -e "${green}        脚本信息 (方案二：printf)${none}"
-    echo -e "${cyan}========================================${none}"
-    printf "${yellow}脚本版本：${none}%*s= %s\n" 8 "" "$version"
-    printf "${yellow}脚本安装路径：${none}%*s= %s\n" 4 "" "/usr/local/bin/VPS-JB.sh"
-    printf "${yellow}别名配置文件：${none}%*s= %s\n" 4 "" "/etc/profile.d/vps-jb-bieming.sh"
-    printf "${yellow}软链接路径：${none}%*s= %s\n" 8 "" "/usr/local/bin/vps-jb"
-    printf "${yellow}快捷命令：${none}%*s= %s\n" 8 "" "y 或 vps-jb"
-    printf "${yellow}无响应中断操作：${none}%*s= %s\n" 4 "" "Ctrl+C"
-    printf "${yellow}Xray(233boy急速)：${none}%*s= %s\n" 4 "" "命令 xray"
-    printf "${yellow}八合一键脚本mack-a：${none}%*s= %s\n" 4 "" "(歇斯底里) & 命令 vasma"
-    printf "${yellow}kejilong工具：${none}%*s= %s\n" 8 "" "命令 k"
-    echo -e "${cyan}========================================${none}"
-    
-    echo -e "\n"
-    
-    echo -e "${cyan}========================================${none}"
-    echo -e "${green}        脚本信息 (方案三：column)${none}"
-    echo -e "${cyan}========================================${none}"
-    {
-        echo -e "${yellow}脚本版本：${none} = $version"
-        echo -e "${yellow}脚本安装路径：${none} = /usr/local/bin/VPS-JB.sh"
-        echo -e "${yellow}别名配置文件：${none} = /etc/profile.d/vps-jb-bieming.sh"
-        echo -e "${yellow}软链接路径：${none} = /usr/local/bin/vps-jb"
-        echo -e "${yellow}快捷命令：${none} = y 或 vps-jb"
-        echo -e "${yellow}无响应中断操作：${none} = Ctrl+C"
-        echo -e "${yellow}Xray(233boy急速)：${none} = 命令 xray"
-        echo -e "${yellow}八合一键脚本mack-a：${none} = (歇斯底里) & 命令 vasma"
-        echo -e "${yellow}kejilong工具：${none} = 命令 k"
-    } | column -t -s '=' -o ' = '
-    echo -e "${cyan}========================================${none}"
-    
-    echo -e "\n"
-    
-    echo -e "${cyan}========================================${none}"
-    echo -e "${green}        脚本信息 (方案四：固定空格)${none}"
-    echo -e "${cyan}========================================${none}"
-    SPACES="        "  # 8个空格
-    echo -e "${yellow}脚本版本：${none}${SPACES}= $version"
-    echo -e "${yellow}脚本安装路径：${none}${SPACES:2}= /usr/local/bin/VPS-JB.sh"
-    echo -e "${yellow}别名配置文件：${none}${SPACES:2}= /etc/profile.d/vps-jb-bieming.sh"
-    echo -e "${yellow}软链接路径：${none}${SPACES}= /usr/local/bin/vps-jb"
-    echo -e "${yellow}快捷命令：${none}${SPACES}= y 或 vps-jb"
-    echo -e "${yellow}无响应中断操作：${none}${SPACES:4}= Ctrl+C"
-    echo -e "${yellow}Xray(233boy急速)：${none}${SPACES:4}= 命令 xray"
-    echo -e "${yellow}八合一键脚本mack-a：${none}${SPACES:4}= (歇斯底里) & 命令 vasma"
-    echo -e "${yellow}kejilong工具：${none}${SPACES}= 命令 k"
     echo -e "${cyan}========================================${none}"
 }
 
