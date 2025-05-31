@@ -308,7 +308,7 @@ spawn bash -c "curl -sL https://raw.githubusercontent.com/mack-a/v2ray-agent/mas
 expect {
     "请选择" { 
         send "1\r"
-        continue
+        return
     }
     "是否继续" { 
         send "y\r"
