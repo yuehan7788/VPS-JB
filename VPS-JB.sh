@@ -274,23 +274,27 @@ main() {
         setup_alias "false"  # 非首次安装时不显示详细信息
     fi
     
-    # 主循环
+    # 主菜单循环
     while true; do
         show_menu
-        read -n 1 choice
+        read -n 1 -r choice
         echo
         
         case $choice in
             1)
+                _yellow "正在安装 Xray(233boy急速)..."
                 run_install "https://raw.githubusercontent.com/233boy/v2ray/master/install.sh" "1"
                 ;;
             2)
+                _yellow "正在安装 八合一键脚本mack-a&(歇斯底里)..."
                 run_install "https://raw.githubusercontent.com/mack-a/v2ray-agent/master/install.sh" "2"
                 ;;
             3)
+                _yellow "正在安装 FranzKafkaYu/x-ui..."
                 run_install "https://raw.githubusercontent.com/FranzKafkaYu/x-ui/master/install_en.sh" "3"
                 ;;
             4)
+                _yellow "正在安装 kejilong工具..."
                 run_install "https://raw.githubusercontent.com/kejilion/sh/main/kejilion.sh" "4"
                 ;;
             5)
@@ -308,7 +312,7 @@ main() {
                 exit 0
                 ;;
             *)
-                _red "无效选项，请重新选择"
+                _red "无效的选项，请重新选择"
                 ;;
         esac
         
