@@ -349,6 +349,16 @@ expect {
         send "1\r"
         exp_continue
     }
+    "1.Xray-core" {
+        # 等待菜单完全显示
+        sleep 2
+        send "2\r"  # 选择sing-box
+        exp_continue
+    }
+    "请输入要配置的域名" {
+        # 暂停等待用户输入域名
+        interact
+    }
     timeout {
         puts "等待超时，但继续执行"
         exp_continue
