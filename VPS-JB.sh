@@ -376,12 +376,25 @@ EOF
 
 # 卸载expect
 uninstall_expect() {
+    # 首先检查expect是否已安装
+    if ! command -v expect &> /dev/null; then
+        _yellow "expect工具未安装，无需卸载"
+        return 0
+    fi
+
     _yellow "正在卸载expect工具..."
     apt-get remove -y expect
     if [[ $? -eq 0 ]]; then
         _green "expect工具卸载成功！"
     else
         _red "expect工具卸载失败"
+    fi
+
+    # 再次检查是否真的卸载成功
+    if ! command -v expect &> /dev/null; then
+        _green "确认：expect工具已完全卸载"
+    else
+        _red "警告：expect工具可能未完全卸载"
     fi
 }
 
