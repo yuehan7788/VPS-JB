@@ -351,14 +351,35 @@ expect {
         send "1\r"
         exp_continue
     }
-    "请选择" {
+    "1.Xray-core" {
         # 等待菜单完全显示
         sleep 2
-        send "7\r"
+        send "2\r"  # 选择sing-box
         exp_continue
     }
-    "请输入域名" {
+    "请输入要配置的域名" {
         send "$env(domain)\r"
+        exp_continue
+    }
+    "是否使用DNS API申请证书" {
+        send "n\r"
+        exp_continue
+    }
+    "请选择" {
+        sleep 2
+        send "1\r"  # 选择letsencrypt
+        exp_continue
+    }
+    "请输入自定义UUID" {
+        send "\r"  # 使用默认UUID
+        exp_continue
+    }
+    "请输入自定义用户名" {
+        send "HB\r"  # 设置用户名
+        exp_continue
+    }
+    "请输入自定义端口" {
+        send "\r"  # 使用默认端口
         exp_continue
     }
     timeout {
