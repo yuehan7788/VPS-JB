@@ -348,7 +348,6 @@ expect {
         sleep 2
         exp_continue
     }
-    
     "2.sing-box" {
         # 等待菜单完全显示
         sleep 2
@@ -356,7 +355,7 @@ expect {
     }
     "请选择:" {
         # 根据上下文判断是哪个选择
-        if {[string match "*功能 1/1 : 选择核心安装*" $expect_out(buffer)]} {
+        if {[string match "*功能 1/1 : 选择核心安装*" $expect_out(buffer)] || [string match "*2.sing-box*" $expect_out(buffer)]} {
             send "2\r"  # 选择sing-box
         } else {
             send "1\r"  # 选择安装
