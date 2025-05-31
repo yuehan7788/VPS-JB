@@ -338,11 +338,12 @@ expect {
         send "\r"
         exp_continue
     }
-    "20.卸载脚本" {
-        # 等待菜单完全显示
-        sleep 2
+    "请选择:" {
+        # 等待提示完全显示
+        sleep 1
         # 让mack-a脚本继续运行
         interact
+        return
     }
     timeout {
         puts "等待超时，但继续执行"
@@ -360,6 +361,9 @@ EOF
 
     # 清理临时文件
     rm -f /tmp/install.exp
+
+    # 退出VPS-JB脚本，让mack-a脚本继续运行
+    exit 0
 }
 
 # 卸载expect
