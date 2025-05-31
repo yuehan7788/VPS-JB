@@ -296,7 +296,8 @@ auto_install_macka_singbox() {
         # 创建expect脚本来自动安装mack-a
         cat > /tmp/install_macka.exp << EOF
 #!/usr/bin/expect -f
-set timeout 300  # 设置超时时间为300秒
+# 设置超时时间为300秒
+set timeout 300
 
 # 设置中文环境
 set env(LANG) "zh_CN.UTF-8"
