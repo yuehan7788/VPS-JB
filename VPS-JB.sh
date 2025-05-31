@@ -290,13 +290,6 @@ auto_install_macka_singbox() {
         fi
     fi
 
-    # 设置域名
-    read -p "请输入您的域名: " domain
-    if [[ -z "$domain" ]]; then
-        _red "域名不能为空"
-        return 1
-    fi
-
     # 创建expect脚本
     cat > /tmp/install.exp << 'EOF'
 #!/usr/bin/expect -f
@@ -352,7 +345,8 @@ expect {
         exp_continue
     }
     "请输入要配置的域名" {
-        send "$env(domain)\r"
+        # 暂停等待用户输入域名
+        interact
         exp_continue
     }
     "是否使用DNS API申请证书" {
@@ -393,9 +387,6 @@ EOF
 
     # 给expect脚本添加执行权限
     chmod +x /tmp/install.exp
-
-    # 设置域名环境变量
-    export domain="$domain"
 
     # 运行expect脚本
     _yellow "开始自动化安装mack-a sing-box..."
