@@ -341,8 +341,13 @@ expect {
     "20.卸载脚本" {
         # 等待菜单完全显示
         sleep 2
-        # 让mack-a脚本继续运行
-        interact
+        exp_continue
+    }
+    "请选择:" {
+        # 等待提示完全显示
+        sleep 1
+        send "1\r"
+        exp_continue
     }
     timeout {
         puts "等待超时，但继续执行"
