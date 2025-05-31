@@ -109,16 +109,34 @@ run_install() {
     if [[ ! -f "$local_script" ]]; then
         _yellow "首次安装，正在下载安装脚本..."
         # 下载脚本到本地
-        curl -sL "$install_cmd" -o "$local_script"
-        if [[ $? -ne 0 ]]; then
+        if ! curl -sL "$install_cmd" -o "$local_script"; then
             _red "下载安装脚本失败"
             return 1
         fi
+        
+        # 验证下载的文件是否为空
+        if [[ ! -s "$local_script" ]]; then
+            _red "下载的脚本文件为空"
+            rm -f "$local_script"
+            return 1
+        fi
+        
+        # 验证文件内容
+        if ! grep -q "#!/bin/bash" "$local_script" && ! grep -q "#!/bin/sh" "$local_script"; then
+            _red "下载的文件不是有效的shell脚本"
+            rm -f "$local_script"
+            return 1
+        fi
+        
         chmod +x "$local_script"
         _green "下载完成，开始安装..."
     else
         _green "使用本地缓存的安装脚本..."
     fi
+    
+    # 显示当前使用的脚本信息
+    _yellow "当前使用的安装脚本：$local_script"
+    _yellow "脚本大小：$(du -h "$local_script" | cut -f1)"
     
     # 执行本地脚本
     bash "$local_script"
