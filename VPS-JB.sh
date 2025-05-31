@@ -305,68 +305,71 @@ set env(LC_ALL) "zh_CN.UTF-8"
 spawn bash -c "curl -sL https://raw.githubusercontent.com/mack-a/v2ray-agent/master/install.sh > /tmp/mack-a.sh && bash /tmp/mack-a.sh"
 
 # 等待并选择选项1（安装mack-a脚本）
-expect {
-    "请选择" { 
-        send "1\r"
-        exp_continue
-    }
-    "是否继续" { 
-        send "y\r"
-        exp_continue
-    }
-    "是否安装" { 
-        send "y\r"
-        exp_continue
-    }
-    "是否卸载" { 
-        send "n\r"
-        exp_continue
-    }
-    "是否删除" { 
-        send "n\r"
-        exp_continue
-    }
-    "是否更新" { 
-        send "y\r"
-        exp_continue
-    }
-    "是否重启" { 
-        send "y\r"
-        exp_continue
-    }
-    "按回车继续" { 
-        send "\r"
-        exp_continue
-    }
-    "20.卸载脚本" {
-        # 等待菜单完全显示
-        sleep 2
-        exp_continue
-    }
-    "功能 1/1 : 选择核心安装" {
-        # 等待菜单完全显示
-        sleep 2
-        exp_continue
-    }
-    "2.sing-box" {
-        # 等待菜单完全显示
-        sleep 2
-        exp_continue
-    }
-    "请选择:" {
-        # 检查是否在核心选择菜单中
-        if {[string match "*功能 1/1 : 选择核心安装*" $expect_out(buffer)]} {
-            send "2\r"  # 选择sing-box
+while {1} {
+    expect {
+        "请选择" { 
+            send "1\r"
+            break
         }
-        exp_continue
-    }
-    "请输入要配置的域名" {
-        # 暂停等待用户输入域名
-        interact
-    }
-    timeout {
-        puts "等待超时，但继续执行"
-        exp_continue
+        "是否继续" { 
+            send "y\r"
+            break
+        }
+        "是否安装" { 
+            send "y\r"
+            break
+        }
+        "是否卸载" { 
+            send "n\r"
+            break
+        }
+        "是否删除" { 
+            send "n\r"
+            break
+        }
+        "是否更新" { 
+            send "y\r"
+            break
+        }
+        "是否重启" { 
+            send "y\r"
+            break
+        }
+        "按回车继续" { 
+            send "\r"
+            break
+        }
+        "20.卸载脚本" {
+            # 等待菜单完全显示
+            sleep 2
+            break
+        }
+        "功能 1/1 : 选择核心安装" {
+            # 等待菜单完全显示
+            sleep 2
+            break
+        }
+        "2.sing-box" {
+            # 等待菜单完全显示
+            sleep 2
+            break
+        }
+        "请选择:" {
+            # 检查是否在核心选择菜单中
+            if {[string match "*功能 1/1 : 选择核心安装*" $expect_out(buffer)]} {
+                send "2\r"  # 选择sing-box
+            }
+            break
+        }
+        "请输入要配置的域名" {
+            # 暂停等待用户输入域名
+            interact
+            break
+        }
+        timeout {
+            puts "等待超时，但继续执行"
+            break
+        }
     }
 }
 EOF
