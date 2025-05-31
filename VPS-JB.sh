@@ -353,12 +353,10 @@ expect {
         sleep 2
         exp_continue
     }
-    "==============================================================\r\n请选择:" {
+    "请选择:" {
         # 检查是否在核心选择菜单中
         if {[string match "*功能 1/1 : 选择核心安装*" $expect_out(buffer)]} {
             send "2\r"  # 选择sing-box
-        } else {
-            send "1\r"  # 选择安装
         }
         exp_continue
     }
