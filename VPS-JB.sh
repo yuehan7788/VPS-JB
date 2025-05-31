@@ -343,16 +343,28 @@ expect {
         sleep 2
         exp_continue
     }
-    "请选择:" {
-        # 等待提示完全显示
-        sleep 1
-        send "1\r"
+    "功能 1/1 : 选择核心安装" {
+        # 等待菜单完全显示
+        sleep 2
         exp_continue
     }
     "1.Xray-core" {
         # 等待菜单完全显示
         sleep 2
-        send "2\r"
+        exp_continue
+    }
+    "2.sing-box" {
+        # 等待菜单完全显示
+        sleep 2
+        exp_continue
+    }
+    "请选择:" {
+        # 根据上下文判断是哪个选择
+        if {[string match "*功能 1/1 : 选择核心安装*" $expect_out(buffer)]} {
+            send "2\r"  # 选择sing-box
+        } else {
+            send "1\r"  # 选择安装
+        }
         exp_continue
     }
     "请输入要配置的域名" {
