@@ -64,6 +64,7 @@ show_menu() {
     echo -e "${yellow}4.${none} 安装 kejilong工具"
     echo -e "${yellow}5.${none} 卸载脚本"
     echo -e "${yellow}6.${none} 脚本信息"
+    echo -e "${yellow}7.${none} 自动化安装 sing-box"
     echo -e "${yellow}0.${none} 退出"
     echo -e "${cyan}========================================${none}"
     echo -n "请输入选项 [0-9]: "
@@ -90,6 +91,7 @@ show_script_info() {
 # 执行安装命令
 run_install() {
     local install_cmd=$1
+    local show_info=$2
     
     _yellow "正在执行安装命令..."
     
@@ -264,6 +266,86 @@ setup_alias() {
     fi
 }
 
+# 自动化安装sing-box
+auto_install_singbox() {
+    # 检查是否安装了expect
+    if ! command -v expect &> /dev/null; then
+        _yellow "正在安装expect工具..."
+        apt-get update && apt-get install -y expect
+        if [[ $? -ne 0 ]]; then
+            _red "安装expect失败，请手动安装后重试"
+            return 1
+        fi
+    fi
+
+    # 检查mack-a脚本是否已安装
+    if [[ ! -f "/usr/local/bin/v2ray-agent/install.sh" ]]; then
+        _yellow "正在安装mack-a脚本..."
+        run_install "https://raw.githubusercontent.com/mack-a/v2ray-agent/master/install.sh" "1"
+        if [[ $? -ne 0 ]]; then
+            _red "安装mack-a脚本失败"
+            return 1
+        fi
+    fi
+
+    # 设置域名
+    read -p "请输入您的域名: " domain
+    if [[ -z "$domain" ]]; then
+        _red "域名不能为空"
+        return 1
+    fi
+
+    # 创建expect脚本
+    cat > /tmp/install.exp << EOF
+#!/usr/bin/expect -f
+set timeout -1
+
+# 启动安装脚本
+spawn bash /usr/local/bin/v2ray-agent/install.sh
+
+# 等待并选择选项7（安装sing-box）
+expect "请选择"
+send "7\r"
+
+# 等待并选择选项1（安装）
+expect "请选择"
+send "1\r"
+
+# 处理域名输入
+expect "请输入域名"
+send "$domain\r"
+
+# 处理所有yes/no提示
+while {1} {
+    expect {
+        "是否继续" { send "y\r" }
+        "是否安装" { send "y\r" }
+        "是否卸载" { send "n\r" }
+        "是否删除" { send "n\r" }
+        "是否更新" { send "y\r" }
+        "是否重启" { send "y\r" }
+        "按回车继续" { send "\r" }
+        timeout { break }
+    }
+}
+
+# 等待安装完成
+expect eof
+EOF
+
+    # 给expect脚本添加执行权限
+    chmod +x /tmp/install.exp
+
+    # 运行expect脚本
+    _yellow "开始自动化安装sing-box..."
+    /tmp/install.exp
+
+    # 清理临时文件
+    rm -f /tmp/install.exp
+
+    _green "sing-box安装完成！"
+}
+
 # 主函数
 main() {
     # 检查是否是首次安装
@@ -283,19 +365,19 @@ main() {
         case $choice in
             1)
                 _yellow "正在安装 Xray(233boy急速)..."
-                run_install "https://github.com/233boy/Xray/raw/main/install.sh"
+                run_install "https://github.com/233boy/Xray/raw/main/install.sh" "1"
                 ;;
             2)
                 _yellow "正在安装 八合一键脚本mack-a&(歇斯底里)..."
-                run_install "https://raw.githubusercontent.com/mack-a/v2ray-agent/master/install.sh"
+                run_install "https://raw.githubusercontent.com/mack-a/v2ray-agent/master/install.sh" "1"
                 ;;
             3)
                 _yellow "正在安装 FranzKafkaYu/x-ui..."
-                run_install "https://raw.githubusercontent.com/FranzKafkaYu/x-ui/master/install.sh"
+                run_install "https://raw.githubusercontent.com/FranzKafkaYu/x-ui/master/install.sh" "1"
                 ;;
             4)
                 _yellow "正在安装 kejilong工具..."
-                run_install "kejilion.sh"
+                run_install "kejilion.sh" "1"
                 ;;
             5)
                 uninstall_script
@@ -306,6 +388,9 @@ main() {
                 show_script_info
                 # 显示信息后直接跳转到root命令行
                 exec bash
+                ;;
+            7)
+                auto_install_singbox
                 ;;
             0)
                 _green "感谢使用，再见！"
