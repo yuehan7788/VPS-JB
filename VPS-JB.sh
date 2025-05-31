@@ -341,8 +341,8 @@ expect {
     "20.卸载脚本" {
         # 等待菜单完全显示
         sleep 2
-        # 退出expect，让mack-a脚本接管
-        exit 0
+        # 让mack-a脚本继续运行
+        interact
     }
     timeout {
         puts "等待超时，但继续执行"
@@ -360,9 +360,6 @@ EOF
 
     # 清理临时文件
     rm -f /tmp/install.exp
-
-    # 直接运行mack-a脚本
-    bash /usr/local/bin/v2ray-agent/install.sh
 }
 
 # 卸载expect
