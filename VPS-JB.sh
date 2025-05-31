@@ -268,6 +268,13 @@ setup_alias() {
 
 # 自动化安装mack-a sing-box
 auto_install_macka_singbox() {
+    # 安装中文语言包
+    _yellow "正在安装中文语言包..."
+    apt-get update
+    apt-get install -y locales
+    locale-gen zh_CN.UTF-8
+    update-locale LANG=zh_CN.UTF-8
+
     # 设置中文环境
     export LANG=zh_CN.UTF-8
     export LC_ALL=zh_CN.UTF-8
