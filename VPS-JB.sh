@@ -301,20 +301,14 @@ set timeout 300
 set env(LANG) "zh_CN.UTF-8"
 set env(LC_ALL) "zh_CN.UTF-8"
 
-# 设置标志变量
-set first_choice_done 0
-
 # 启动安装脚本
 spawn bash -c "curl -sL https://raw.githubusercontent.com/mack-a/v2ray-agent/master/install.sh > /tmp/mack-a.sh && bash /tmp/mack-a.sh"
 
 # 等待并选择选项1（安装mack-a脚本）
 expect {
     "请选择" { 
-        if {$first_choice_done == 0} {
-            send "1\r"
-            set first_choice_done 1
-        }
-        exp_continue
+        send "1\r"
+        continue
     }
     "是否继续" { 
         send "y\r"
