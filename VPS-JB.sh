@@ -64,7 +64,7 @@ show_menu() {
     echo -e "${yellow}4.${none} 安装 kejilong工具"
     echo -e "${yellow}5.${none} 卸载脚本"
     echo -e "${yellow}6.${none} 脚本信息"
-    echo -e "${yellow}7.${none} 自动化安装 sing-box"
+    echo -e "${yellow}7.${none} 自动化安装 mack-a sing-box"
     echo -e "${yellow}0.${none} 退出"
     echo -e "${cyan}========================================${none}"
     echo -n "请输入选项 [0-9]: "
@@ -266,8 +266,12 @@ setup_alias() {
     fi
 }
 
-# 自动化安装sing-box
-auto_install_singbox() {
+# 自动化安装mack-a sing-box
+auto_install_macka_singbox() {
+    # 设置中文环境
+    export LANG=zh_CN.UTF-8
+    export LC_ALL=zh_CN.UTF-8
+
     # 检查是否安装了expect
     if ! command -v expect &> /dev/null; then
         _yellow "正在安装expect工具..."
@@ -300,20 +304,30 @@ auto_install_singbox() {
 #!/usr/bin/expect -f
 set timeout -1
 
+# 设置中文环境
+set env(LANG) "zh_CN.UTF-8"
+set env(LC_ALL) "zh_CN.UTF-8"
+
 # 启动安装脚本
 spawn bash /usr/local/bin/v2ray-agent/install.sh
 
 # 等待并选择选项7（安装sing-box）
-expect "请选择"
-send "7\r"
+expect {
+    "请选择" { send "7\r" }
+    timeout { exit 1 }
+}
 
 # 等待并选择选项1（安装）
-expect "请选择"
-send "1\r"
+expect {
+    "请选择" { send "1\r" }
+    timeout { exit 1 }
+}
 
 # 处理域名输入
-expect "请输入域名"
-send "$domain\r"
+expect {
+    "请输入域名" { send "$domain\r" }
+    timeout { exit 1 }
+}
 
 # 处理所有yes/no提示
 while {1} {
@@ -325,6 +339,7 @@ while {1} {
         "是否更新" { send "y\r" }
         "是否重启" { send "y\r" }
         "按回车继续" { send "\r" }
+        "请选择" { send "1\r" }  # 处理额外的选项
         timeout { break }
     }
 }
@@ -337,13 +352,18 @@ EOF
     chmod +x /tmp/install.exp
 
     # 运行expect脚本
-    _yellow "开始自动化安装sing-box..."
+    _yellow "开始自动化安装mack-a sing-box..."
     /tmp/install.exp
+
+    # 检查安装结果
+    if [[ $? -eq 0 ]]; then
+        _green "mack-a sing-box安装完成！"
+    else
+        _red "mack-a sing-box安装失败，请检查日志"
+    fi
 
     # 清理临时文件
     rm -f /tmp/install.exp
-
-    _green "sing-box安装完成！"
 }
 
 # 主函数
@@ -390,7 +410,7 @@ main() {
                 exec bash
                 ;;
             7)
-                auto_install_singbox
+                auto_install_macka_singbox
                 ;;
             0)
                 _green "感谢使用，再见！"
