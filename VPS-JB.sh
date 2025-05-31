@@ -90,8 +90,9 @@ show_script_info() {
 # 执行安装命令
 run_install() {
     local install_cmd=$1
+    local option_num=$2  # 新增参数：选项编号
     local script_name=$(basename "$install_cmd")
-    local local_script="/usr/local/bin/install_scripts/$script_name"
+    local local_script="/usr/local/bin/install_scripts/option${option_num}_${script_name}"
     
     _yellow "正在执行安装命令..."
     
@@ -273,23 +274,24 @@ main() {
         setup_alias "false"  # 非首次安装时不显示详细信息
     fi
     
-    # 直接显示菜单
+    # 主循环
     while true; do
         show_menu
-        read -r choice
+        read -n 1 choice
+        echo
         
         case $choice in
             1)
-                run_install "https://github.com/233boy/Xray/raw/main/install.sh"
+                run_install "https://raw.githubusercontent.com/233boy/v2ray/master/install.sh" "1"
                 ;;
             2)
-                run_install "https://raw.githubusercontent.com/mack-a/v2ray-agent/master/install.sh"
+                run_install "https://raw.githubusercontent.com/mack-a/v2ray-agent/master/install.sh" "2"
                 ;;
             3)
-                run_install "https://raw.githubusercontent.com/FranzKafkaYu/x-ui/master/install.sh"
+                run_install "https://raw.githubusercontent.com/FranzKafkaYu/x-ui/master/install_en.sh" "3"
                 ;;
             4)
-                run_install "kejilion.sh"
+                run_install "https://raw.githubusercontent.com/kejilion/sh/main/kejilion.sh" "4"
                 ;;
             5)
                 uninstall_script
@@ -306,11 +308,10 @@ main() {
                 exit 0
                 ;;
             *)
-                _red "无效的选项，请重新选择"
+                _red "无效选项，请重新选择"
                 ;;
         esac
         
-        echo
         read -p "按回车键继续..."
     done
 }
