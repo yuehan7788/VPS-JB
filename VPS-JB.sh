@@ -302,7 +302,7 @@ set env(LANG) "zh_CN.UTF-8"
 set env(LC_ALL) "zh_CN.UTF-8"
 
 # 启动安装脚本
-spawn bash -c "curl -sL https://raw.githubusercontent.com/mack-a/v2ray-agent/master/install.sh | bash"
+spawn bash -c "curl -sL https://raw.githubusercontent.com/mack-a/v2ray-agent/master/install.sh > /tmp/mack-a.sh && bash /tmp/mack-a.sh"
 
 # 等待并选择选项1（安装mack-a脚本）
 expect {
@@ -338,12 +338,11 @@ expect {
         send "\r"
         exp_continue
     }
-    "请选择:" {
-        # 等待提示完全显示
-        sleep 1
+    "20.卸载脚本" {
+        # 等待菜单完全显示
+        sleep 2
         # 让mack-a脚本继续运行
         interact
-        return
     }
     timeout {
         puts "等待超时，但继续执行"
@@ -361,9 +360,7 @@ EOF
 
     # 清理临时文件
     rm -f /tmp/install.exp
-
-    # 退出VPS-JB脚本，让mack-a脚本继续运行
-    exit 0
+    rm -f /tmp/mack-a.sh
 }
 
 # 卸载expect
