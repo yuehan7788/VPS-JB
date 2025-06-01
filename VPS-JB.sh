@@ -336,8 +336,7 @@ def auto_install():
             break
         if output:
             # 直接打印原始输出
-            sys.stdout.write(output)
-            sys.stdout.flush()
+            print(output, end='', flush=True)
             
             # 检查是否需要交互
             for prompt, response in interactions:
