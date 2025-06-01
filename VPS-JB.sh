@@ -287,8 +287,8 @@ auto_install_macka_singbox() {
 # 设置超时时间
 set timeout 300
 
-# 下载安装脚本
-spawn curl -sL https://raw.githubusercontent.com/mack-a/v2ray-agent/master/install.sh > /tmp/mack-a.sh
+# 下载安装脚本（使用 wget 替代 curl）
+spawn wget -qO /tmp/mack-a.sh https://raw.githubusercontent.com/mack-a/v2ray-agent/master/install.sh
 expect eof
 
 # 执行安装脚本
