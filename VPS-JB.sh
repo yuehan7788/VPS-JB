@@ -301,27 +301,6 @@ send "1\r"
 expect "请选择:"
 send "2\r"
 
-expect "是否继续"
-send "y\r"
-
-expect "是否安装"
-send "y\r"
-
-expect "是否卸载"
-send "n\r"
-
-expect "是否删除"
-send "n\r"
-
-expect "是否更新"
-send "y\r"
-
-expect "是否重启"
-send "y\r"
-
-expect "按回车继续"
-send "\r"
-
 # 等待域名输入提示
 expect "请输入要配置的域名 例: www.v2ray-agent.com ---> "
 interact
@@ -342,19 +321,25 @@ set env(LC_ALL) "zh_CN.UTF-8"
 spawn bash -c "bash /tmp/mack-a.sh"
 
 # 处理交互
-expect "是否使用DNS API申请证书"
+expect "是否继续"
+send "y\r"
+
+expect "是否安装"
+send "y\r"
+
+expect "是否卸载"
 send "n\r"
 
-expect "请选择"
-send "1\r"
+expect "是否删除"
+send "n\r"
 
-expect "请输入自定义UUID"
-send "\r"
+expect "是否更新"
+send "y\r"
 
-expect "请输入自定义用户名"
-send "\r"
+expect "是否重启"
+send "y\r"
 
-expect "请输入自定义端口"
+expect "按回车继续"
 send "\r"
 
 # 等待安装完成
