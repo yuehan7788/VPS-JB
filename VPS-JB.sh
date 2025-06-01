@@ -301,21 +301,19 @@ set timeout 300
 set env(LANG) "zh_CN.UTF-8"
 set env(LC_ALL) "zh_CN.UTF-8"
 
-# 启用调试模式
-#exp_internal 1
-
 # 启动安装脚本
 spawn bash -c "curl -sL https://raw.githubusercontent.com/mack-a/v2ray-agent/master/install.sh > /tmp/mack-a.sh && bash /tmp/mack-a.sh"
 
 # 等待并选择选项1（安装mack-a脚本）
 expect {
     # 匹配主菜单
-    -re "-------------------------.*-------------------------.*请选择" { 
+    "请选择" { 
         send "1\r"
         exp_continue
     }
     # 匹配核心选择菜单
-    -re "功能 1/1 : 选择核心安装.*2.sing-box.*请选择:" {
+    "2.sing-box" {
+        sleep 1
         send "2\r"
         exp_continue
     }
@@ -353,34 +351,33 @@ expect {
         interact
         exp_continue
     }
-    -re "是否使用DNS API申请证书.*\\\[y/n\\\]:" {
-        puts "\n匹配到DNS API提示"
+    "DNS API" {
+        sleep 1
         send "n\r"
         exp_continue
     }
-    -re "请选择.*使用默认:" {
-        puts "\n匹配到证书选择提示"
+    "使用默认" {
+        sleep 1
         send "1\r"
         exp_continue
     }
-    -re "请输入自定义UUID.*随机UUID" {
-        puts "\n匹配到UUID输入提示"
+    "UUID" {
+        sleep 1
         send "\r"
         exp_continue
     }
-    -re "请输入自定义用户名.*随机用户名" {
-        puts "\n匹配到用户名输入提示"
+    "用户名" {
+        sleep 1
         send "\r"
         exp_continue
     }
-    -re "请输入自定义端口.*随机端口:" {
-        puts "\n匹配到端口输入提示"
+    "端口" {
+        sleep 1
         send "\r"
         exp_continue
     }
     timeout {
-        puts "\n等待超时，当前缓冲区内容："
-        puts $expect_out(buffer)
+        puts "等待超时，但继续执行"
         exp_continue
     }
 }
