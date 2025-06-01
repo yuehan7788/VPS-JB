@@ -293,6 +293,29 @@ import time
 import os
 import subprocess
 
+def wait_for_install():
+    # 启动安装脚本并等待完成
+    process = subprocess.Popen(['bash', '/tmp/mack-a.sh'],
+                             stdout=subprocess.PIPE,
+                             stderr=subprocess.PIPE,
+                             universal_newlines=True,
+                             bufsize=1)
+    
+    print("等待安装完成...")
+    while True:
+        output = process.stdout.readline()
+        if output == '' and process.poll() is not None:
+            break
+        if output:
+            print(output.strip())
+            # 检查是否出现主菜单
+            if "请选择:" in output and "==============================================================" in output:
+                print("检测到安装完成，开始配置...")
+                break
+    
+    process.wait()
+    return True
+
 def auto_interact():
     # 设置环境变量
     os.environ['LANG'] = 'zh_CN.UTF-8'
@@ -309,7 +332,8 @@ def auto_interact():
     # 定义交互序列
     interactions = [
         # 主菜单选择
-        ('请选择', '1'),
+        ('==============================================================', '1'),
+        ('请选择:', '1'),
         # 核心选择
         ('功能 1/1 : 选择核心安装', '2'),
         # 其他选项
@@ -358,6 +382,8 @@ def auto_interact():
                         print(f"发送: {response}")
                         process.stdin.write(response + '\n')
                         process.stdin.flush()
+                    # 添加短暂延时
+                    time.sleep(0.5)
                     break
     
     # 等待进程结束
@@ -365,14 +391,15 @@ def auto_interact():
     print("配置完成")
 
 if __name__ == '__main__':
-    auto_interact()
+    if wait_for_install():
+        auto_interact()
 EOF
 
     # 给Python脚本添加执行权限
     chmod +x /tmp/interact.py
 
     # 运行Python脚本
-    _yellow "开始自动化配置mack-a sing-box..."
+    _yellow "开始自动化安装和配置mack-a sing-box..."
     python3 /tmp/interact.py
 
     # 清理临时文件
