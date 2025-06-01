@@ -350,7 +350,7 @@ expect {
         interact
         exp_continue
     }
-    "是否使用DNS API申请证书" {
+    "是否使用DNS API申请证书\[支持NAT\]？\[y/n\]:" {
         send "n\r"
         exp_continue
     }
@@ -358,15 +358,15 @@ expect {
         send "1\r"
         exp_continue
     }
-    "请输入自定义UUID" {
+    "请输入自定义UUID\[需合法\]，\[回车\]随机UUID" {
         send "\r"
         exp_continue
     }
-    "请输入自定义用户名" {
+    "请输入自定义用户名\[需合法\]，\[回车\]随机用户名" {
         send "\r"
         exp_continue
     }
-    "请输入自定义端口" {
+    "请输入自定义端口\[需合法\]，端口不可重复，\[回车\]随机端口:" {
         send "\r"
         exp_continue
     }
