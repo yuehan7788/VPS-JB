@@ -269,130 +269,129 @@ setup_alias() {
 
 # 自动化安装mack-a sing-box
 auto_install_macka_singbox() {
-    # 安装中文语言包
-    _yellow "正在安装中文语言包..."
-    apt-get update
-    apt-get install -y locales
-    locale-gen zh_CN.UTF-8
-    update-locale LANG=zh_CN.UTF-8
-
-    # 设置中文环境
-    export LANG=zh_CN.UTF-8
-    export LC_ALL=zh_CN.UTF-8
-
-    # 检查是否安装了expect
-    if ! command -v expect &> /dev/null; then
-        _yellow "正在安装expect工具..."
-        apt-get update && apt-get install -y expect
+    # 检查是否安装了python3和pexpect
+    if ! command -v python3 &> /dev/null; then
+        _yellow "正在安装Python3..."
+        apt-get update && apt-get install -y python3 python3-pip
         if [[ $? -ne 0 ]]; then
-            _red "安装expect失败，请手动安装后重试"
+            _red "安装Python3失败，请手动安装后重试"
             return 1
         fi
     fi
 
-    # 创建expect脚本
-    cat > /tmp/install.exp << 'EOF'
-#!/usr/bin/expect -f
+    # 安装pexpect
+    _yellow "正在安装pexpect..."
+    pip3 install pexpect
+    if [[ $? -ne 0 ]]; then
+        _red "安装pexpect失败，请手动安装后重试"
+        return 1
+    fi
 
-# 设置超时时间
-set timeout 300
+    # 创建Python脚本
+    cat > /tmp/install.py << 'EOF'
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 
-# 设置中文环境
-set env(LANG) "zh_CN.UTF-8"
-set env(LC_ALL) "zh_CN.UTF-8"
+import pexpect
+import sys
+import time
+import os
 
-# 启动安装脚本
-spawn bash -c "curl -sL https://raw.githubusercontent.com/mack-a/v2ray-agent/master/install.sh > /tmp/mack-a.sh && bash /tmp/mack-a.sh"
+def auto_install():
+    # 设置环境变量
+    os.environ['LANG'] = 'zh_CN.UTF-8'
+    os.environ['LC_ALL'] = 'zh_CN.UTF-8'
+    
+    # 启动安装脚本
+    child = pexpect.spawn('bash -c "curl -sL https://raw.githubusercontent.com/mack-a/v2ray-agent/master/install.sh > /tmp/mack-a.sh && bash /tmp/mack-a.sh"')
+    
+    # 设置日志
+    child.logfile = sys.stdout.buffer
+    
+    # 设置超时和编码
+    child.timeout = 300
+    child.encoding = 'utf-8'
+    
+    # 定义匹配模式和响应
+    patterns = {
+        # 主菜单
+        r'-------------------------.*-------------------------.*请选择': '1',
+        # 核心选择菜单
+        r'功能 1/1 : 选择核心安装.*2.sing-box.*请选择:': '2',
+        # 其他提示
+        r'是否继续': 'y',
+        r'是否安装': 'y',
+        r'是否卸载': 'n',
+        r'是否删除': 'n',
+        r'是否更新': 'y',
+        r'是否重启': 'y',
+        r'按回车继续': '\r',
+        # 域名输入
+        r'请输入要配置的域名': None,  # None表示需要用户交互
+        # DNS API
+        r'是否使用DNS API申请证书.*\[y/n\]:': 'n',
+        # 证书选择
+        r'请选择.*使用默认:': '1',
+        # UUID
+        r'请输入自定义UUID.*随机UUID': '\r',
+        # 用户名
+        r'请输入自定义用户名.*随机用户名': '\r',
+        # 端口
+        r'请输入自定义端口.*随机端口:': '\r'
+    }
+    
+    print("开始自动化安装...")
+    
+    while True:
+        try:
+            # 等待匹配
+            index = child.expect(list(patterns.keys()))
+            pattern = list(patterns.keys())[index]
+            response = patterns[pattern]
+            
+            # 打印匹配到的模式
+            print(f"\n匹配到: {pattern}")
+            
+            # 处理响应
+            if response is None:
+                print("\n请输入您的域名，然后按回车：")
+                child.interact()
+            else:
+                print(f"发送: {response}")
+                child.sendline(response)
+                
+            # 短暂延时确保输出完成
+            time.sleep(0.5)
+            
+        except pexpect.EOF:
+            print("\n安装完成")
+            break
+        except pexpect.TIMEOUT:
+            print("\n等待超时，继续执行")
+            continue
+        except Exception as e:
+            print(f"\n发生错误: {str(e)}")
+            break
+    
+    # 清理临时文件
+    try:
+        os.remove('/tmp/mack-a.sh')
+    except:
+        pass
 
-# 等待并选择选项1（安装mack-a脚本）
-expect {
-    # 匹配主菜单
-    "请选择" { 
-        send "1\r"
-        exp_continue
-    }
-    # 匹配核心选择菜单
-    "2.sing-box" {
-        sleep 1
-        send "2\r"
-        exp_continue
-    }
-    # 匹配其他提示
-    "是否继续" { 
-        send "y\r"
-        exp_continue
-    }
-    "是否安装" { 
-        send "y\r"
-        exp_continue
-    }
-    "是否卸载" { 
-        send "n\r"
-        exp_continue
-    }
-    "是否删除" { 
-        send "n\r"
-        exp_continue
-    }
-    "是否更新" { 
-        send "y\r"
-        exp_continue
-    }
-    "是否重启" { 
-        send "y\r"
-        exp_continue
-    }
-    "按回车继续" { 
-        send "\r"
-        exp_continue
-    }
-    "请输入要配置的域名" {
-        puts "\n请输入您的域名，然后按回车："
-        interact
-        exp_continue
-    }
-    "DNS API" {
-        sleep 1
-        send "n\r"
-        exp_continue
-    }
-    "使用默认" {
-        sleep 1
-        send "1\r"
-        exp_continue
-    }
-    "UUID" {
-        sleep 1
-        send "\r"
-        exp_continue
-    }
-    "用户名" {
-        sleep 1
-        send "\r"
-        exp_continue
-    }
-    "端口" {
-        sleep 1
-        send "\r"
-        exp_continue
-    }
-    timeout {
-        puts "等待超时，但继续执行"
-        exp_continue
-    }
-}
+if __name__ == '__main__':
+    auto_install()
 EOF
 
-    # 给expect脚本添加执行权限
-    chmod +x /tmp/install.exp
+    # 给Python脚本添加执行权限
+    chmod +x /tmp/install.py
 
-    # 运行expect脚本
+    # 运行Python脚本
     _yellow "开始自动化安装mack-a sing-box..."
-    /tmp/install.exp
+    python3 /tmp/install.py
 
     # 清理临时文件
-    rm -f /tmp/install.exp
-    rm -f /tmp/mack-a.sh
+    rm -f /tmp/install.py
 }
 
 # 卸载expect
