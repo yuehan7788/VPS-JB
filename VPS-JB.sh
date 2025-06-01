@@ -278,11 +278,6 @@ auto_install_macka_singbox() {
         return 1
     fi
 
-    # 先安装mack-a脚本
-    _yellow "正在安装mack-a脚本..."
-    curl -sL https://raw.githubusercontent.com/mack-a/v2ray-agent/master/install.sh > /tmp/mack-a.sh
-    bash /tmp/mack-a.sh
-
     # 创建Python脚本处理交互
     cat > /tmp/interact.py << 'EOF'
 #!/usr/bin/env python3
@@ -293,41 +288,20 @@ import time
 import os
 import subprocess
 
-def wait_for_install():
-    # 启动安装脚本并等待完成
-    process = subprocess.Popen(['bash', '/tmp/mack-a.sh'],
-                             stdout=subprocess.PIPE,
-                             stderr=subprocess.PIPE,
-                             universal_newlines=True,
-                             bufsize=1)
-    
-    print("等待安装完成...")
-    while True:
-        output = process.stdout.readline()
-        if output == '' and process.poll() is not None:
-            break
-        if output:
-            print(output.strip())
-            # 检查是否出现主菜单
-            if "请选择:" in output:
-                print("检测到安装完成，开始配置...")
-                break
-    
-    process.wait()
-    return True
-
-def auto_interact():
+def auto_install():
     # 设置环境变量
     os.environ['LANG'] = 'zh_CN.UTF-8'
     os.environ['LC_ALL'] = 'zh_CN.UTF-8'
     
-    # 启动vasma命令
-    process = subprocess.Popen(['vasma'], 
+    # 启动安装脚本
+    process = subprocess.Popen(['bash', '/tmp/mack-a.sh'],
                              stdin=subprocess.PIPE,
                              stdout=subprocess.PIPE,
                              stderr=subprocess.PIPE,
                              universal_newlines=True,
                              bufsize=1)
+    
+    print("开始安装和配置...")
     
     # 定义交互序列
     interactions = [
@@ -357,8 +331,6 @@ def auto_interact():
         ('请输入自定义端口', '\n')
     ]
     
-    print("开始自动化配置...")
-    
     # 读取输出并处理
     while True:
         output = process.stdout.readline()
@@ -387,11 +359,12 @@ def auto_interact():
     
     # 等待进程结束
     process.wait()
-    print("配置完成")
+    print("安装和配置完成")
 
 if __name__ == '__main__':
-    if wait_for_install():
-        auto_interact()
+    # 下载安装脚本
+    os.system('curl -sL https://raw.githubusercontent.com/mack-a/v2ray-agent/master/install.sh > /tmp/mack-a.sh')
+    auto_install()
 EOF
 
     # 给Python脚本添加执行权限
