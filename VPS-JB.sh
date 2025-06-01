@@ -284,6 +284,9 @@ auto_install_macka_singbox() {
     cat > /tmp/install.exp << 'EOF'
 #!/usr/bin/expect -f
 
+# 关闭调试输出
+log_user 0
+
 # 设置超时时间
 set timeout 300
 
@@ -331,7 +334,7 @@ EOF
 
     # 运行expect脚本
     _yellow "开始自动化安装和配置mack-a sing-box..."
-    expect /tmp/install.exp
+    expect -f /tmp/install.exp
 
     # 清理临时文件
     rm -f /tmp/install.exp
