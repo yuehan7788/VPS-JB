@@ -269,77 +269,72 @@ setup_alias() {
 
 # 自动化安装mack-a sing-box
 auto_install_macka_singbox() {
-    apt-get update
-    apt-get install -y python3
-    if [[ $? -ne 0 ]]; then
-        _red "安装Python3失败，请手动安装后重试"
-        return 1
+    # 检查并安装expect
+    if ! command -v expect &> /dev/null; then
+        _yellow "正在安装expect..."
+        apt-get update
+        apt-get install -y expect
+        if [[ $? -ne 0 ]]; then
+            _red "安装expect失败，请手动安装后重试"
+            return 1
+        fi
     fi
 
-    cat > /tmp/interact.py << 'EOF'
-#!/usr/bin/env python3
+    # 创建expect脚本
+    cat > /tmp/install.exp << 'EOF'
+#!/usr/bin/expect -f
 
-import sys
-import time
-import os
-import subprocess
+# 设置超时时间
+set timeout 300
 
-def auto_install():
-    os.environ['LANG'] = 'zh_CN.UTF-8'
-    os.environ['LC_ALL'] = 'zh_CN.UTF-8'
-    
-    process = subprocess.Popen(['bash', '/tmp/mack-a.sh'],
-                             stdin=subprocess.PIPE,
-                             stdout=subprocess.PIPE,
-                             stderr=subprocess.PIPE,
-                             universal_newlines=True,
-                             bufsize=1)
-    
-    interactions = [
-        ('请选择', '1'),
-        ('功能 1/1 : 选择核心安装', '2'),
-        ('是否继续', 'y'),
-        ('是否安装', 'y'),
-        ('是否卸载', 'n'),
-        ('是否删除', 'n'),
-        ('是否更新', 'y'),
-        ('是否重启', 'y'),
-        ('按回车继续', '\n'),
-        ('请输入要配置的域名', None),
-        ('是否使用DNS API申请证书', 'n'),
-        ('请选择', '1'),
-        ('请输入自定义UUID', '\n'),
-        ('请输入自定义用户名', '\n'),
-        ('请输入自定义端口', '\n')
-    ]
-    
-    while True:
-        output = process.stdout.readline()
-        if output == '' and process.poll() is not None:
-            break
-        if output:
-            print(output, end='', flush=True)
-            
-            for prompt, response in interactions:
-                if prompt in output.strip():
-                    if response is None:
-                        user_input = input()
-                        process.stdin.write(user_input + '\n')
-                        process.stdin.flush()
-                    else:
-                        process.stdin.write(response + '\n')
-                        process.stdin.flush()
-                    time.sleep(0.5)
-                    break
+# 下载安装脚本
+spawn curl -sL https://raw.githubusercontent.com/mack-a/v2ray-agent/master/install.sh > /tmp/mack-a.sh
+expect eof
 
-if __name__ == '__main__':
-    os.system('curl -sL https://raw.githubusercontent.com/mack-a/v2ray-agent/master/install.sh > /tmp/mack-a.sh')
-    auto_install()
+# 执行安装脚本
+spawn bash /tmp/mack-a.sh
+
+# 处理交互
+expect "请选择:"
+send "1\r"
+
+expect "功能 1/1 : 选择核心安装"
+send "2\r"
+
+expect "是否继续"
+send "y\r"
+
+expect "是否安装"
+send "y\r"
+
+expect "是否卸载"
+send "n\r"
+
+expect "是否删除"
+send "n\r"
+
+expect "是否更新"
+send "y\r"
+
+expect "是否重启"
+send "y\r"
+
+expect "按回车继续"
+send "\r"
+
+# 等待安装完成
+expect eof
 EOF
 
-    chmod +x /tmp/interact.py
-    python3 /tmp/interact.py
-    rm -f /tmp/interact.py
+    # 给expect脚本添加执行权限
+    chmod +x /tmp/install.exp
+
+    # 运行expect脚本
+    _yellow "开始自动化安装和配置mack-a sing-box..."
+    expect /tmp/install.exp
+
+    # 清理临时文件
+    rm -f /tmp/install.exp
 }
 
 # 卸载expect
