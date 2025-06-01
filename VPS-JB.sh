@@ -323,7 +323,7 @@ expect "按回车继续"
 send "\r"
 
 # 等待域名输入提示
-expect "请输入要配置的域名"
+expect "请输入要配置的域名 例: www.v2ray-agent.com ---> "
 send "example.com\r"
 
 expect "是否使用DNS API申请证书"
