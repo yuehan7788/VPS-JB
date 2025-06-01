@@ -287,21 +287,25 @@ import pexpect
 import sys
 import time
 import os
+import locale
 
 def auto_install():
     # 设置环境变量
     os.environ['LANG'] = 'zh_CN.UTF-8'
     os.environ['LC_ALL'] = 'zh_CN.UTF-8'
     
+    # 设置默认编码
+    if sys.stdout.encoding != 'utf-8':
+        sys.stdout.reconfigure(encoding='utf-8')
+    
     # 启动安装脚本
-    child = pexpect.spawn('bash -c "curl -sL https://raw.githubusercontent.com/mack-a/v2ray-agent/master/install.sh > /tmp/mack-a.sh && bash /tmp/mack-a.sh"')
+    child = pexpect.spawn('bash -c "curl -sL https://raw.githubusercontent.com/mack-a/v2ray-agent/master/install.sh > /tmp/mack-a.sh && bash /tmp/mack-a.sh"', encoding='utf-8')
     
     # 设置日志
-    child.logfile = sys.stdout.buffer
+    child.logfile = sys.stdout
     
-    # 设置超时和编码
+    # 设置超时
     child.timeout = 300
-    child.encoding = 'utf-8'
     
     # 定义匹配模式和响应
     patterns = {
