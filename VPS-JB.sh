@@ -280,8 +280,8 @@ auto_install_macka_singbox() {
         fi
     fi
 
-    # 创建expect脚本
-    cat > /tmp/install.exp << 'EOF'
+    # 创建第一阶段expect脚本
+    cat > /tmp/install_phase1.exp << 'EOF'
 #!/usr/bin/expect -f
 
 # 设置超时时间
@@ -325,8 +325,23 @@ send "\r"
 # 等待域名输入提示
 expect "请输入要配置的域名 例: www.v2ray-agent.com ---> "
 interact
+EOF
 
-# 继续自动化流程
+    # 创建第二阶段expect脚本
+    cat > /tmp/install_phase2.exp << 'EOF'
+#!/usr/bin/expect -f
+
+# 设置超时时间
+set timeout 300
+
+# 设置中文环境
+set env(LANG) "zh_CN.UTF-8"
+set env(LC_ALL) "zh_CN.UTF-8"
+
+# 继续安装脚本
+spawn bash -c "bash /tmp/mack-a.sh"
+
+# 处理交互
 expect "是否使用DNS API申请证书"
 send "n\r"
 
@@ -347,16 +362,21 @@ expect eof
 EOF
 
     # 给expect脚本添加执行权限
-    chmod +x /tmp/install.exp
+    chmod +x /tmp/install_phase1.exp
+    chmod +x /tmp/install_phase2.exp
 
-    # 运行expect脚本
+    # 运行第一阶段
     _yellow "开始自动化安装和配置mack-a sing-box..."
     _yellow "当提示输入域名时，请输入您的域名并按回车"
-    _yellow "输入完成后，脚本将自动继续执行"
-    expect /tmp/install.exp
+    expect /tmp/install_phase1.exp
+
+    # 运行第二阶段
+    _yellow "继续自动化安装流程..."
+    expect /tmp/install_phase2.exp
 
     # 清理临时文件
-    rm -f /tmp/install.exp
+    rm -f /tmp/install_phase1.exp
+    rm -f /tmp/install_phase2.exp
 }
 
 # 卸载expect
