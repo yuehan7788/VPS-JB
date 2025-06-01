@@ -301,8 +301,6 @@ def auto_install():
                              universal_newlines=True,
                              bufsize=1)
     
-    print("开始安装和配置...")
-    
     # 定义交互序列
     interactions = [
         # 主菜单选择
@@ -335,42 +333,31 @@ def auto_install():
     while True:
         output = process.stdout.readline()
         if output == '' and process.poll() is not None:
-            print("进程已结束")
             break
         if output:
-            print(f"收到输出: {output.strip()}")
+            # 直接打印原始输出
+            sys.stdout.write(output)
+            sys.stdout.flush()
             
             # 检查是否需要交互
             for prompt, response in interactions:
                 if prompt in output:
-                    print(f"匹配到提示: {prompt}")
                     if response is None:
                         # 需要用户输入
-                        print("\n请输入您的域名，然后按回车：")
                         user_input = input()
-                        print(f"发送用户输入: {user_input}")
                         process.stdin.write(user_input + '\n')
                         process.stdin.flush()
                     else:
                         # 自动响应
-                        print(f"发送自动响应: {response}")
                         process.stdin.write(response + '\n')
                         process.stdin.flush()
                     # 添加短暂延时
-                    time.sleep(1)
+                    time.sleep(0.5)
                     break
-            else:
-                print("未匹配到任何提示")
-    
-    # 等待进程结束
-    process.wait()
-    print("安装和配置完成")
 
 if __name__ == '__main__':
     # 下载安装脚本
-    print("下载安装脚本...")
     os.system('curl -sL https://raw.githubusercontent.com/mack-a/v2ray-agent/master/install.sh > /tmp/mack-a.sh')
-    print("开始安装过程...")
     auto_install()
 EOF
 
