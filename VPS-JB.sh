@@ -298,7 +298,7 @@ spawn bash -c "curl -sL https://raw.githubusercontent.com/mack-a/v2ray-agent/mas
 expect "请选择:"
 send "1\r"
 
-expect "功能 1/1 : 选择核心安装"
+expect "请选择:"
 send "2\r"
 
 expect "是否继续"
