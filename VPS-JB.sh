@@ -269,19 +269,20 @@ setup_alias() {
 
 # 自动化安装mack-a sing-box
 auto_install_macka_singbox() {
-    # 检查是否安装了python3和pexpect
-    if ! command -v python3 &> /dev/null; then
-        _yellow "正在安装Python3..."
-        apt-get update && apt-get install -y python3 python3-pip
+    # 检查是否安装了python3和pip3
+    if ! command -v python3 &> /dev/null || ! command -v pip3 &> /dev/null; then
+        _yellow "正在安装Python3和pip3..."
+        apt-get update
+        apt-get install -y python3 python3-pip python3-setuptools
         if [[ $? -ne 0 ]]; then
-            _red "安装Python3失败，请手动安装后重试"
+            _red "安装Python3或pip3失败，请手动安装后重试"
             return 1
         fi
     fi
 
     # 安装pexpect
     _yellow "正在安装pexpect..."
-    pip3 install pexpect
+    python3 -m pip install pexpect
     if [[ $? -ne 0 ]]; then
         _red "安装pexpect失败，请手动安装后重试"
         return 1
