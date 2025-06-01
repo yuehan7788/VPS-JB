@@ -345,11 +345,6 @@ expect {
         send "\r"
         exp_continue
     }
-    "请输入要配置的域名" {
-        puts "\n请输入您的域名，然后按回车："
-        interact
-        exp_continue
-    }
     "是否使用DNS API申请证书\[支持NAT\]？\[y/n\]:" {
         send "n\r"
         exp_continue
