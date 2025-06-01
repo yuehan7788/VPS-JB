@@ -322,6 +322,25 @@ send "y\r"
 expect "按回车继续"
 send "\r"
 
+# 等待域名输入提示
+expect "请输入要配置的域名"
+send "example.com\r"
+
+expect "是否使用DNS API申请证书"
+send "n\r"
+
+expect "请选择"
+send "1\r"
+
+expect "请输入自定义UUID"
+send "\r"
+
+expect "请输入自定义用户名"
+send "\r"
+
+expect "请输入自定义端口"
+send "\r"
+
 # 等待安装完成
 expect eof
 EOF
