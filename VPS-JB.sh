@@ -301,6 +301,9 @@ set timeout 300
 set env(LANG) "zh_CN.UTF-8"
 set env(LC_ALL) "zh_CN.UTF-8"
 
+# 启用调试模式
+exp_internal 1
+
 # 启动安装脚本
 spawn bash -c "curl -sL https://raw.githubusercontent.com/mack-a/v2ray-agent/master/install.sh > /tmp/mack-a.sh && bash /tmp/mack-a.sh"
 
@@ -345,28 +348,39 @@ expect {
         send "\r"
         exp_continue
     }
-    "是否使用DNS API申请证书[支持NAT]？[y/n]:" {
+    "请输入要配置的域名" {
+        puts "\n请输入您的域名，然后按回车："
+        interact
+        exp_continue
+    }
+    "是否使用DNS API申请证书\[支持NAT\]？\[y/n\]:" {
+        puts "\n匹配到DNS API提示"
         send "n\r"
         exp_continue
     }
     "请选择\[回车\]使用默认:" {
+        puts "\n匹配到证书选择提示"
         send "1\r"
         exp_continue
     }
     "请输入自定义UUID\[需合法\]，\[回车\]随机UUID" {
+        puts "\n匹配到UUID输入提示"
         send "\r"
         exp_continue
     }
     "请输入自定义用户名\[需合法\]，\[回车\]随机用户名" {
+        puts "\n匹配到用户名输入提示"
         send "\r"
         exp_continue
     }
     "请输入自定义端口\[需合法\]，端口不可重复，\[回车\]随机端口:" {
+        puts "\n匹配到端口输入提示"
         send "\r"
         exp_continue
     }
     timeout {
-        puts "等待超时，但继续执行"
+        puts "\n等待超时，当前缓冲区内容："
+        puts $expect_out(buffer)
         exp_continue
     }
 }
