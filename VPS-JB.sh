@@ -324,8 +324,9 @@ send "\r"
 
 # 等待域名输入提示
 expect "请输入要配置的域名 例: www.v2ray-agent.com ---> "
-send "example.com\r"
+interact
 
+# 继续自动化流程
 expect "是否使用DNS API申请证书"
 send "n\r"
 
@@ -350,6 +351,8 @@ EOF
 
     # 运行expect脚本
     _yellow "开始自动化安装和配置mack-a sing-box..."
+    _yellow "当提示输入域名时，请输入您的域名并按回车"
+    _yellow "输入完成后，脚本将自动继续执行"
     expect /tmp/install.exp
 
     # 清理临时文件
