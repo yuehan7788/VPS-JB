@@ -350,6 +350,26 @@ expect {
         interact
         exp_continue
     }
+    "是否使用DNS API申请证书" {
+        send "n\r"
+        exp_continue
+    }
+    "请选择\[回车\]使用默认:" {
+        send "1\r"
+        exp_continue
+    }
+    "请输入自定义UUID" {
+        send "\r"
+        exp_continue
+    }
+    "请输入自定义用户名" {
+        send "\r"
+        exp_continue
+    }
+    "请输入自定义端口" {
+        send "\r"
+        exp_continue
+    }
     timeout {
         puts "等待超时，但继续执行"
         exp_continue
