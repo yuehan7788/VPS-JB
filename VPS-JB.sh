@@ -345,7 +345,7 @@ expect {
         send "\r"
         exp_continue
     }
-    "是否使用DNS API申请证书\[支持NAT\]？\[y/n\]:" {
+    "是否使用DNS API申请证书[支持NAT]？[y/n]:" {
         send "n\r"
         exp_continue
     }
