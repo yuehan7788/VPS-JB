@@ -306,10 +306,17 @@ spawn bash -c "curl -sL https://raw.githubusercontent.com/mack-a/v2ray-agent/mas
 
 # 等待并选择选项1（安装mack-a脚本）
 expect {
-    "20.卸载脚本\r\n==============================================================\r\n请选择" { 
+    # 匹配主菜单
+    -re "-------------------------.*-------------------------.*请选择" { 
         send "1\r"
         exp_continue
     }
+    # 匹配核心选择菜单
+    -re "功能 1/1 : 选择核心安装.*2.sing-box.*请选择:" {
+        send "2\r"
+        exp_continue
+    }
+    # 匹配其他提示
     "是否继续" { 
         send "y\r"
         exp_continue
@@ -338,23 +345,10 @@ expect {
         send "\r"
         exp_continue
     }
-    "功能 1/1 : 选择核心安装" {
-        # 等待菜单完全显示
-        sleep 2
-        exp_continue
-    }
-    "2.sing-box" {
-        # 等待菜单完全显示
-        sleep 2
-        exp_continue
-    }
-    "2.sing-box\r\n==============================================================\r\n请选择:" {
-        send "2\r"  # 选择sing-box
-        exp_continue
-    }
     "请输入要配置的域名" {
-        # 暂停等待用户输入域名
+        puts "\n请输入您的域名，然后按回车："
         interact
+        exp_continue
     }
     timeout {
         puts "等待超时，但继续执行"
