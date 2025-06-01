@@ -269,124 +269,114 @@ setup_alias() {
 
 # 自动化安装mack-a sing-box
 auto_install_macka_singbox() {
-    # 检查并安装Python3和pexpect
-    _yellow "正在安装Python3和pexpect..."
+    # 检查并安装Python3
+    _yellow "正在安装Python3..."
     apt-get update
-    apt-get install -y python3 python3-pexpect
+    apt-get install -y python3
     if [[ $? -ne 0 ]]; then
-        _red "安装Python3或pexpect失败，请手动安装后重试"
+        _red "安装Python3失败，请手动安装后重试"
         return 1
     fi
 
-    # 创建Python脚本
-    cat > /tmp/install.py << 'EOF'
+    # 先安装mack-a脚本
+    _yellow "正在安装mack-a脚本..."
+    curl -sL https://raw.githubusercontent.com/mack-a/v2ray-agent/master/install.sh > /tmp/mack-a.sh
+    bash /tmp/mack-a.sh
+
+    # 创建Python脚本处理交互
+    cat > /tmp/interact.py << 'EOF'
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import pexpect
 import sys
 import time
 import os
-import locale
+import subprocess
 
-def auto_install():
+def auto_interact():
     # 设置环境变量
     os.environ['LANG'] = 'zh_CN.UTF-8'
     os.environ['LC_ALL'] = 'zh_CN.UTF-8'
     
-    # 设置默认编码
-    if sys.stdout.encoding != 'utf-8':
-        sys.stdout.reconfigure(encoding='utf-8')
+    # 启动vasma命令
+    process = subprocess.Popen(['vasma'], 
+                             stdin=subprocess.PIPE,
+                             stdout=subprocess.PIPE,
+                             stderr=subprocess.PIPE,
+                             universal_newlines=True,
+                             bufsize=1)
     
-    # 启动安装脚本
-    child = pexpect.spawn('bash -c "curl -sL https://raw.githubusercontent.com/mack-a/v2ray-agent/master/install.sh > /tmp/mack-a.sh && bash /tmp/mack-a.sh"', encoding='utf-8')
-    
-    # 设置日志
-    child.logfile = sys.stdout
-    
-    # 设置超时
-    child.timeout = 300
-    
-    # 定义匹配模式和响应
-    patterns = {
-        # 主菜单
-        r'-------------------------.*-------------------------.*请选择': '1',
-        # 核心选择菜单
-        r'功能 1/1 : 选择核心安装.*2.sing-box.*请选择:': '2',
-        # 其他提示
-        r'是否继续': 'y',
-        r'是否安装': 'y',
-        r'是否卸载': 'n',
-        r'是否删除': 'n',
-        r'是否更新': 'y',
-        r'是否重启': 'y',
-        r'按回车继续': '\r',
+    # 定义交互序列
+    interactions = [
+        # 主菜单选择
+        ('请选择', '1'),
+        # 核心选择
+        ('功能 1/1 : 选择核心安装', '2'),
+        # 其他选项
+        ('是否继续', 'y'),
+        ('是否安装', 'y'),
+        ('是否卸载', 'n'),
+        ('是否删除', 'n'),
+        ('是否更新', 'y'),
+        ('是否重启', 'y'),
+        ('按回车继续', '\n'),
         # 域名输入
-        r'请输入要配置的域名': None,  # None表示需要用户交互
+        ('请输入要配置的域名', None),  # None表示需要用户交互
         # DNS API
-        r'是否使用DNS API申请证书.*\[y/n\]:': 'n',
+        ('是否使用DNS API申请证书', 'n'),
         # 证书选择
-        r'请选择.*使用默认:': '1',
+        ('请选择', '1'),
         # UUID
-        r'请输入自定义UUID.*随机UUID': '\r',
+        ('请输入自定义UUID', '\n'),
         # 用户名
-        r'请输入自定义用户名.*随机用户名': '\r',
+        ('请输入自定义用户名', '\n'),
         # 端口
-        r'请输入自定义端口.*随机端口:': '\r'
-    }
+        ('请输入自定义端口', '\n')
+    ]
     
-    print("开始自动化安装...")
+    print("开始自动化配置...")
     
+    # 读取输出并处理
     while True:
-        try:
-            # 等待匹配
-            index = child.expect(list(patterns.keys()))
-            pattern = list(patterns.keys())[index]
-            response = patterns[pattern]
-            
-            # 打印匹配到的模式
-            print(f"\n匹配到: {pattern}")
-            
-            # 处理响应
-            if response is None:
-                print("\n请输入您的域名，然后按回车：")
-                child.interact()
-            else:
-                print(f"发送: {response}")
-                child.sendline(response)
-                
-            # 短暂延时确保输出完成
-            time.sleep(0.5)
-            
-        except pexpect.EOF:
-            print("\n安装完成")
+        output = process.stdout.readline()
+        if output == '' and process.poll() is not None:
             break
-        except pexpect.TIMEOUT:
-            print("\n等待超时，继续执行")
-            continue
-        except Exception as e:
-            print(f"\n发生错误: {str(e)}")
-            break
+        if output:
+            print(output.strip())
+            
+            # 检查是否需要交互
+            for prompt, response in interactions:
+                if prompt in output:
+                    if response is None:
+                        # 需要用户输入
+                        print("\n请输入您的域名，然后按回车：")
+                        user_input = input()
+                        process.stdin.write(user_input + '\n')
+                        process.stdin.flush()
+                    else:
+                        # 自动响应
+                        print(f"发送: {response}")
+                        process.stdin.write(response + '\n')
+                        process.stdin.flush()
+                    break
     
-    # 清理临时文件
-    try:
-        os.remove('/tmp/mack-a.sh')
-    except:
-        pass
+    # 等待进程结束
+    process.wait()
+    print("配置完成")
 
 if __name__ == '__main__':
-    auto_install()
+    auto_interact()
 EOF
 
     # 给Python脚本添加执行权限
-    chmod +x /tmp/install.py
+    chmod +x /tmp/interact.py
 
     # 运行Python脚本
-    _yellow "开始自动化安装mack-a sing-box..."
-    python3 /tmp/install.py
+    _yellow "开始自动化配置mack-a sing-box..."
+    python3 /tmp/interact.py
 
     # 清理临时文件
-    rm -f /tmp/install.py
+    rm -f /tmp/interact.py
 }
 
 # 卸载expect
