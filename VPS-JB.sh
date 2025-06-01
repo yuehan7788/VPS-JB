@@ -269,8 +269,6 @@ setup_alias() {
 
 # 自动化安装mack-a sing-box
 auto_install_macka_singbox() {
-    # 检查并安装Python3
-    _yellow "正在安装Python3..."
     apt-get update
     apt-get install -y python3
     if [[ $? -ne 0 ]]; then
@@ -278,10 +276,8 @@ auto_install_macka_singbox() {
         return 1
     fi
 
-    # 创建Python脚本处理交互
     cat > /tmp/interact.py << 'EOF'
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 import sys
 import time
@@ -289,11 +285,9 @@ import os
 import subprocess
 
 def auto_install():
-    # 设置环境变量
     os.environ['LANG'] = 'zh_CN.UTF-8'
     os.environ['LC_ALL'] = 'zh_CN.UTF-8'
     
-    # 启动安装脚本
     process = subprocess.Popen(['bash', '/tmp/mack-a.sh'],
                              stdin=subprocess.PIPE,
                              stdout=subprocess.PIPE,
@@ -301,13 +295,9 @@ def auto_install():
                              universal_newlines=True,
                              bufsize=1)
     
-    # 定义交互序列
     interactions = [
-        # 主菜单选择
-        ('请选择:', '1'),
-        # 核心选择
+        ('请选择', '1'),
         ('功能 1/1 : 选择核心安装', '2'),
-        # 其他选项
         ('是否继续', 'y'),
         ('是否安装', 'y'),
         ('是否卸载', 'n'),
@@ -315,59 +305,40 @@ def auto_install():
         ('是否更新', 'y'),
         ('是否重启', 'y'),
         ('按回车继续', '\n'),
-        # 域名输入
-        ('请输入要配置的域名', None),  # None表示需要用户交互
-        # DNS API
+        ('请输入要配置的域名', None),
         ('是否使用DNS API申请证书', 'n'),
-        # 证书选择
         ('请选择', '1'),
-        # UUID
         ('请输入自定义UUID', '\n'),
-        # 用户名
         ('请输入自定义用户名', '\n'),
-        # 端口
         ('请输入自定义端口', '\n')
     ]
     
-    # 读取输出并处理
     while True:
         output = process.stdout.readline()
         if output == '' and process.poll() is not None:
             break
         if output:
-            # 直接打印原始输出
             print(output, end='', flush=True)
             
-            # 检查是否需要交互
             for prompt, response in interactions:
-                if prompt in output:
+                if prompt in output.strip():
                     if response is None:
-                        # 需要用户输入
                         user_input = input()
                         process.stdin.write(user_input + '\n')
                         process.stdin.flush()
                     else:
-                        # 自动响应
                         process.stdin.write(response + '\n')
                         process.stdin.flush()
-                    # 添加短暂延时
                     time.sleep(0.5)
                     break
 
 if __name__ == '__main__':
-    # 下载安装脚本
     os.system('curl -sL https://raw.githubusercontent.com/mack-a/v2ray-agent/master/install.sh > /tmp/mack-a.sh')
     auto_install()
 EOF
 
-    # 给Python脚本添加执行权限
     chmod +x /tmp/interact.py
-
-    # 运行Python脚本
-    _yellow "开始自动化安装和配置mack-a sing-box..."
     python3 /tmp/interact.py
-
-    # 清理临时文件
     rm -f /tmp/interact.py
 }
 
