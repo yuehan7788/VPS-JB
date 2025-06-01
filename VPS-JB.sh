@@ -280,6 +280,11 @@ auto_install_macka_singbox() {
         fi
     fi
 
+    # 先下载安装脚本
+    _yellow "正在下载安装脚本..."
+    curl -sL https://raw.githubusercontent.com/mack-a/v2ray-agent/master/install.sh > /tmp/mack-a.sh
+    chmod +x /tmp/mack-a.sh
+
     # 创建expect脚本
     cat > /tmp/install.exp << 'EOF'
 #!/usr/bin/expect -f
@@ -289,10 +294,6 @@ log_user 0
 
 # 设置超时时间
 set timeout 300
-
-# 下载安装脚本（静默执行）
-spawn bash -c "curl -sL https://raw.githubusercontent.com/mack-a/v2ray-agent/master/install.sh > /tmp/mack-a.sh"
-expect eof
 
 # 执行安装脚本
 spawn bash /tmp/mack-a.sh
