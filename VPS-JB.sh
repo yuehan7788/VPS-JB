@@ -313,6 +313,18 @@ send "$domain\r"
 expect "是否使用DNS API申请证书"
 send "n\r"
 
+# 处理默认选项
+expect "请选择"
+expect "使用默认"
+send_user "\n按回车使用默认选项，或输入其他选项后按回车："
+expect_user -re "(.*)\n"
+set choice $expect_out(1,string)
+if {$choice == ""} {
+    send "\r"
+} else {
+    send "$choice\r"
+}
+
 # 继续处理后续步骤
 expect "是否继续"
 send "y\r"
