@@ -375,6 +375,9 @@ expect {
 expect "请输入自定义端口"
 send "\r"
 
+expect "请输入自定义端口"
+send "\r"
+
 # 处理Reality目标域名
 expect -re "是否使用 .* 此域名作为Reality目标域名 ？.*y/n"
 send "y\r"
