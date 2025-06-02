@@ -304,6 +304,7 @@ send "2\r"
 
 # 等待域名输入提示并处理用户输入
 expect "请输入要配置的域名 例: www.v2ray-agent.com ---> "
+expect "域名:"
 expect_user -re "(.*)\n"
 set domain $expect_out(1,string)
 send "$domain\r"
