@@ -203,18 +203,23 @@ setup_alias() {
         # 首次安装时设置中文环境
         _yellow "正在设置中文环境..."
         
-        # 等待所有apt和dpkg锁释放
-        while true; do
-            if [[ -f /var/lib/apt/lists/lock ]] || \
-               [[ -f /var/cache/apt/archives/lock ]] || \
-               [[ -f /var/lib/dpkg/lock ]] || \
-               [[ -f /var/lib/dpkg/lock-frontend ]]; then
-                _yellow "等待系统包管理器解锁..."
-                sleep 5
-            else
-                break
-            fi
-        done
+        # 直接强制解锁
+        _yellow "正在强制解锁系统包管理器..."
+        
+        # 强制结束apt和dpkg进程
+        pkill -9 apt
+        pkill -9 dpkg
+        
+        # 删除锁文件
+        rm -f /var/lib/apt/lists/lock
+        rm -f /var/cache/apt/archives/lock
+        rm -f /var/lib/dpkg/lock
+        rm -f /var/lib/dpkg/lock-frontend
+        
+        # 重新配置dpkg
+        dpkg --configure -a
+        
+        _green "强制解锁完成，继续安装..."
         
         # 安装中文语言包
         apt-get update
