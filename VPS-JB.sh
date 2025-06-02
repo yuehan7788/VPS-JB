@@ -273,11 +273,25 @@ auto_install_macka_singbox() {
     # 检查并安装expect
     if ! command -v expect &> /dev/null; then
         _yellow "正在安装expect..."
+        
+        # 检查是否有其他apt进程在运行
+        if pgrep -x "apt-get" > /dev/null || pgrep -x "apt" > /dev/null; then
+            _yellow "检测到其他apt进程正在运行，等待30秒..."
+            sleep 30
+        fi
+        
+        # 尝试安装expect
         apt-get update
-        apt-get install -y expect
-        if [[ $? -ne 0 ]]; then
-            _red "安装expect失败，请手动安装后重试"
-            return 1
+        if ! apt-get install -y expect; then
+            _yellow "尝试修复apt锁..."
+            # 等待一段时间后重试
+            sleep 5
+            if ! apt-get install -y expect; then
+                _red "安装expect失败，请等待其他apt进程完成后重试"
+                _yellow "您可以使用以下命令查看正在运行的apt进程："
+                _yellow "ps aux | grep apt"
+                return 1
+            fi
         fi
     fi
 
