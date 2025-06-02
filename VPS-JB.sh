@@ -309,6 +309,10 @@ expect_user -re "(.*)\n"
 set domain $expect_out(1,string)
 send "$domain\r"
 
+# 处理DNS API证书申请
+expect "是否使用DNS API申请证书"
+send "n\r"
+
 # 继续处理后续步骤
 expect "是否继续"
 send "y\r"
