@@ -203,10 +203,17 @@ setup_alias() {
         # 首次安装时设置中文环境
         _yellow "正在设置中文环境..."
         
-        # 等待debconf解锁
-        while [ -f /var/cache/debconf/config.dat.lock ]; do
-            _yellow "等待debconf解锁..."
-            sleep 5
+        # 等待所有apt和dpkg锁释放
+        while true; do
+            if [[ -f /var/lib/apt/lists/lock ]] || \
+               [[ -f /var/cache/apt/archives/lock ]] || \
+               [[ -f /var/lib/dpkg/lock ]] || \
+               [[ -f /var/lib/dpkg/lock-frontend ]]; then
+                _yellow "等待系统包管理器解锁..."
+                sleep 5
+            else
+                break
+            fi
         done
         
         # 安装中文语言包
