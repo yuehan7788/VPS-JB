@@ -325,6 +325,10 @@ if {$choice == ""} {
     send "$choice\r"
 }
 
+# 处理UUID
+expect "UUID:"
+send "\r"
+
 # 继续处理后续步骤
 expect "是否继续"
 send "y\r"
@@ -406,6 +410,15 @@ uninstall_macka_singbox() {
     
     # 清理expect相关文件
     rm -f /tmp/install.exp
+    
+    # 删除acme相关配置
+    _yellow "正在删除acme相关配置..."
+    if [[ -d "/root/.acme.sh" ]]; then
+        rm -rf /root/.acme.sh
+        _green "acme配置已删除"
+    else
+        _yellow "未找到acme配置目录"
+    fi
     
     _green "mack-a sing-box卸载完成！"
 }
