@@ -323,24 +323,27 @@ auto_install_macka_singbox() {
     if ! command -v expect &> /dev/null; then
         _yellow "正在安装expect..."
         
-        # 检查是否有其他apt进程在运行
-        if pgrep -x "apt-get" > /dev/null || pgrep -x "apt" > /dev/null; then
-            _yellow "检测到其他apt进程正在运行，等待30秒..."
-            sleep 30
-        fi
+        # 直接强制解锁
+        _yellow "正在强制解锁系统包管理器..."
+        
+        # 强制结束apt和dpkg进程
+        pkill -9 apt
+        pkill -9 dpkg
+        
+        # 删除锁文件
+        rm -f /var/lib/apt/lists/lock
+        rm -f /var/cache/apt/archives/lock
+        rm -f /var/lib/dpkg/lock
+        rm -f /var/lib/dpkg/lock-frontend
+        
+        # 重新配置dpkg
+        dpkg --configure -a
         
         # 尝试安装expect
         DEBIAN_FRONTEND=noninteractive apt-get update
         if ! DEBIAN_FRONTEND=noninteractive apt-get install -y expect; then
-            _yellow "尝试修复apt锁..."
-            # 等待一段时间后重试
-            sleep 5
-            if ! DEBIAN_FRONTEND=noninteractive apt-get install -y expect; then
-                _red "安装expect失败，请等待其他apt进程完成后重试"
-                _yellow "您可以使用以下命令查看正在运行的apt进程："
-                _yellow "ps aux | grep apt"
-                return 1
-            fi
+            _red "安装expect失败，请检查系统状态后重试"
+            return 1
         fi
     fi
 
