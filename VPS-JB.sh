@@ -274,7 +274,9 @@ auto_install_macka_singbox() {
     if ! command -v expect &> /dev/null; then
         _yellow "正在安装expect..."
         apt-get update
-        apt-get install -y expect
+        apt-get install -y expect << EOF
+\r
+EOF
         if [[ $? -ne 0 ]]; then
             _red "安装expect失败，请手动安装后重试"
             return 1
@@ -398,9 +400,7 @@ send "\r"
 expect "请选择:"
 send "\r"
 
-# 处理内核更新OK提示
-expect -re "Pending kernel upgrade.*<Ok>"
-send "\r"
+
 
 # 处理端口输入
 expect "请输入自定义端口"
