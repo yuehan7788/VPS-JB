@@ -398,8 +398,8 @@ expect {
         send "y\r"
         exp_continue
     }
-    "开始添加伪装站点" {
-        send "n\r"
+    "检测到安装伪装站点，是否需要重新安装.*y/n" {
+        send "y\r"
         # 直接退出当前expect块，继续下一个步骤
     }
 }
@@ -442,11 +442,15 @@ send "\r"
 expect "请输入自定义端口"
 send "\r"
 
-# 第 20 步:处理上次安装记录
+# 第 20 步:处理端口输入
+expect "请输入自定义端口"
+send "\r"
+
+# 第 21 步:处理上次安装记录
 expect -re "读取到上次安装记录.*path路径.*y/n"
 send "y\r"
 
-# 第 21 步:继续处理后续步骤
+# 第 22 步:继续处理后续步骤
 expect "是否继续"
 send "y\r"
 
@@ -468,7 +472,7 @@ send "y\r"
 expect "按回车继续"
 send "\r"
 
-# 第 22 步:处理内核更新OK提示（放在最后）
+# 第 23 步:处理内核更新OK提示（放在最后）
 expect -re "Pending kernel upgrade.*<Ok>"
 send "\r"
 
