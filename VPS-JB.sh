@@ -274,7 +274,13 @@ auto_install_macka_singbox() {
     if ! command -v expect &> /dev/null; then
         _yellow "正在安装expect..."
         apt-get update
-        DEBIAN_FRONTEND=noninteractive apt-get install -y expect
+        # 使用expect处理安装过程
+        expect << 'EOF'
+spawn apt-get install -y expect
+expect "Pending kernel upgrade"
+send "\r"
+expect eof
+EOF
         if [[ $? -ne 0 ]]; then
             _red "安装expect失败，请手动安装后重试"
             return 1
