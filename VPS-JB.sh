@@ -404,9 +404,7 @@ send "\r"
 expect "请选择:"
 send "\r"
 
-# 处理内核更新OK提示
-expect -re "Pending kernel upgrade.*<Ok>"
-send "\r"
+
 
 # 处理端口输入
 expect "请输入自定义端口"
