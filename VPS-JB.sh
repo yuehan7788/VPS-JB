@@ -354,8 +354,6 @@ send "\r"
 expect -re "读取到上次安装记录.*path路径.*y/n"
 send "y\r"
 
-
-
 # 处理Reality目标域名
 expect -re "是否使用 .* 此域名作为Reality目标域名 ？.*y/n"
 send "y\r"
@@ -363,7 +361,6 @@ send "y\r"
 # 处理端口输入
 expect "请输入自定义端口"
 send "\r"
-
 
 expect "请输入自定义端口"
 send "\r"
@@ -399,6 +396,10 @@ send "\r"
 
 # 处理选择
 expect "请选择:"
+send "\r"
+
+# 处理内核更新OK提示
+expect -re "Pending kernel upgrade.*<Ok>"
 send "\r"
 
 # 处理端口输入
