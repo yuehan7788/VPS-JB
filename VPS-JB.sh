@@ -336,64 +336,63 @@ expect_before {
     eof { exit }
 }
 
-# 处理交互
+# 第 1 步:处理交互
 expect "请选择:"
 send "1\r"
 
 expect "请选择:"
 send "2\r"
 
-# 等待域名输入提示并处理用户输入
+# 第 2 步:等待域名输入提示并处理用户输入
 expect "请输入要配置的域名 例: www.v2ray-agent.com ---> "
 expect_user -re "(.*)\n"
 set domain $expect_out(1,string)
 send "$domain\r"
 
-# 处理DNS API证书申请
+# 第 3 步:处理DNS API证书申请
 expect -re "是否使用DNS API申请证书.*y/n"
 send "n\r"
 
-# 处理默认选项
+# 第 4 步:处理默认选项
 expect "请选择"
 expect "使用默认"
 send "\r"
 
-# 处理UUID和用户名
+# 第 5 步:处理UUID和用户名
 expect "UUID:"
 send "\r"
 
 expect "用户名:"
 send "\r"
 
-# 处理端口输入
+# 第 6 步:处理端口输入
 expect "请输入自定义端口"
 send "\r"
 
 expect "请输入自定义端口"
 send "\r"
 
-# 处理路径
+# 第 7 步:处理路径
 expect "路径:"
 send "\r"
 
-# 处理端口输入
+# 第 8 步:处理端口输入
 expect "请输入自定义端口"
 send "\r"
 
-# 处理上次安装记录
+# 第 9 步:处理上次安装记录
 expect -re "读取到上次安装记录.*path路径.*y/n"
 send "y\r"
 
-# 处理Reality目标域名
+# 第 10 步:处理Reality目标域名
 expect -re "是否使用 .* 此域名作为Reality目标域名 ？.*y/n"
 send "y\r"
 
-# 处理端口输入
+# 第 11 步:处理端口输入
 expect "请输入自定义端口"
 send "\r"
 
-
-# 处理伪装站点安装检测（可选）
+# 第 12 步:处理伪装站点安装检测（可选）
 expect {
     -re "检测到安装伪装站点，是否需要重新安装.*y/n" {
         send "y\r"
@@ -404,54 +403,55 @@ expect {
     }
 }
 
-# 处理端口输入
+# 第 13 步:处理端口输入
 expect "请输入自定义端口"
 send "\r"
 
 expect "请输入自定义端口"
 send "\r"
 
-# 处理Reality目标域名
+# 第 14 步:处理Reality目标域名
 expect -re "是否使用 .* 此域名作为Reality目标域名 ？.*y/n"
 send "y\r"
 
-# 处理端口输入
+# 第 15 步:处理端口输入
 expect "请输入自定义端口"
 send "\r"
 
 expect "请输入自定义端口"
 send "\r"
 
-# 处理速度设置
+# 第 16 步:处理速度设置
 expect "下行速度:"
 send "10000\r"
 
 expect "上行速度:"
 send "50\r"
 
-# 处理端口输入
+# 第 17 步:处理端口输入
 expect "请输入自定义端口"
 send "\r"
 
 expect "请输入自定义端口"
 send "\r"
 
-# 处理选择
+# 第 18 步:处理选择
 expect "请选择:"
 send "\r"
 
-# 处理端口输入
+# 第 19 步:处理内核更新OK提示
+expect -re "Pending kernel upgrade.*<Ok>"
+send "\r"
+
+# 第 20 步:处理端口输入
 expect "请输入自定义端口"
 send "\r"
 
-expect "请输入自定义端口"
-send "\r"
-
-# 处理上次安装记录
+# 第 21 步:处理上次安装记录
 expect -re "读取到上次安装记录.*path路径.*y/n"
 send "y\r"
 
-# 继续处理后续步骤
+# 第 22 步:继续处理后续步骤
 expect "是否继续"
 send "y\r"
 
