@@ -399,6 +399,7 @@ expect {
         exp_continue
     }
     "开始添加伪装站点" {
+        send "n\r"
         # 直接退出当前expect块，继续下一个步骤
     }
 }
