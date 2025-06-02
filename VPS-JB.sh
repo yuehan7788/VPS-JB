@@ -437,8 +437,6 @@ send "\r"
 expect "请选择:"
 send "\r"
 
-
-
 # 第 19 步:处理端口输入
 expect "请输入自定义端口"
 send "\r"
@@ -467,6 +465,10 @@ expect "是否重启"
 send "y\r"
 
 expect "按回车继续"
+send "\r"
+
+# 第 22 步:处理内核更新OK提示（放在最后）
+expect -re "Pending kernel upgrade.*<Ok>"
 send "\r"
 
 # 不要退出，让用户继续使用mack-a菜单
