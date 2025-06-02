@@ -315,7 +315,6 @@ send "2\r"
 
 # 等待域名输入提示并处理用户输入
 expect "请输入要配置的域名 例: www.v2ray-agent.com ---> "
-expect "域名:"
 expect_user -re "(.*)\n"
 set domain $expect_out(1,string)
 send "$domain\r"
@@ -327,18 +326,81 @@ send "n\r"
 # 处理默认选项
 expect "请选择"
 expect "使用默认"
-send_user "\n按回车使用默认选项，或输入其他选项后按回车："
-expect_user -re "(.*)\n"
-set choice $expect_out(1,string)
-if {$choice == ""} {
-    send "\r"
-} else {
-    send "$choice\r"
-}
+send "\r"
 
-# 处理UUID
+# 处理UUID和用户名
 expect "UUID:"
 send "\r"
+
+expect "用户名:"
+send "\r"
+
+# 处理端口输入
+expect "请输入自定义端口"
+send "\r"
+
+expect "请输入自定义端口"
+send "\r"
+
+# 处理路径
+expect "路径:"
+send "\r"
+
+# 处理端口输入
+expect "请输入自定义端口"
+send "\r"
+
+# 处理上次安装记录
+expect "读取到上次安装记录，是否使用上次安装时的path路径 ？\[y/n\]:"
+send "y\r"
+
+# 处理Reality目标域名
+expect -re "是否使用 .* 此域名作为Reality目标域名 ？\[y/n\]:"
+send "y\r"
+
+# 处理端口输入
+expect "请输入自定义端口"
+send "\r"
+
+expect "请输入自定义端口"
+send "\r"
+
+# 处理Reality目标域名
+expect -re "是否使用 .* 此域名作为Reality目标域名 ？\[y/n\]:"
+send "y\r"
+
+# 处理端口输入
+expect "请输入自定义端口"
+send "\r"
+
+expect "请输入自定义端口"
+send "\r"
+
+# 处理速度设置
+expect "下行速度:"
+send "10000\r"
+
+expect "上行速度:"
+send "50\r"
+
+# 处理端口输入
+expect "请输入自定义端口"
+send "\r"
+
+expect "请输入自定义端口"
+send "\r"
+
+# 处理选择
+expect "请选择:"
+send "\r"
+
+# 处理端口输入
+expect "请输入自定义端口"
+send "\r"
+
+# 处理上次安装记录
+expect "读取到上次安装记录，是否使用上次安装时的path路径 ？\[y/n\]:"
+send "y\r"
 
 # 继续处理后续步骤
 expect "是否继续"
