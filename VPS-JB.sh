@@ -295,24 +295,16 @@ auto_install_macka_singbox() {
         fi
     fi
 
-    # 检查并安装中文语言包
-    _yellow "正在检查并安装中文语言包..."
-    apt-get update
-    apt-get install -y language-pack-zh-hans language-pack-zh-hans-base
-    locale-gen zh_CN.UTF-8
-    update-locale LANG=zh_CN.UTF-8 LC_ALL=zh_CN.UTF-8
-
-    # 检查并处理dpkg锁
-    _yellow "正在检查dpkg锁状态..."
-    if [[ -f /var/lib/dpkg/lock-frontend ]]; then
-        _yellow "发现dpkg锁，正在处理..."
-        rm -f /var/lib/dpkg/lock-frontend
-        rm -f /var/lib/dpkg/lock
-        dpkg --configure -a
+    # 在启动时就提示用户输入域名
+    _yellow "请输入要配置的域名 (例如: www.v2ray-agent.com): "
+    read domain
+    if [[ -z "$domain" ]]; then
+        _red "域名不能为空"
+        return 1
     fi
 
     # 创建expect脚本
-    cat > /tmp/install.exp << 'EOF'
+    cat > /tmp/install.exp << EOF
 #!/usr/bin/expect -f
 
 # 设置超时时间
@@ -322,6 +314,9 @@ set timeout 300
 set env(LANG) "zh_CN.UTF-8"
 set env(LC_ALL) "zh_CN.UTF-8"
 
+# 设置域名变量
+set domain "$domain"
+
 # 启动安装脚本
 spawn bash -c "curl -sL https://raw.githubusercontent.com/mack-a/v2ray-agent/master/install.sh > /tmp/mack-a.sh && bash /tmp/mack-a.sh"
 
@@ -330,7 +325,7 @@ expect_before {
     timeout {
         # 当超时时，允许用户输入
         expect_user -re "(.*)\n"
-        send "$expect_out(1,string)\r"
+        send "\$expect_out(1,string)\r"
         exp_continue
     }
     eof { exit }
@@ -343,11 +338,9 @@ send "1\r"
 expect "请选择:"
 send "2\r"
 
-# 第 2 步:等待域名输入提示并处理用户输入
+# 第 2 步:使用预先输入的域名
 expect "请输入要配置的域名 例: www.v2ray-agent.com ---> "
-expect_user -re "(.*)\n"
-set domain $expect_out(1,string)
-send "$domain\r"
+send "\$domain\r"
 
 # 第 3 步:处理DNS API证书申请
 expect -re "是否使用DNS API申请证书.*y/n"
