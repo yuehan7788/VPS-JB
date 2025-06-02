@@ -274,8 +274,7 @@ auto_install_macka_singbox() {
     if ! command -v expect &> /dev/null; then
         _yellow "正在安装expect..."
         apt-get update
-        # 使用bash -c执行命令
-        bash -c 'yes | apt-get install -y expect'
+        apt-get install -y expect
         if [[ $? -ne 0 ]]; then
             _red "安装expect失败，请手动安装后重试"
             return 1
@@ -399,7 +398,9 @@ send "\r"
 expect "请选择:"
 send "\r"
 
-
+# 处理内核更新OK提示
+expect -re "Pending kernel upgrade.*<Ok>"
+send "\r"
 
 # 处理端口输入
 expect "请输入自定义端口"
@@ -475,21 +476,41 @@ uninstall_expect() {
 uninstall_macka_singbox() {
     _yellow "开始卸载mack-a sing-box..."
     
-    # 检查mack-a脚本是否存在
-    if [[ -f "/tmp/mack-a.sh" ]]; then
-        _yellow "正在执行卸载命令..."
-        bash /tmp/mack-a.sh --uninstall
-        rm -f /tmp/mack-a.sh
-    else
-        _yellow "正在下载mack-a脚本..."
-        curl -sL https://raw.githubusercontent.com/mack-a/v2ray-agent/master/install.sh > /tmp/mack-a.sh
-        chmod +x /tmp/mack-a.sh
-        bash /tmp/mack-a.sh --uninstall
-        rm -f /tmp/mack-a.sh
-    fi
-    
-    # 清理expect相关文件
-    rm -f /tmp/install.exp
+    # 创建expect脚本处理卸载
+    cat > /tmp/uninstall.exp << 'EOF'
+#!/usr/bin/expect -f
+
+# 设置超时时间
+set timeout 300
+
+# 设置中文环境
+set env(LANG) "zh_CN.UTF-8"
+set env(LC_ALL) "zh_CN.UTF-8"
+
+# 启动卸载脚本
+spawn bash -c "curl -sL https://raw.githubusercontent.com/mack-a/v2ray-agent/master/install.sh > /tmp/mack-a.sh && bash /tmp/mack-a.sh"
+
+# 处理交互
+expect "请选择:"
+send "20\r"
+
+expect "是否卸载"
+send "y\r"
+
+# 等待卸载完成
+expect eof
+EOF
+
+    # 给expect脚本添加执行权限
+    chmod +x /tmp/uninstall.exp
+
+    # 运行卸载脚本
+    _yellow "正在执行卸载命令..."
+    expect /tmp/uninstall.exp
+
+    # 清理临时文件
+    rm -f /tmp/uninstall.exp
+    rm -f /tmp/mack-a.sh
     
     # 删除acme相关配置
     _yellow "正在删除acme相关配置..."
