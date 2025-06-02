@@ -451,6 +451,9 @@ EOF
 
     # 清理临时文件
     rm -f /tmp/install.exp
+    
+    # 安装完成后直接退出到shell
+    exec bash
 }
 
 # 卸载expect
