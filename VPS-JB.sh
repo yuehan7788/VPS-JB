@@ -383,8 +383,14 @@ send "\r"
 expect {
     -re "检测到安装伪装站点，是否需要重新安装.*y/n" {
         send "y\r"
+        exp_continue
     }
-    exp_continue
+    "开始添加伪装站点" {
+        exp_continue
+    }
+    "请输入自定义端口" {
+        send "\r"
+    }
 }
 
 # 处理端口输入
