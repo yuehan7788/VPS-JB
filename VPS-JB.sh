@@ -66,6 +66,7 @@ show_menu() {
     echo -e "${yellow}6.${none} 脚本信息"
     echo -e "${yellow}7.${none} 自动化安装 mack-a sing-box"
     echo -e "${yellow}8.${none} 卸载expect工具"
+    echo -e "${yellow}9.${none} 一键卸载mack-a sing-box和VPS-JB脚本"
     echo -e "${yellow}0.${none} 退出"
     echo -e "${cyan}========================================${none}"
     echo -n "请输入选项 [0-9]: "
@@ -369,6 +370,29 @@ uninstall_expect() {
     fi
 }
 
+# 卸载mack-a sing-box
+uninstall_macka_singbox() {
+    _yellow "开始卸载mack-a sing-box..."
+    
+    # 检查mack-a脚本是否存在
+    if [[ -f "/tmp/mack-a.sh" ]]; then
+        _yellow "正在执行卸载命令..."
+        bash /tmp/mack-a.sh --uninstall
+        rm -f /tmp/mack-a.sh
+    else
+        _yellow "正在下载mack-a脚本..."
+        curl -sL https://raw.githubusercontent.com/mack-a/v2ray-agent/master/install.sh > /tmp/mack-a.sh
+        chmod +x /tmp/mack-a.sh
+        bash /tmp/mack-a.sh --uninstall
+        rm -f /tmp/mack-a.sh
+    fi
+    
+    # 清理expect相关文件
+    rm -f /tmp/install.exp
+    
+    _green "mack-a sing-box卸载完成！"
+}
+
 # 主函数
 main() {
     # 检查是否是首次安装
@@ -417,6 +441,14 @@ main() {
                 ;;
             8)
                 uninstall_expect
+                ;;
+            9)
+                _yellow "开始一键卸载..."
+                uninstall_macka_singbox
+                uninstall_script
+                uninstall_expect
+                _green "所有组件已卸载完成，程序将退出"
+                exit 0
                 ;;
             0)
                 _green "感谢使用，再见！"
