@@ -458,8 +458,18 @@ expect "按回车继续"
 send "\r"
 
 # 第 23 步:处理内核更新OK提示（放在最后）
-expect -re "Pending kernel upgrade.*<Ok>"
+expect -re "<Ok>"
 send "\r"
+
+# 第 24 步:自动选择mack-a菜单选项
+expect "请选择:"
+send "2\r"
+
+expect "请选择:"
+send "7\r"
+
+expect "请选择:"
+send "2\r"
 
 # 不要退出，让用户继续使用mack-a菜单
 interact
