@@ -278,6 +278,16 @@ auto_install_macka_singbox() {
 
     # 检查并安装expect
     if ! command -v expect &> /dev/null; then
+        _yellow "正在更新系统并处理内核更新..."
+        
+        # 更新系统
+        apt-get update
+        apt-get upgrade -y
+        
+        # 处理内核更新
+        apt-get install -y linux-image-generic
+        apt-get autoremove -y
+        
         _yellow "正在安装expect..."
         
         # 检查是否有其他apt进程在运行
