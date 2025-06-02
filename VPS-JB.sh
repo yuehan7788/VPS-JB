@@ -492,7 +492,7 @@ spawn bash -c "curl -sL https://raw.githubusercontent.com/mack-a/v2ray-agent/mas
 expect "请选择:"
 send "20\r"
 
-expect "是否卸载"
+expect -re "是否确认卸载安装内容？.*y/n"
 send "y\r"
 
 # 等待卸载完成
