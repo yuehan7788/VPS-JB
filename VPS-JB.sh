@@ -324,37 +324,6 @@ auto_install_macka_singbox() {
 
     # 检查并安装expect
     if ! command -v expect &> /dev/null; then
-        _yellow "正在设置系统配置apt配置..."
-        
-        # 等待debconf解锁
-        while [ -f /var/cache/debconf/config.dat.lock ]; do
-            _yellow "等待debconf解锁..."
-            sleep 5
-        done
-        
-        # 安装中文语言包
-        apt-get update
-        DEBIAN_FRONTEND=noninteractive apt-get install -y locales language-pack-zh-hans
-        
-        # 生成中文语言环境
-        locale-gen zh_CN.UTF-8
-        dpkg-reconfigure -f noninteractive locales
-        
-        # 设置中文环境
-        export LANG=zh_CN.UTF-8
-        export LC_ALL=zh_CN.UTF-8
-        export LANGUAGE=zh_CN:zh
-        
-        # 设置系统默认语言
-        update-locale LANG=zh_CN.UTF-8 LC_ALL=zh_CN.UTF-8
-        
-        # 禁用apt配置对话框
-        export DEBIAN_FRONTEND=noninteractive
-        echo '* libraries/restart-without-asking boolean true' | debconf-set-selections
-        echo 'kernel-package kernel-package/install-headers boolean true' | debconf-set-selections
-        echo 'kernel-package kernel-package/install-image boolean true' | debconf-set-selections
-        echo 'debconf debconf/frontend select noninteractive' | debconf-set-selections
-        
         _yellow "正在安装expect..."
         
         # 检查是否有其他apt进程在运行
@@ -384,10 +353,6 @@ auto_install_macka_singbox() {
 
 # 设置超时时间
 set timeout 300
-
-# 设置中文环境
-set env(LANG) "zh_CN.UTF-8"
-set env(LC_ALL) "zh_CN.UTF-8"
 
 # 设置域名变量
 set domain "$domain"
