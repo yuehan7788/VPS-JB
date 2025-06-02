@@ -437,8 +437,8 @@ send "y\r"
 expect "按回车继续"
 send "\r"
 
-# 等待安装完成
-expect eof
+# 不要退出，让用户继续使用mack-a菜单
+interact
 EOF
 
     # 给expect脚本添加执行权限
