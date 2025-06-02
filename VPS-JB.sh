@@ -292,6 +292,17 @@ set timeout 300
 set env(LANG) "zh_CN.UTF-8"
 set env(LC_ALL) "zh_CN.UTF-8"
 
+# 设置交互模式，允许用户输入
+interact {
+    # 当用户输入时，直接发送到程序
+    -re ".*" {
+        send "$expect_out(0,string)\r"
+        exp_continue
+    }
+    # 当程序结束时退出
+    eof { exit }
+}
+
 # 启动安装脚本
 spawn bash -c "curl -sL https://raw.githubusercontent.com/mack-a/v2ray-agent/master/install.sh > /tmp/mack-a.sh && bash /tmp/mack-a.sh"
 
@@ -350,17 +361,6 @@ send "y\r"
 
 expect "按回车继续"
 send "\r"
-
-# 设置交互模式，允许用户输入
-interact {
-    # 当用户输入时，直接发送到程序
-    -re ".*" {
-        send "$expect_out(0,string)\r"
-        exp_continue
-    }
-    # 当程序结束时退出
-    eof { exit }
-}
 
 # 等待安装完成
 expect eof
