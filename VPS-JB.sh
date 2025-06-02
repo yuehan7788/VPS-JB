@@ -292,6 +292,15 @@ set timeout 300
 set env(LANG) "zh_CN.UTF-8"
 set env(LC_ALL) "zh_CN.UTF-8"
 
+# 设置通用输入处理
+proc handle_unexpected_input {} {
+    global spawn_id
+    expect_user -re "(.*)\n"
+    set input $expect_out(1,string)
+    send "$input\r"
+    return
+}
+
 # 启动安装脚本
 spawn bash -c "curl -sL https://raw.githubusercontent.com/mack-a/v2ray-agent/master/install.sh > /tmp/mack-a.sh && bash /tmp/mack-a.sh"
 
@@ -350,6 +359,12 @@ send "y\r"
 
 expect "按回车继续"
 send "\r"
+
+# 设置通用输入处理
+expect_before {
+    timeout { handle_unexpected_input }
+    eof { exit }
+}
 
 # 等待安装完成
 expect eof
