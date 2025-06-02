@@ -199,6 +199,40 @@ setup_alias() {
         # 显示下载文件大小
         local file_size=$(stat -c%s "$system_script" 2>/dev/null || stat -f%z "$system_script" 2>/dev/null)
         _green "下载完成，文件大小: ${file_size} 字节"
+        
+        # 首次安装时设置中文环境
+        _yellow "正在设置中文环境..."
+        
+        # 等待debconf解锁
+        while [ -f /var/cache/debconf/config.dat.lock ]; do
+            _yellow "等待debconf解锁..."
+            sleep 5
+        done
+        
+        # 安装中文语言包
+        apt-get update
+        DEBIAN_FRONTEND=noninteractive apt-get install -y locales language-pack-zh-hans
+        
+        # 生成中文语言环境
+        locale-gen zh_CN.UTF-8
+        dpkg-reconfigure -f noninteractive locales
+        
+        # 设置中文环境
+        export LANG=zh_CN.UTF-8
+        export LC_ALL=zh_CN.UTF-8
+        export LANGUAGE=zh_CN:zh
+        
+        # 设置系统默认语言
+        update-locale LANG=zh_CN.UTF-8 LC_ALL=zh_CN.UTF-8
+        
+        # 禁用apt配置对话框
+        export DEBIAN_FRONTEND=noninteractive
+        echo '* libraries/restart-without-asking boolean true' | debconf-set-selections
+        echo 'kernel-package kernel-package/install-headers boolean true' | debconf-set-selections
+        echo 'kernel-package kernel-package/install-image boolean true' | debconf-set-selections
+        echo 'debconf debconf/frontend select noninteractive' | debconf-set-selections
+        
+        _green "中文环境设置完成！"
     elif [[ "$show_info" != "true" ]]; then
         return 0  # 如果不是首次安装且不需要显示信息，直接返回
     else
