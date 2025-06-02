@@ -278,15 +278,12 @@ auto_install_macka_singbox() {
 
     # 检查并安装expect
     if ! command -v expect &> /dev/null; then
-        _yellow "正在更新系统并处理内核更新..."
+        _yellow "正在设置系统配置..."
         
-        # 更新系统
-        apt-get update
-        apt-get upgrade -y
-        
-        # 处理内核更新
-        apt-get install -y linux-image-generic
-        apt-get autoremove -y
+        # 禁用内核更新对话框
+        echo '* libraries/restart-without-asking boolean true' | debconf-set-selections
+        echo 'kernel-package kernel-package/install-headers boolean true' | debconf-set-selections
+        echo 'kernel-package kernel-package/install-image boolean true' | debconf-set-selections
         
         _yellow "正在安装expect..."
         
