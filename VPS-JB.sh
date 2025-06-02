@@ -270,9 +270,7 @@ setup_alias() {
 
 # 自动化安装mack-a sing-box
 auto_install_macka_singbox() {
-    # 在检查expect之前提示输入域名
-    _yellow "请输入要配置的域名 (例如: www.v2ray-agent.com): "
-    read domain
+    local domain=$1
     if [[ -z "$domain" ]]; then
         _red "域名不能为空"
         return 1
@@ -602,7 +600,15 @@ main() {
                 exec bash
                 ;;
             7)
-                auto_install_macka_singbox
+                # 在选项7执行时立即提示输入域名
+                _yellow "请输入要配置的域名 (例如: www.v2ray-agent.com): "
+                read domain
+                if [[ -z "$domain" ]]; then
+                    _red "域名不能为空"
+                    continue
+                fi
+                # 传递域名参数给auto_install_macka_singbox函数
+                auto_install_macka_singbox "$domain"
                 ;;
             8)
                 uninstall_expect
