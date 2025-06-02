@@ -278,12 +278,14 @@ auto_install_macka_singbox() {
 
     # 检查并安装expect
     if ! command -v expect &> /dev/null; then
-        _yellow "正在设置系统配置..."
+        _yellow "正在设置系统配置apt配置..."
         
-        # 禁用内核更新对话框
+        # 禁用apt配置对话框
+        export DEBIAN_FRONTEND=noninteractive
         echo '* libraries/restart-without-asking boolean true' | debconf-set-selections
         echo 'kernel-package kernel-package/install-headers boolean true' | debconf-set-selections
         echo 'kernel-package kernel-package/install-image boolean true' | debconf-set-selections
+        echo 'debconf debconf/frontend select noninteractive' | debconf-set-selections
         
         _yellow "正在安装expect..."
         
@@ -294,12 +296,12 @@ auto_install_macka_singbox() {
         fi
         
         # 尝试安装expect
-        apt-get update
-        if ! apt-get install -y expect; then
+        DEBIAN_FRONTEND=noninteractive apt-get update
+        if ! DEBIAN_FRONTEND=noninteractive apt-get install -y expect; then
             _yellow "尝试修复apt锁..."
             # 等待一段时间后重试
             sleep 5
-            if ! apt-get install -y expect; then
+            if ! DEBIAN_FRONTEND=noninteractive apt-get install -y expect; then
                 _red "安装expect失败，请等待其他apt进程完成后重试"
                 _yellow "您可以使用以下命令查看正在运行的apt进程："
                 _yellow "ps aux | grep apt"
