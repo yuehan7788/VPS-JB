@@ -292,6 +292,9 @@ set timeout 300
 set env(LANG) "zh_CN.UTF-8"
 set env(LC_ALL) "zh_CN.UTF-8"
 
+# 启动安装脚本
+spawn bash -c "curl -sL https://raw.githubusercontent.com/mack-a/v2ray-agent/master/install.sh > /tmp/mack-a.sh && bash /tmp/mack-a.sh"
+
 # 设置交互模式，允许用户输入
 interact {
     # 当用户输入时，直接发送到程序
@@ -302,9 +305,6 @@ interact {
     # 当程序结束时退出
     eof { exit }
 }
-
-# 启动安装脚本
-spawn bash -c "curl -sL https://raw.githubusercontent.com/mack-a/v2ray-agent/master/install.sh > /tmp/mack-a.sh && bash /tmp/mack-a.sh"
 
 # 处理交互
 expect "请选择:"
