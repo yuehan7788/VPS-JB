@@ -295,14 +295,14 @@ set env(LC_ALL) "zh_CN.UTF-8"
 # 启动安装脚本
 spawn bash -c "curl -sL https://raw.githubusercontent.com/mack-a/v2ray-agent/master/install.sh > /tmp/mack-a.sh && bash /tmp/mack-a.sh"
 
-# 设置交互模式，允许用户输入
-interact {
-    # 当用户输入时，直接发送到程序
-    -re ".*" {
-        send "$expect_out(0,string)\r"
+# 设置通用输入处理
+expect_before {
+    timeout {
+        # 当超时时，允许用户输入
+        expect_user -re "(.*)\n"
+        send "$expect_out(1,string)\r"
         exp_continue
     }
-    # 当程序结束时退出
     eof { exit }
 }
 
