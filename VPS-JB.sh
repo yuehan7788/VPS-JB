@@ -354,6 +354,8 @@ send "\r"
 expect -re "读取到上次安装记录.*path路径.*y/n"
 send "y\r"
 
+
+
 # 处理Reality目标域名
 expect -re "是否使用 .* 此域名作为Reality目标域名 ？.*y/n"
 send "y\r"
@@ -362,8 +364,13 @@ send "y\r"
 expect "请输入自定义端口"
 send "\r"
 
+
 expect "请输入自定义端口"
 send "\r"
+
+# 处理伪装站点安装检测
+expect -re "检测到安装伪装站点，是否需要重新安装.*y/n"
+send "y\r"
 
 # 处理Reality目标域名
 expect -re "是否使用 .* 此域名作为Reality目标域名 ？.*y/n"
