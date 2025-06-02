@@ -437,19 +437,17 @@ send "\r"
 expect "请选择:"
 send "\r"
 
-# 第 19 步:处理内核更新OK提示
-expect -re "Pending kernel upgrade.*<Ok>"
-send "\r"
 
-# 第 20 步:处理端口输入
+
+# 第 19 步:处理端口输入
 expect "请输入自定义端口"
 send "\r"
 
-# 第 21 步:处理上次安装记录
+# 第 20 步:处理上次安装记录
 expect -re "读取到上次安装记录.*path路径.*y/n"
 send "y\r"
 
-# 第 22 步:继续处理后续步骤
+# 第 21 步:继续处理后续步骤
 expect "是否继续"
 send "y\r"
 
