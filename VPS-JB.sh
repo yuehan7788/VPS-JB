@@ -354,7 +354,7 @@ expect "UUID:"
 send "\r"
 
 expect "用户名:"
-send "\r"
+send "自动\r"
 
 # 第 6 步:处理端口输入
 expect "请输入自定义端口"
@@ -477,7 +477,7 @@ EOF
     rm -f /tmp/install.exp
     
     # 安装完成后直接退出到shell
-    exec bash
+    #exec bash
 }
 
 # 卸载expect
