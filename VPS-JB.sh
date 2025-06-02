@@ -281,6 +281,22 @@ auto_install_macka_singbox() {
         fi
     fi
 
+    # 检查并安装中文语言包
+    _yellow "正在检查并安装中文语言包..."
+    apt-get update
+    apt-get install -y language-pack-zh-hans language-pack-zh-hans-base
+    locale-gen zh_CN.UTF-8
+    update-locale LANG=zh_CN.UTF-8 LC_ALL=zh_CN.UTF-8
+
+    # 检查并处理dpkg锁
+    _yellow "正在检查dpkg锁状态..."
+    if [[ -f /var/lib/dpkg/lock-frontend ]]; then
+        _yellow "发现dpkg锁，正在处理..."
+        rm -f /var/lib/dpkg/lock-frontend
+        rm -f /var/lib/dpkg/lock
+        dpkg --configure -a
+    fi
+
     # 创建expect脚本
     cat > /tmp/install.exp << 'EOF'
 #!/usr/bin/expect -f
