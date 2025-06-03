@@ -286,6 +286,9 @@ setup_alias() {
     # 立即生效
     source ~/.bashrc
     
+    # 等待一下确保环境变量生效
+    sleep 1
+    
     # 在首次安装或需要显示信息时显示详细信息
     if [[ $is_first_install -eq 1 ]] || [[ "$show_info" == "true" ]]; then
         # 验证别名是否设置成功
@@ -309,6 +312,17 @@ setup_alias() {
             _red "别名设置失败，请手动运行以下命令："
             _yellow "echo 'alias y=\"bash $system_script\"' >> ~/.bashrc"
             _yellow "source ~/.bashrc"
+            
+            # 自动执行这些命令
+            echo "alias y=\"bash $system_script\"" >> ~/.bashrc
+            source ~/.bashrc
+            
+            # 再次验证
+            if alias y >/dev/null 2>&1; then
+                _green "别名已自动设置成功！"
+            else
+                _red "自动设置失败，请手动执行上述命令"
+            fi
         fi
     fi
 }
