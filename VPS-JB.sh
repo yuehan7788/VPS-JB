@@ -554,50 +554,6 @@ send "2\r"
 expect "请输入salt值"
 send "\$salt\r"
 
-# 合并拉取其它VPS订阅，自动化步骤
-if {[string length \$merge_info] > 0} {
-    # 等待菜单重新出现
-    expect {
-        timeout {
-            send "\r"
-            exp_continue
-        }
-        "请选择:" {
-            send "7\r"
-        }
-    }
-
-    expect {
-        timeout {
-            send "\r"
-            exp_continue
-        }
-        "请输入:" {
-            send "3\r"
-        }
-    }
-
-    expect {
-        timeout {
-            send "\r"
-            exp_continue
-        }
-        "请选择:" {
-            send "1\r"
-        }
-    }
-
-    expect {
-        timeout {
-            send "\r"
-            exp_continue
-        }
-        "请输入域名 端口 机器别名:" {
-            send "\$merge_info\r"
-        }
-    }
-}
-
 # 让mack脚本自己控制后续流程
 interact
 EOF
@@ -608,11 +564,49 @@ EOF
     # 执行新的expect脚本
     expect /tmp/continue.exp
 
+    # 如果需要合并订阅，启动新的进程
+    if [[ -n "$merge_info" ]]; then
+        cat > /tmp/merge.exp << EOF
+#!/usr/bin/expect -f
+
+# 设置超时时间
+set timeout 120
+
+# 设置变量
+set merge_info "$merge_info"
+
+# 启动新的mack脚本进程
+spawn /etc/v2ray-agent/install.sh
+
+# 等待并选择选项7
+expect "请选择:"
+send "7\r"
+
+expect "请输入:"
+send "3\r"
+
+expect "请选择:"
+send "1\r"
+
+expect "请输入域名 端口 机器别名:"
+send "\$merge_info\r"
+
+# 让mack脚本自己控制后续流程
+interact
+EOF
+
+        # 给合并脚本添加执行权限
+        chmod +x /tmp/merge.exp
+
+        # 执行合并脚本
+        expect /tmp/merge.exp
+
+        # 清理临时文件
+        rm -f /tmp/merge.exp
+    fi
+
     # 清理临时文件
     rm -f /tmp/continue.exp
-    
-    # 使用bash执行mack脚本，保持别名
-    bash /etc/v2ray-agent/install.sh
 }
 
 # 卸载expect
