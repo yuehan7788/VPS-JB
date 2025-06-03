@@ -544,7 +544,7 @@ send "7\r"
 expect "请输入:"
 send "2\r"
 
-expect "请输入salt值, [回车]使用随机:"
+expect "请输入salt值"
 send "hb\r"
 
 # 让mack脚本自己控制后续流程
