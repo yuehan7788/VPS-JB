@@ -291,53 +291,33 @@ auto_install_macka_singbox() {
     if ! command -v expect &> /dev/null; then
         _yellow "正在安装expect..."
         
-        # 直接强制解锁
-        _yellow "正在强制解锁系统包管理器..."
-        
-        # 强制结束所有apt和dpkg进程
-        pkill -9 apt
-        pkill -9 dpkg
-        pkill -9 apt-get
-        
-        # 删除所有锁文件
-        rm -f /var/lib/apt/lists/lock
-        rm -f /var/cache/apt/archives/lock
-        rm -f /var/lib/dpkg/lock
-        rm -f /var/lib/dpkg/lock-frontend
-        rm -f /var/cache/apt/archives/lock
-        rm -f /var/lib/apt/lists/lock
-        
-        # 重新配置dpkg
-        dpkg --configure -a
-        
-        # 强制更新和安装
-        _yellow "正在强制更新软件包列表..."
-        DEBIAN_FRONTEND=noninteractive apt-get update --force-yes -y
-        
-        _yellow "正在强制安装expect..."
-        DEBIAN_FRONTEND=noninteractive apt-get install -y --force-yes expect
+        # 检测系统类型并安装
+        if command -v apt &> /dev/null; then
+            # Debian/Ubuntu系统
+            _yellow "检测到Debian/Ubuntu系统，使用apt安装..."
+            apt update
+            apt install -y expect
+        elif command -v yum &> /dev/null; then
+            # CentOS/RHEL系统
+            _yellow "检测到CentOS/RHEL系统，使用yum安装..."
+            yum install -y expect
+        elif command -v dnf &> /dev/null; then
+            # Fedora系统
+            _yellow "检测到Fedora系统，使用dnf安装..."
+            dnf install -y expect
+        elif command -v pacman &> /dev/null; then
+            # Arch Linux系统
+            _yellow "检测到Arch Linux系统，使用pacman安装..."
+            pacman -Sy --noconfirm expect
+        else
+            _red "无法检测系统类型，请手动安装expect"
+            return 1
+        fi
         
         # 验证安装
         if ! command -v expect &> /dev/null; then
-            _red "安装expect失败，正在尝试修复..."
-            
-            # 再次尝试修复
-            rm -f /var/lib/apt/lists/lock
-            rm -f /var/cache/apt/archives/lock
-            rm -f /var/lib/dpkg/lock
-            rm -f /var/lib/dpkg/lock-frontend
-            
-            # 重新配置
-            dpkg --configure -a
-            DEBIAN_FRONTEND=noninteractive apt-get update --force-yes -y
-            
-            # 最后尝试安装
-            DEBIAN_FRONTEND=noninteractive apt-get install -y --force-yes expect
-            
-            if ! command -v expect &> /dev/null; then
-                _red "安装expect失败，请检查系统状态后重试"
-                return 1
-            fi
+            _red "安装expect失败，请手动安装"
+            return 1
         fi
         
         _green "expect安装成功！"
