@@ -556,17 +556,46 @@ send "\$salt\r"
 
 # 合并拉取其它VPS订阅，自动化步骤
 if {[string length \$merge_info] > 0} {
-    expect "请选择:"
-    send "7\r"
+    # 等待菜单重新出现
+    expect {
+        timeout {
+            send "\r"
+            exp_continue
+        }
+        "请选择:" {
+            send "7\r"
+        }
+    }
 
-    expect "请输入:"
-    send "3\r"
+    expect {
+        timeout {
+            send "\r"
+            exp_continue
+        }
+        "请输入:" {
+            send "3\r"
+        }
+    }
 
-    expect "请选择:"
-    send "1\r"
+    expect {
+        timeout {
+            send "\r"
+            exp_continue
+        }
+        "请选择:" {
+            send "1\r"
+        }
+    }
 
-    expect "请输入域名 端口 机器别名:"
-    send "\$merge_info\r"
+    expect {
+        timeout {
+            send "\r"
+            exp_continue
+        }
+        "请输入域名 端口 机器别名:" {
+            send "\$merge_info\r"
+        }
+    }
 }
 
 # 让mack脚本自己控制后续流程
