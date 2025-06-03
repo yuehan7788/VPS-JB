@@ -297,14 +297,14 @@ auto_install_macka_singbox() {
             _yellow "检测到Debian/Ubuntu系统，使用apt安装..."
             apt update
             apt install -y expect
-        elif command -v yum &> /dev/null; then
-            # CentOS/RHEL系统
-            _yellow "检测到CentOS/RHEL系统，使用yum安装..."
-            yum install -y expect
         elif command -v dnf &> /dev/null; then
-            # Fedora系统
-            _yellow "检测到Fedora系统，使用dnf安装..."
+            # Rocky Linux/CentOS 8+/Fedora系统
+            _yellow "检测到Rocky Linux/CentOS 8+/Fedora系统，使用dnf安装..."
             dnf install -y expect
+        elif command -v yum &> /dev/null; then
+            # CentOS 7/RHEL 7系统
+            _yellow "检测到CentOS 7/RHEL 7系统，使用yum安装..."
+            yum install -y expect
         elif command -v pacman &> /dev/null; then
             # Arch Linux系统
             _yellow "检测到Arch Linux系统，使用pacman安装..."
