@@ -148,7 +148,12 @@ uninstall_script() {
         "/usr/local/bin/VPS-JB.sh"
         "/usr/local/bin/vps-jb"
         "/etc/profile.d/vps-jb-bieming.sh"
-        "/usr/local/bin/install_scripts"  # 添加安装脚本目录
+        "/usr/local/bin/install_scripts"
+        "/tmp/setup_zh.sh"
+        "/tmp/install.exp"
+        "/tmp/continue.exp"
+        "/tmp/uninstall.exp"
+        "/tmp/mack-a.sh"
     )
     
     # 删除文件
@@ -171,10 +176,17 @@ uninstall_script() {
         _green "已从 .bash_profile 中移除别名"
     fi
     
+    # 清理环境变量
+    unset LANG
+    unset LC_ALL
+    unset LANGUAGE
+    unset DEBIAN_FRONTEND
+    
     # 重新加载配置
     source ~/.bashrc
     
     _green "脚本卸载完成！"
+    _yellow "请重新打开终端或执行 'exec bash' 使更改生效"
 }
 
 # 设置别名
