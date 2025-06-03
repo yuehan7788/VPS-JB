@@ -591,13 +591,13 @@ send "1\r"
 expect "请输入域名 端口 机器别名:"
 send "\$merge_info\r"
 
-expect -re "是否是HTTP订阅？\\\[y/n\\\]"
+expect "是否是HTTP订阅？"
 send "n\r"
 
-expect -re "是否使用上次生成的Salt*\\\[y/n\\\]"
+expect "是否使用上次生成的Salt"
 send "y\r"
 
-expect -re "读取到其他订阅，是否更新*\\\[y/n\\\]"
+expect "读取到其他订阅，是否更新"
 send "y\r"
 
 # 让mack脚本自己控制后续流程
