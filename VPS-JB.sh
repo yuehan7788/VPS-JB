@@ -427,19 +427,8 @@ expect {
         send "y\r"
         exp_continue
     }
-    -re "检测到安装伪装站点.*y/n" {
-        send "y\r"
-        exp_continue
-    }
-    -re "是否需要重新安装.*y/n" {
-        send "y\r"
-        exp_continue
-    }
     "请输入自定义端口" {
         # 如果直接出现端口输入提示，继续下一步
-    }
-    "随机端口" {
-        # 如果直接出现随机端口提示，继续下一步
     }
     timeout {
         # 如果超时，继续下一步
@@ -448,7 +437,6 @@ expect {
 
 # 第 13 步:处理端口输入
 expect "请输入自定义端口"
-expect "随机端口"
 send "\r"
 
 
