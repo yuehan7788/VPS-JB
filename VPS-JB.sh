@@ -472,7 +472,12 @@ send "\r"
 
 # 第 12 步:处理伪装站点
 expect {
-    -re "检测到安装伪装站点，是否需要重新安装.*y/n" {
+    
+    -re "检测到安装伪装站点.*y/n" {
+        send "y\r"
+        exp_continue
+    }
+    -re "是否需要重新安装.*y/n" {
         send "y\r"
         exp_continue
     }
