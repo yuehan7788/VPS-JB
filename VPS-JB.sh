@@ -280,6 +280,7 @@ setup_alias() {
 auto_install_macka_singbox() {
     local domain=$1
     local username=$2
+    local salt=$3
     if [[ -z "$domain" ]]; then
         _red "域名不能为空"
         return 1
@@ -351,6 +352,7 @@ set timeout 120
 # 设置域名和用户名变量
 set domain "$domain"
 set username "$username"
+set salt "$salt"
 
 # 启动安装脚本
 spawn bash -c "wget -P /root -N --no-check-certificate \"https://raw.githubusercontent.com/mack-a/v2ray-agent/master/install.sh\" && chmod 700 /root/install.sh && /root/install.sh"
@@ -545,7 +547,7 @@ expect "请输入:"
 send "2\r"
 
 expect "请输入salt值"
-send "hb\r"
+send "\$salt\r"
 
 # 让mack脚本自己控制后续流程
 interact
@@ -702,19 +704,23 @@ main() {
                 ;;
             7)
                 # 在选项7执行时立即提示输入域名和用户名
-                _yellow "请输入要配置的域名 (例如: www.v2ray-agent.com): "
+                _yellow "请输入要配置的域名 (例如: www.v2ray-agent.com或aaa.v2ray-agent.com，注意前缀和解析地址): "
                 read domain
                 if [[ -z "$domain" ]]; then
                     _red "域名不能为空"
                     continue
                 fi
                 
-                _yellow "请输入用户名 (默认: admin): "
+                _yellow "请输入用户名 (默认: admin，合并订阅用相同用户名): "
                 read username
                 username=${username:-admin}  # 如果用户名为空，使用默认值 admin
                 
-                # 传递域名和用户名参数给auto_install_macka_singbox函数
-                auto_install_macka_singbox "$domain" "$username"
+                _yellow "请输入salt值 (直接回车使用随机值，合并订阅用相同的值): "
+                read salt
+                salt=${salt:-""}  # 如果salt为空，使用空字符串，让系统生成随机值
+                
+                # 传递域名、用户名和salt值参数给auto_install_macka_singbox函数
+                auto_install_macka_singbox "$domain" "$username" "$salt"
                 ;;
             8)
                 uninstall_expect
