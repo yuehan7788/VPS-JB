@@ -511,19 +511,6 @@ expect {
     }
 }
 
-# 第 24 步:自动选择mack-a菜单选项
-expect "请选择:"
-send "2\r"
-
-expect "请选择:"
-send "7\r"
-
-expect "请输入:"
-send "2\r"
-
-expect "请输入salt值"
-send "2\r"
-
 # 让mack脚本自己控制流程
 expect eof
 EOF
@@ -554,8 +541,11 @@ expect "请选择:"
 send "7\r"
 
 # 等待并选择选项2
-expect "请选择:"
+expect "请输入:"
 send "2\r"
+
+expect "请输入salt值, [回车]使用随机:"
+send "hb\r"
 
 # 让mack脚本自己控制后续流程
 interact
