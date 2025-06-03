@@ -386,7 +386,7 @@ set timeout 300
 set domain "$domain"
 
 # 启动安装脚本
-spawn bash -c "curl -sL https://raw.githubusercontent.com/mack-a/v2ray-agent/master/install.sh > /tmp/mack-a.sh && bash /tmp/mack-a.sh"
+spawn bash -c "wget -P /root -N --no-check-certificate \"https://raw.githubusercontent.com/mack-a/v2ray-agent/master/install.sh\" && chmod 700 /root/install.sh && /root/install.sh"
 
 # 设置通用输入处理
 expect_before {
