@@ -326,12 +326,6 @@ auto_install_macka_singbox() {
         # 直接强制解锁
         _yellow "正在强制解锁系统包管理器..."
         
-        # 等待所有apt进程结束
-        while pgrep apt > /dev/null; do
-            _yellow "等待apt进程结束..."
-            sleep 1
-        done
-        
         # 强制结束所有apt和dpkg进程
         pkill -9 apt
         pkill -9 dpkg
@@ -348,15 +342,15 @@ auto_install_macka_singbox() {
         # 重新配置dpkg
         dpkg --configure -a
         
-        # 等待系统稳定
-        sleep 2
+        # 强制更新和安装
+        _yellow "正在强制更新软件包列表..."
+        DEBIAN_FRONTEND=noninteractive apt-get update --force-yes -y
         
-        # 尝试安装expect
-        _yellow "正在更新软件包列表..."
-        DEBIAN_FRONTEND=noninteractive apt-get update
+        _yellow "正在强制安装expect..."
+        DEBIAN_FRONTEND=noninteractive apt-get install -y --force-yes expect
         
-        _yellow "正在安装expect..."
-        if ! DEBIAN_FRONTEND=noninteractive apt-get install -y expect; then
+        # 验证安装
+        if ! command -v expect &> /dev/null; then
             _red "安装expect失败，正在尝试修复..."
             
             # 再次尝试修复
@@ -367,10 +361,12 @@ auto_install_macka_singbox() {
             
             # 重新配置
             dpkg --configure -a
-            apt-get update
+            DEBIAN_FRONTEND=noninteractive apt-get update --force-yes -y
             
             # 最后尝试安装
-            if ! DEBIAN_FRONTEND=noninteractive apt-get install -y expect; then
+            DEBIAN_FRONTEND=noninteractive apt-get install -y --force-yes expect
+            
+            if ! command -v expect &> /dev/null; then
                 _red "安装expect失败，请检查系统状态后重试"
                 return 1
             fi
