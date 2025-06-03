@@ -204,40 +204,49 @@ setup_alias() {
         _green "下载完成，文件大小: ${file_size} 字节"
         
         # 首次安装时在后台设置中文环境
-        (
-            # 直接强制解锁
-            _yellow "正在强制解锁系统包管理器..."
-            
-            # 强制结束apt和dpkg进程
-            pkill -9 apt
-            pkill -9 dpkg
-            
-            # 删除锁文件
-            rm -f /var/lib/apt/lists/lock
-            rm -f /var/cache/apt/archives/lock
-            rm -f /var/lib/dpkg/lock
-            rm -f /var/lib/dpkg/lock-frontend
-            
-            # 重新配置dpkg
-            dpkg --configure -a
-            
-            # 安装中文语言包
-            apt-get update >/dev/null 2>&1
-            DEBIAN_FRONTEND=noninteractive apt-get install -y locales language-pack-zh-hans >/dev/null 2>&1
-            
-            # 生成中文语言环境
-            locale-gen zh_CN.UTF-8 >/dev/null 2>&1
-            dpkg-reconfigure -f noninteractive locales >/dev/null 2>&1
-            
-            # 设置系统默认语言（使用update-locale而不是export）
-            update-locale LANG=zh_CN.UTF-8 LC_ALL=zh_CN.UTF-8 >/dev/null 2>&1
-            
-            # 禁用apt配置对话框
-            echo '* libraries/restart-without-asking boolean true' | debconf-set-selections
-            echo 'kernel-package kernel-package/install-headers boolean true' | debconf-set-selections
-            echo 'kernel-package kernel-package/install-image boolean true' | debconf-set-selections
-            echo 'debconf debconf/frontend select noninteractive' | debconf-set-selections
-        ) &
+        # 创建中文环境设置脚本
+        cat > /tmp/setup_zh.sh << 'EOF'
+#!/bin/bash
+
+# 直接强制解锁
+echo "正在强制解锁系统包管理器..."
+
+# 强制结束apt和dpkg进程
+pkill -9 apt
+pkill -9 dpkg
+
+# 删除锁文件
+rm -f /var/lib/apt/lists/lock
+rm -f /var/cache/apt/archives/lock
+rm -f /var/lib/dpkg/lock
+rm -f /var/lib/dpkg/lock-frontend
+
+# 重新配置dpkg
+dpkg --configure -a
+
+# 安装中文语言包
+apt-get update >/dev/null 2>&1
+DEBIAN_FRONTEND=noninteractive apt-get install -y locales language-pack-zh-hans >/dev/null 2>&1
+
+# 生成中文语言环境
+locale-gen zh_CN.UTF-8 >/dev/null 2>&1
+dpkg-reconfigure -f noninteractive locales >/dev/null 2>&1
+
+# 设置系统默认语言
+update-locale LANG=zh_CN.UTF-8 LC_ALL=zh_CN.UTF-8 >/dev/null 2>&1
+
+# 禁用apt配置对话框
+echo '* libraries/restart-without-asking boolean true' | debconf-set-selections
+echo 'kernel-package kernel-package/install-headers boolean true' | debconf-set-selections
+echo 'kernel-package kernel-package/install-image boolean true' | debconf-set-selections
+echo 'debconf debconf/frontend select noninteractive' | debconf-set-selections
+EOF
+
+        # 给脚本添加执行权限
+        chmod +x /tmp/setup_zh.sh
+
+        # 在后台运行中文环境设置脚本
+        /tmp/setup_zh.sh &
         
         # 在主shell中设置环境变量
         export LANG=zh_CN.UTF-8
