@@ -641,18 +641,35 @@ uninstall_expect() {
     fi
 
     _yellow "正在卸载expect工具..."
+    
+    # 先卸载主程序
     apt-get remove -y expect
-    if [[ $? -eq 0 ]]; then
-        _green "expect工具卸载成功！"
-    else
-        _red "expect工具卸载失败"
+    
+    # 卸载自动安装的依赖包
+    apt-get autoremove -y libtcl8.6 tcl-expect tcl8.6
+    
+    # 清理配置文件
+    rm -rf /etc/expect.rc
+    rm -rf /usr/share/expect
+    rm -rf /usr/share/doc/expect
+    
+    # 检查是否还有相关文件
+    local remaining_files=$(find /usr -name "*expect*" 2>/dev/null)
+    if [[ -n "$remaining_files" ]]; then
+        _yellow "发现以下残留文件："
+        echo "$remaining_files"
+        _yellow "正在清理残留文件..."
+        rm -rf $remaining_files
     fi
-
+    
     # 再次检查是否真的卸载成功
-    if ! command -v expect &> /dev/null; then
+    if ! command -v expect &> /dev/null && ! dpkg -l | grep -q "expect"; then
         _green "确认：expect工具已完全卸载"
     else
         _red "警告：expect工具可能未完全卸载"
+        _yellow "请手动执行以下命令完成卸载："
+        _yellow "apt-get autoremove -y"
+        _yellow "apt-get clean"
     fi
 }
 
