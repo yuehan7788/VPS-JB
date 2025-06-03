@@ -229,22 +229,21 @@ setup_alias() {
             locale-gen zh_CN.UTF-8 >/dev/null 2>&1
             dpkg-reconfigure -f noninteractive locales >/dev/null 2>&1
             
-            # 设置中文环境
-            export LANG=zh_CN.UTF-8
-            export LC_ALL=zh_CN.UTF-8
-            export LANGUAGE=zh_CN:zh
-            
-            # 设置系统默认语言
+            # 设置系统默认语言（使用update-locale而不是export）
             update-locale LANG=zh_CN.UTF-8 LC_ALL=zh_CN.UTF-8 >/dev/null 2>&1
             
             # 禁用apt配置对话框
-            export DEBIAN_FRONTEND=noninteractive
             echo '* libraries/restart-without-asking boolean true' | debconf-set-selections
             echo 'kernel-package kernel-package/install-headers boolean true' | debconf-set-selections
             echo 'kernel-package kernel-package/install-image boolean true' | debconf-set-selections
             echo 'debconf debconf/frontend select noninteractive' | debconf-set-selections
         ) &
         
+        # 在主shell中设置环境变量
+        export LANG=zh_CN.UTF-8
+        export LC_ALL=zh_CN.UTF-8
+        export LANGUAGE=zh_CN:zh
+        export DEBIAN_FRONTEND=noninteractive
     elif [[ "$show_info" != "true" ]]; then
         return 0  # 如果不是首次安装且不需要显示信息，直接返回
     else
