@@ -518,7 +518,10 @@ send "2\r"
 expect "请选择:"
 send "7\r"
 
-expect "请选择:"
+expect "请输入:"
+send "2\r"
+
+expect "请输入salt值"
 send "2\r"
 
 # 让mack脚本自己控制流程
