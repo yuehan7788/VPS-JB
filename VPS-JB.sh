@@ -433,6 +433,8 @@ send "y\r"
 
 # 第 13 步:处理端口输入
 
+expect "请输入自定义端口"
+
 expect "随机端口"
 send "\r"
 
