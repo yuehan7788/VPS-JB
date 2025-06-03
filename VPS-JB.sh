@@ -346,7 +346,7 @@ auto_install_macka_singbox() {
 #!/usr/bin/expect -f
 
 # 设置超时时间
-set timeout 2
+set timeout 120
 
 # 设置域名和用户名变量
 set domain "$domain"
@@ -360,8 +360,8 @@ expect_before {
     timeout {
         # 当超时时，允许用户输入
         expect_user -re "(.*)\n"
-        #send "$expect_out(1,string)\r"
-        #exp_continue  # 继续等待匹配原脚本的下一步
+        send "$expect_out(1,string)\r"
+        exp_continue
     }
     eof { exit }
 }
@@ -540,7 +540,7 @@ EOF
 #!/usr/bin/expect -f
 
 # 设置超时时间
-#set timeout 2
+#set timeout 120
 
 # 启动mack脚本
 spawn /etc/v2ray-agent/install.sh
@@ -620,7 +620,7 @@ uninstall_macka_singbox() {
 #!/usr/bin/expect -f
 
 # 设置超时时间
-set timeout 2
+set timeout 120
 
 # 设置中文环境
 set env(LANG) "zh_CN.UTF-8"
