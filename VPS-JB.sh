@@ -326,25 +326,57 @@ auto_install_macka_singbox() {
         # 直接强制解锁
         _yellow "正在强制解锁系统包管理器..."
         
-        # 强制结束apt和dpkg进程
+        # 等待所有apt进程结束
+        while pgrep apt > /dev/null; do
+            _yellow "等待apt进程结束..."
+            sleep 1
+        done
+        
+        # 强制结束所有apt和dpkg进程
         pkill -9 apt
         pkill -9 dpkg
+        pkill -9 apt-get
         
-        # 删除锁文件
+        # 删除所有锁文件
         rm -f /var/lib/apt/lists/lock
         rm -f /var/cache/apt/archives/lock
         rm -f /var/lib/dpkg/lock
         rm -f /var/lib/dpkg/lock-frontend
+        rm -f /var/cache/apt/archives/lock
+        rm -f /var/lib/apt/lists/lock
         
         # 重新配置dpkg
         dpkg --configure -a
         
+        # 等待系统稳定
+        sleep 2
+        
         # 尝试安装expect
+        _yellow "正在更新软件包列表..."
         DEBIAN_FRONTEND=noninteractive apt-get update
+        
+        _yellow "正在安装expect..."
         if ! DEBIAN_FRONTEND=noninteractive apt-get install -y expect; then
-            _red "安装expect失败，请检查系统状态后重试"
-            return 1
+            _red "安装expect失败，正在尝试修复..."
+            
+            # 再次尝试修复
+            rm -f /var/lib/apt/lists/lock
+            rm -f /var/cache/apt/archives/lock
+            rm -f /var/lib/dpkg/lock
+            rm -f /var/lib/dpkg/lock-frontend
+            
+            # 重新配置
+            dpkg --configure -a
+            apt-get update
+            
+            # 最后尝试安装
+            if ! DEBIAN_FRONTEND=noninteractive apt-get install -y expect; then
+                _red "安装expect失败，请检查系统状态后重试"
+                return 1
+            fi
         fi
+        
+        _green "expect安装成功！"
     fi
 
     # 创建expect脚本
@@ -431,13 +463,14 @@ expect {
     -re "检测到安装伪装站点，是否需要重新安装.*y/n" {
         send "y\r"
     }
-    timeout {
-        # 如果超时（没有检测到提示），继续下一步
-        exp_continue
-    }
     "请输入自定义端口" {
         # 如果直接出现端口输入提示，继续下一步
-        exp_continue
+    }
+    "随机端口" {
+        # 如果直接出现随机端口提示，继续下一步
+    }
+    timeout {
+        # 如果超时，继续下一步
     }
 }
 
