@@ -281,6 +281,7 @@ auto_install_macka_singbox() {
     local domain=$1
     local username=$2
     local salt=$3
+    local merge_info=$4
     if [[ -z "$domain" ]]; then
         _red "域名不能为空"
         return 1
@@ -535,8 +536,9 @@ EOF
 # 设置超时时间
 set timeout 120
 
-# 设置salt变量
+# 设置变量
 set salt "$salt"
+set merge_info "$merge_info"
 
 # 启动mack脚本
 spawn /etc/v2ray-agent/install.sh
@@ -551,6 +553,21 @@ send "2\r"
 
 expect "请输入salt值"
 send "\$salt\r"
+
+# 合并拉取其它VPS订阅，自动化步骤
+if {[string length \$merge_info] > 0} {
+    expect "请选择:"
+    send "7\r"
+
+    expect "请输入:"
+    send "3\r"
+
+    expect "请选择:"
+    send "1\r"
+
+    expect "请输入域名 端口 机器别名:"
+    send "\$merge_info\r"
+}
 
 # 让mack脚本自己控制后续流程
 interact
@@ -721,9 +738,16 @@ main() {
                 _yellow "请输入salt值 (直接回车使用随机值，合并订阅用相同的值): "
                 read salt
                 salt=${salt:-""}  # 如果salt为空，使用空字符串，让系统生成随机值
+
+                _yellow "是否需要合并其他VPS的订阅？(y/n): "
+                read need_merge
+                if [[ "$need_merge" == "y" || "$need_merge" == "Y" ]]; then
+                    _yellow "请输入其他VPS的域名:端口:别名 (例如: vps1.com:443:server1): "
+                    read merge_info
+                fi
                 
-                # 传递域名、用户名和salt值参数给auto_install_macka_singbox函数
-                auto_install_macka_singbox "$domain" "$username" "$salt"
+                # 传递域名、用户名、salt值和合并信息参数给auto_install_macka_singbox函数
+                auto_install_macka_singbox "$domain" "$username" "$salt" "$merge_info"
                 ;;
             8)
                 uninstall_expect
