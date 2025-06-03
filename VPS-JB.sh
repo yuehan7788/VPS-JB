@@ -279,6 +279,7 @@ setup_alias() {
 # 自动化安装mack-a sing-box
 auto_install_macka_singbox() {
     local domain=$1
+    local username=$2
     if [[ -z "$domain" ]]; then
         _red "域名不能为空"
         return 1
@@ -347,8 +348,9 @@ auto_install_macka_singbox() {
 # 设置超时时间
 set timeout 300
 
-# 设置域名变量
+# 设置域名和用户名变量
 set domain "$domain"
+set username "$username"
 
 # 启动安装脚本
 spawn bash -c "wget -P /root -N --no-check-certificate \"https://raw.githubusercontent.com/mack-a/v2ray-agent/master/install.sh\" && chmod 700 /root/install.sh && /root/install.sh"
@@ -389,7 +391,7 @@ expect "UUID:"
 send "\r"
 
 expect "用户名:"
-send "自动\r"
+send "\$username\r"
 
 # 第 6 步:处理端口输入
 expect "请输入自定义端口"
@@ -421,7 +423,10 @@ send "\r"
 
 # 第 12 步:处理伪装站点
 expect {
-    
+    -re "检测到安装伪装站点，是否需要重新安装.*y/n" {
+        send "y\r"
+        exp_continue
+    }
     -re "检测到安装伪装站点.*y/n" {
         send "y\r"
         exp_continue
@@ -718,15 +723,20 @@ main() {
                 bash
                 ;;
             7)
-                # 在选项7执行时立即提示输入域名
+                # 在选项7执行时立即提示输入域名和用户名
                 _yellow "请输入要配置的域名 (例如: www.v2ray-agent.com): "
                 read domain
                 if [[ -z "$domain" ]]; then
                     _red "域名不能为空"
                     continue
                 fi
-                # 传递域名参数给auto_install_macka_singbox函数
-                auto_install_macka_singbox "$domain"
+                
+                _yellow "请输入用户名 (默认: admin): "
+                read username
+                username=${username:-admin}  # 如果用户名为空，使用默认值 admin
+                
+                # 传递域名和用户名参数给auto_install_macka_singbox函数
+                auto_install_macka_singbox "$domain" "$username"
                 ;;
             8)
                 uninstall_expect
