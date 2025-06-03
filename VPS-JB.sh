@@ -560,8 +560,8 @@ send "7\r"
 expect "请选择:"
 send "2\r"
 
-# 不要退出，让用户继续使用mack-a菜单
-interact
+# 让mack脚本自己控制流程
+expect eof
 EOF
 
     # 给expect脚本添加执行权限
@@ -575,8 +575,8 @@ EOF
     # 清理临时文件
     rm -f /tmp/install.exp
     
-    # 安装完成后直接退出到shell
-    #exec bash
+    # 直接执行mack脚本，保持控制权
+    exec /root/install.sh
 }
 
 # 卸载expect
