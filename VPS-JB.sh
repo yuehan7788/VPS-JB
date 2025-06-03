@@ -352,7 +352,7 @@ set timeout 1
 # 设置域名和用户名变量
 set domain "$domain"
 set username "$username"
-#set salt "$salt"  #expect脚本1用不到
+set salt "$salt"  
 
 # 启动安装脚本
 spawn bash -c "wget -P /root -N --no-check-certificate \"https://raw.githubusercontent.com/mack-a/v2ray-agent/master/install.sh\" && chmod 700 /root/install.sh && /root/install.sh"
