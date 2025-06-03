@@ -347,12 +347,12 @@ auto_install_macka_singbox() {
 #!/usr/bin/expect -f
 
 # 设置超时时间
-set timeout 1
+set timeout 120
 
 # 设置域名和用户名变量
 set domain "$domain"
 set username "$username"
-set salt "$salt"  
+set salt "$salt"
 
 # 启动安装脚本
 spawn bash -c "wget -P /root -N --no-check-certificate \"https://raw.githubusercontent.com/mack-a/v2ray-agent/master/install.sh\" && chmod 700 /root/install.sh && /root/install.sh"
@@ -363,7 +363,7 @@ expect_before {
         # 当超时时，允许用户输入
         expect_user -re "(.*)\n"
         send "$expect_out(1,string)\r"
-        # 不返回，继续等待匹配原脚本的下一步
+        exp_continue
     }
     eof { exit }
 }
@@ -533,7 +533,7 @@ EOF
 #!/usr/bin/expect -f
 
 # 设置超时时间
-#set timeout 1
+set timeout 120
 
 # 设置salt变量
 set salt "$salt"
