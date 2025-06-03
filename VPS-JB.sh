@@ -575,8 +575,36 @@ EOF
     # 清理临时文件
     rm -f /tmp/install.exp
     
-    # 直接执行mack脚本，保持控制权
-    exec /root/install.sh
+    # 创建新的expect脚本来处理后续选择
+    cat > /tmp/continue.exp << EOF
+#!/usr/bin/expect -f
+
+# 设置超时时间
+#set timeout 300
+
+# 启动mack脚本
+spawn /etc/v2ray-agent/install.sh
+
+# 等待并选择选项7
+expect "请选择:"
+send "7\r"
+
+# 等待并选择选项2
+expect "请选择:"
+send "2\r"
+
+# 让mack脚本自己控制后续流程
+interact
+EOF
+
+    # 给新的expect脚本添加执行权限
+    chmod +x /tmp/continue.exp
+
+    # 执行新的expect脚本
+    expect /tmp/continue.exp
+
+    # 清理临时文件
+    rm -f /tmp/continue.exp
 }
 
 # 卸载expect
