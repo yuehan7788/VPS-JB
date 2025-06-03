@@ -346,7 +346,7 @@ auto_install_macka_singbox() {
 #!/usr/bin/expect -f
 
 # 设置超时时间
-set timeout 300
+set timeout 1
 
 # 设置域名和用户名变量
 set domain "$domain"
@@ -420,23 +420,21 @@ send "y\r"
 expect "请输入自定义端口"
 send "\r"
 
-
-# 第 12 步:处理伪装站点
+# 第 12 步:处理伪装站点  #哪个模式先出现就匹配哪个
 expect {
     -re "检测到安装伪装站点，是否需要重新安装.*y/n" {
         send "y\r"
-        exp_continue
+        exp_continue  
     }
     "请输入自定义端口" {
-        # 如果直接出现端口输入提示，继续下一步
+        # 如果直接出现端口输入提示，说明没有检测到伪装站点
+        # 直接进入第13步
     }
-    
 }
 
 # 第 13 步:处理端口输入
 expect "请输入自定义端口"
 send "\r"
-
 
 # 第 14 步:处理Reality目标域名
 expect -re "是否使用 .* 此域名作为Reality目标域名 ？.*y/n"
@@ -542,7 +540,7 @@ EOF
 #!/usr/bin/expect -f
 
 # 设置超时时间
-#set timeout 300
+#set timeout 1
 
 # 启动mack脚本
 spawn /etc/v2ray-agent/install.sh
@@ -622,7 +620,7 @@ uninstall_macka_singbox() {
 #!/usr/bin/expect -f
 
 # 设置超时时间
-set timeout 300
+set timeout 1
 
 # 设置中文环境
 set env(LANG) "zh_CN.UTF-8"
