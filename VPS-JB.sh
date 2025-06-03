@@ -771,12 +771,8 @@ main() {
                 read salt
                 salt=${salt:-""}  # 如果salt为空，使用空字符串，让系统生成随机值
 
-                _yellow "是否需要合并其他VPS的订阅？(y/n): "
-                read need_merge
-                if [[ "$need_merge" == "y" || "$need_merge" == "Y" ]]; then
-                    _yellow "请输入其他VPS的域名:端口:别名 (例如: vps1.com:443:server1): "
-                    read merge_info
-                fi
+                _yellow "请输入其他VPS的域名:端口:别名 (例如: vps1.com:443:server1，回车默认不合并): "
+                read merge_info
                 
                 # 传递域名、用户名、salt值和合并信息参数给auto_install_macka_singbox函数
                 auto_install_macka_singbox "$domain" "$username" "$salt" "$merge_info"
