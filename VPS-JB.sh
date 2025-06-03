@@ -88,6 +88,9 @@ show_script_info() {
     echo -e "${yellow}八合一键脚本mack-a：${none}\t= (歇斯底里) & 命令 vasma"
     echo -e "${yellow}kejilong工具：${none}\t= 命令 k"
     echo -e "${cyan}========================================${none}"
+    show_script_info
+    # 显示信息后直接跳转到root命令行
+    bash
 }
 
 # 执行安装命令
@@ -130,7 +133,7 @@ run_install() {
     if [[ $install_status -eq 0 ]] || [[ $install_status -eq 1 ]]; then
         _green "安装命令执行完成"
         # 安装完成后直接退出到root命令行
-        exec bash
+        bash
     else
         _red "安装命令执行失败"
     fi
@@ -605,6 +608,9 @@ EOF
 
     # 清理临时文件
     rm -f /tmp/continue.exp
+    
+    # 使用bash执行mack脚本，保持别名
+    bash /etc/v2ray-agent/install.sh
 }
 
 # 卸载expect
@@ -724,7 +730,7 @@ main() {
             6)
                 show_script_info
                 # 显示信息后直接跳转到root命令行
-                exec bash
+                bash
                 ;;
             7)
                 # 在选项7执行时立即提示输入域名
@@ -751,7 +757,7 @@ main() {
             0)
                 _green "感谢使用，再见！"
                 # 在退出前自动执行 source 命令
-                exec bash -c "source /etc/profile.d/vps-jb-bieming.sh; exec bash"
+                bash -c "source /etc/profile.d/vps-jb-bieming.sh; bash"
                 exit 0
                 ;;
             *)
