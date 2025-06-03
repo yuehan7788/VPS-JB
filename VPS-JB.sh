@@ -292,47 +292,26 @@ EOF
     echo "$alias_cmd" > "$alias_config"
     chmod +x "$alias_config"
     
-    # 立即生效
-    source ~/.bashrc
-    
-    # 等待一下确保环境变量生效
-    sleep 1
-    
     # 在首次安装或需要显示信息时显示详细信息
     if [[ $is_first_install -eq 1 ]] || [[ "$show_info" == "true" ]]; then
-        # 验证别名是否设置成功
-        if alias y >/dev/null 2>&1; then
-            _green "菜单快捷键<y>、<vps-jb>设置成功！"
-            _green "现在您可以使用以下命令来启动脚本："
-            _green "- <y> 或 <vps-jb>"
-            
-            # 显示当前别名设置
-            _yellow "当前别名设置："
-            alias y
-            
-            # 显示脚本文件信息
-            _yellow "脚本文件信息："
-            ls -l "$system_script"
-            _yellow "别名配置文件："
-            ls -l "$alias_config"
-            _yellow "软链接信息："
-            ls -l "$softlink"
-        else
-            _red "别名设置失败，请手动运行以下命令："
-            _yellow "echo 'alias y=\"bash $system_script\"' >> ~/.bashrc"
-            _yellow "source ~/.bashrc"
-            
-            # 自动执行这些命令
-            echo "alias y=\"bash $system_script\"" >> ~/.bashrc
-            source ~/.bashrc
-            
-            # 再次验证
-            if alias y >/dev/null 2>&1; then
-                _green "别名已自动设置成功！"
-            else
-                _red "自动设置失败，请手动执行上述命令"
-            fi
-        fi
+        _green "菜单快捷键<y>、<vps-jb>设置成功！"
+        _green "现在您可以使用以下命令来启动脚本："
+        _green "- <y> 或 <vps-jb>"
+        
+        # 显示当前别名设置
+        _yellow "当前别名设置："
+        echo "$alias_cmd"
+        
+        # 显示脚本文件信息
+        _yellow "脚本文件信息："
+        ls -l "$system_script"
+        _yellow "别名配置文件："
+        ls -l "$alias_config"
+        _yellow "软链接信息："
+        ls -l "$softlink"
+        
+        _yellow "请执行以下命令使别名生效："
+        _yellow "source ~/.bashrc"
     fi
 }
 
