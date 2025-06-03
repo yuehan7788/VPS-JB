@@ -361,7 +361,6 @@ expect_before {
         # 当超时时，允许用户输入
         expect_user -re "(.*)\n"
         send "$expect_out(1,string)\r"
-        exp_continue
     }
     eof { exit }
 }
