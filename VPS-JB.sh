@@ -878,28 +878,54 @@ main() {
                 echo -e "${yellow}第3步：等于添加其他订阅地址(域名端口别名)${none}"
                 echo -e "${yellow}第4步：等于生成其它VPS同用户邮箱订阅${none}\n"
 
+
+                #颜色输出测试
+                echoContent black "black 黑色"
+                echoContent red "red 红色"
+                echoContent green "green 绿色"
+                echoContent yellow "yellow 黄色"
+                echoContent blue "blue 蓝色"
+                echoContent magenta "magenta 品红/紫色"
+                echoContent cyan "cyan 青色"
+                echoContent white "white 白色"
+                echoContent gray "gray 灰色"
+                echoContent skyBlue "skyBlue 天蓝色"
+                echoContent lightRed "lightRed 亮红色"
+                echoContent lightGreen "lightGreen 亮绿色"
+                echoContent lightYellow "lightYellow 亮黄色"
+                echoContent lightBlue "lightBlue 亮蓝色"
+                echoContent lightMagenta "lightMagenta 亮品红"
+                echoContent lightCyan "lightCyan 亮青色"
+
                 _yellow "请输入要配置的域名"
-                _red "-(例如: www.v2ray-agent.com或aaa.v2ray-agent.com，注意前缀和解析地址)"
-                echoContent black "域名:" n
-                
+                _yellow "-(例如: www.v2ray-agent.com或aaa.v2ray-agent.com，注意前缀和解析地址)"
+                echoContent blue "域名:" n
                 read domain
                 if [[ -z "$domain" ]]; then
                     _red "域名不能为空"
                     continue
                 fi
                 
-                _yellow "请输入salt加密值 (回车使用随机值，合并订阅必须用相同的值): "
+                _yellow "请输入salt加密值"
+                _yellow "(回车使用随机值，合并订阅必须用相同的值)"
+                echoContent blue "salt值:" n
                 read salt
                 salt=${salt:-""}  # 如果salt为空，使用空字符串，让系统生成随机值
 
-                _yellow "请输入合并订阅所拉取的其他VPS的域名:端口:别名 (例如: vps1.com:443:server1，回车默认不合并): "
+                _yellow "请输入合并订阅所拉取的其他VPS的订阅地址"
+                _yellow "域名:端口:别名 (例如: vps1.com:443:server1，回车默认不合并)"
+                echoContent blue "订阅地址:" n
                 read merge_info
 
                 _yellow "请输入用户名 (回车默认: admin，合并订阅必须用相同用户名): "
+                _yellow "(回车默认: admin，合并订阅必须用相同用户名)"
+                echoContent blue "用户名:" n
                 read username
                 username=${username:-admin}  # 如果用户名为空，使用默认值 admin
 
                 _yellow "请输入合并订阅邮箱 (例如:***@gmail.com): "
+                _yellow "(例如:***@gmail.com，合并订阅)"
+                echoContent blue "邮箱:" n
                 read email
                 if [[ -z "$email" ]]; then
                     _red "邮箱不能为空"
