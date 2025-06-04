@@ -2,7 +2,7 @@
 
 # 作者信息
 author="Yu G"
-version="1.0.1"
+version="1.0.2"
 
 # 颜色定义
 red='\e[31m'
@@ -591,7 +591,7 @@ send "7\r"
 expect "请输入:"
 send "4\r"
 
-expect "请选择:"
+expect "请输入要添加的用户数量:"
 send "1\r"
 
 expect "请输入合法的UUID，\[回车\]随机UUID:"
