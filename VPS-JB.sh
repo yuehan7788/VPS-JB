@@ -14,6 +14,36 @@ magenta='\e[95m'
 cyan='\e[96m'
 none='\e[0m'
 
+#颜色定义2
+echoContent() {
+    case $1 in
+    # 红色
+    "red")
+        # shellcheck disable=SC2154
+        ${echoType} "\033[31m${printN}$2 \033[0m"
+        ;;
+        # 天蓝色
+    "skyBlue")
+        ${echoType} "\033[1;36m${printN}$2 \033[0m"
+        ;;
+        # 绿色
+    "green")
+        ${echoType} "\033[32m${printN}$2 \033[0m"
+        ;;
+        # 白色
+    "white")
+        ${echoType} "\033[37m${printN}$2 \033[0m"
+        ;;
+    "magenta")
+        ${echoType} "\033[31m${printN}$2 \033[0m"
+        ;;
+        # 黄色
+    "yellow")
+        ${echoType} "\033[33m${printN}$2 \033[0m"
+        ;;
+    esac
+}
+
 # 颜色输出函数
 _red() { echo -e ${red}$@${none}; }
 _blue() { echo -e ${blue}$@${none}; }
@@ -772,11 +802,8 @@ main() {
                 #字体颜色测试
                 echoContent green "作者：mack-a"
 
-                _yellow "请输入要配置的域名 \n(例如: www.v2ray-agent.com或aaa.v2ray-agent.com，注意前缀和解析地址): "
-                _yellow "请输入要配置的域名\n(例如: www.v2ray-agent.com或aaa.v2ray-agent.com，注意前缀和解析地址): "
                 _yellow "请输入要配置的域名"
-                _yellow "(例如: www.v2ray-agent.com或aaa.v2ray-agent.com，注意前缀和解析地址): "
-                printf "${yellow}请输入要配置的域名\n(例如: www.v2ray-agent.com或aaa.v2ray-agent.com，注意前缀和解析地址): ${none}"
+                _yellow "-(例如: www.v2ray-agent.com或aaa.v2ray-agent.com，注意前缀和解析地址): "
                 read domain
                 if [[ -z "$domain" ]]; then
                     _red "域名不能为空"
