@@ -23,7 +23,7 @@ echoContent() {
         "yellow")   echo -e "\033[33m$2\033[0m" ;; # 黄色
         "blue")     echo -e "\033[34m$2\033[0m" ;; # 蓝色
         "magenta")  echo -e "\033[35m$2\033[0m" ;; # 品红/紫色
-        "cyan")     echo -e "\033[36m$2\033[0m" ;; # 青色
+        "cyan")     echo -e "\033[36m$2\033[0m" ;; # 青色   可用
         "white")    echo -e "\033[37m$2\033[0m" ;; # 白色
         "gray")     echo -e "\033[90m$2\033[0m" ;; # 灰色
         "skyBlue")  echo -e "\033[1;36m$2\033[0m" ;; # 天蓝色（高亮青色）
@@ -802,7 +802,7 @@ main() {
 
                 _yellow "请输入要配置的域名"
                 _red "-(例如: www.v2ray-agent.com或aaa.v2ray-agent.com，注意前缀和解析地址)"
-                _blue "域名:"
+                _magenta "域名:"
                 read domain
                 if [[ -z "$domain" ]]; then
                     _red "域名不能为空"
