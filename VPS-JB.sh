@@ -858,7 +858,7 @@ main() {
                 ;;
             5)
                 uninstall_script
-                _green "脚本已卸载，程序将退出"
+                _green "脚本已卸载，程序将退出，如需手动重置：exec bash"
                 exec bash  #主流程刷新shell
                 ;;
             6)
@@ -959,7 +959,7 @@ main() {
                 uninstall_macka_singbox
                 uninstall_script
                 uninstall_expect
-                _green "所有组件已卸载完成，程序将退出"
+                _green "所有组件已卸载完成，程序将退出，如需手动重置：exec bash"
                 exec bash #主流程刷新shell
                 ;;
             0)
