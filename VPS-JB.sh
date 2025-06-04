@@ -881,7 +881,7 @@ main() {
                 echo -e "${yellow}第4步：等于生成其它VPS同用户邮箱订阅${none}\n"
 
 
-                # echoContent 测试项及备注
+                # echoContent 字体色测试项及备注
                 echoContent black "black 黑色字体"
                 echoContent red "red 红色字体"
                 echoContent green "green 绿色字体"
@@ -914,7 +914,7 @@ main() {
 
                 _yellow "请输入要配置的域名"
                 _yellow "-(例如: www.v2ray-agent.com或aaa.v2ray-agent.com，注意前缀和解析地址)"
-                echoContent blue "域名:" n
+                echo -e " \033[42;域名:[ 53%]\033[0m" n
                 read domain
                 if [[ -z "$domain" ]]; then
                     _red "域名不能为空"
