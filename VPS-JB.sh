@@ -795,11 +795,23 @@ main() {
                 echo -e "${yellow}第3步：等于添加其他订阅地址(域名端口别名)${none}"
                 echo -e "${yellow}第4步：等于生成其它VPS同用户邮箱订阅${none}\n"
 
-                #字体颜色测试
-                echoContent green "作者：mack-a"
-                echoContent skyBlu "作者：mack-a"
-                echoContent lightRed "作者：mack-a"
-                echoContent cyan "作者：mack-a"
+                # 颜色输出测试
+                echoContent black "black 黑色"
+                echoContent red "red 红色"
+                echoContent green "green 绿色"
+                echoContent yellow "yellow 黄色"
+                echoContent blue "blue 蓝色"
+                echoContent magenta "magenta 品红/紫色"
+                echoContent cyan "cyan 青色"
+                echoContent white "white 白色"
+                echoContent gray "gray 灰色"
+                echoContent skyBlue "skyBlue 天蓝色"
+                echoContent lightRed "lightRed 亮红色"
+                echoContent lightGreen "lightGreen 亮绿色"
+                echoContent lightYellow "lightYellow 亮黄色"
+                echoContent lightBlue "lightBlue 亮蓝色"
+                echoContent lightMagenta "lightMagenta 亮品红"
+                echoContent lightCyan "lightCyan 亮青色"
                 
 
                 _yellow "请输入要配置的域名"
