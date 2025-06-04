@@ -64,7 +64,7 @@ show_menu() {
     echo -e "${yellow}4.${none} 安装 kejilong工具"
     echo -e "${yellow}5.${none} 卸载脚本"
     echo -e "${yellow}6.${none} 脚本信息"
-    echo -e "${yellow}7.${none} 自动化安装 mack-a sing-box"
+    echo -e "${yellow}7.${none} 自动安装 mack-a sing-box Hysteria2 "
     echo -e "${yellow}8.${none} 卸载expect工具"
     echo -e "${yellow}9.${none} 一键卸载mack-a sing-box和VPS-JB脚本"
     echo -e "${yellow}0.${none} 退出"
@@ -769,7 +769,11 @@ main() {
                 echo -e "${yellow}第3步：等于添加其他订阅地址(域名端口别名)${none}"
                 echo -e "${yellow}第4步：等于生成其它VPS同用户邮箱订阅${none}\n"
 
-                _yellow "请输入要配置的域名 (例如: www.v2ray-agent.com或aaa.v2ray-agent.com，注意前缀和解析地址): "
+                _yellow "请输入要配置的域名 \n(例如: www.v2ray-agent.com或aaa.v2ray-agent.com，注意前缀和解析地址): "
+                _yellow "请输入要配置的域名\n(例如: www.v2ray-agent.com或aaa.v2ray-agent.com，注意前缀和解析地址): "
+                _yellow "请输入要配置的域名"
+                _yellow "(例如: www.v2ray-agent.com或aaa.v2ray-agent.com，注意前缀和解析地址): "
+                printf "${yellow}请输入要配置的域名\n(例如: www.v2ray-agent.com或aaa.v2ray-agent.com，注意前缀和解析地址): ${none}"
                 read domain
                 if [[ -z "$domain" ]]; then
                     _red "域名不能为空"
