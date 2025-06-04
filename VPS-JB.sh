@@ -802,7 +802,7 @@ main() {
 
                 _yellow "请输入要配置的域名"
                 _red "-(例如: www.v2ray-agent.com或aaa.v2ray-agent.com，注意前缀和解析地址)"
-                _gray "域名:"
+                _lightYellow "域名:"
                 read domain
                 if [[ -z "$domain" ]]; then
                     _red "域名不能为空"
