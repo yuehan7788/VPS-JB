@@ -769,6 +769,9 @@ main() {
                 echo -e "${yellow}第3步：等于添加其他订阅地址(域名端口别名)${none}"
                 echo -e "${yellow}第4步：等于生成其它VPS同用户邮箱订阅${none}\n"
 
+                #字体颜色测试
+                echoContent green "作者：mack-a"
+
                 _yellow "请输入要配置的域名 \n(例如: www.v2ray-agent.com或aaa.v2ray-agent.com，注意前缀和解析地址): "
                 _yellow "请输入要配置的域名\n(例如: www.v2ray-agent.com或aaa.v2ray-agent.com，注意前缀和解析地址): "
                 _yellow "请输入要配置的域名"
