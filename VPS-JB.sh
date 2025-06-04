@@ -2,7 +2,7 @@
 
 # 作者信息
 author="Yu G"
-version="1.0.2"
+version="1.0.3"
 
 # 颜色定义
 red='\e[31m'
@@ -594,10 +594,10 @@ send "4\r"
 expect "请输入要添加的用户数量:"
 send "1\r"
 
-expect "请输入合法的UUID，\[回车\]随机UUID:"
+expect "UUID:"
 send "\r"
 
-expect "请输入合法的email，\[回车\]随机email:"
+expect "随机email:"
 send "\$email\r"
 
 # 让mack脚本自己控制后续流程
