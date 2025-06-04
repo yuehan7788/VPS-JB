@@ -44,6 +44,22 @@ echoContent() {
     esac
 }
 
+#颜色定义3
+echoContent() {
+    case $1 in
+    "green")
+        echo -e "\033[32m$2\033[0m"
+        ;;
+    "red")
+        echo -e "\033[31m$2\033[0m"
+        ;;
+    "yellow")
+        echo -e "\033[33m$2\033[0m"
+        ;;
+    # ... 其他颜色
+    esac
+}
+
 # 颜色输出函数
 _red() { echo -e ${red}$@${none}; }
 _blue() { echo -e ${blue}$@${none}; }
@@ -801,9 +817,10 @@ main() {
 
                 #字体颜色测试
                 echoContent green "作者：mack-a"
+                echoContent green "作者：mack-a"
 
                 _yellow "请输入要配置的域名"
-                _yellow "-(例如: www.v2ray-agent.com或aaa.v2ray-agent.com，注意前缀和解析地址): "
+                _red "-(例如: www.v2ray-agent.com或aaa.v2ray-agent.com，注意前缀和解析地址)"
                 read domain
                 if [[ -z "$domain" ]]; then
                     _red "域名不能为空"
