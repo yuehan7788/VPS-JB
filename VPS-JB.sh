@@ -15,28 +15,73 @@ cyan='\e[96m'
 none='\e[0m'
 
 #颜色定义2
+#echoContent() {
+#    case $1 in
+#        "black")    echo -e "\033[30m$2\033[0m" ;; # 黑色   可用
+#        "red")      echo -e "\033[31m$2\033[0m" ;; # 红色   可用
+#        "green")    echo -e "\033[32m$2\033[0m" ;; # 绿色   可用
+#        "yellow")   echo -e "\033[33m$2\033[0m" ;; # 黄色   可用
+#        "blue")     echo -e "\033[34m$2\033[0m" ;; # 蓝色   可用
+#        "magenta")  echo -e "\033[35m$2\033[0m" ;; # 品红/紫色   可用
+#        "cyan")     echo -e "\033[36m$2\033[0m" ;; # 青色   可用
+#        "white")    echo -e "\033[37m$2\033[0m" ;; # 白色(灰白)   可用
+#        "gray")     echo -e "\033[90m$2\033[0m" ;; # 灰色
+#        "skyBlue")  echo -e "\033[1;36m$2\033[0m" ;; # 天蓝色（高亮青色）   可用
+#        "lightRed") echo -e "\033[91m$2\033[0m" ;; # 亮红色
+#        "lightGreen") echo -e "\033[92m$2\033[0m" ;; # 亮绿色
+#        "lightYellow") echo -e "\033[93m$2\033[0m" ;; # 亮黄色
+#        "lightBlue") echo -e "\033[94m$2\033[0m" ;; # 亮蓝色
+#        "lightMagenta") echo -e "\033[95m$2\033[0m" ;; # 亮品红
+#        "lightCyan") echo -e "\033[96m$2\033[0m" ;; # 亮青色
+#        *) echo "$2" ;; # 默认无色
+#    esac
+#}
+
+#颜色定义-兼容光标换行和不换行(加n)
 echoContent() {
-    case $1 in
-        "black")    echo -e "\033[30m$2\033[0m" ;; # 黑色   可用
-        "red")      echo -e "\033[31m$2\033[0m" ;; # 红色   可用
-        "green")    echo -e "\033[32m$2\033[0m" ;; # 绿色   可用
-        "yellow")   echo -e "\033[33m$2\033[0m" ;; # 黄色   可用
-        "blue")     echo -e "\033[34m$2\033[0m" ;; # 蓝色   可用
-        "magenta")  echo -e "\033[35m$2\033[0m" ;; # 品红/紫色   可用
-        "cyan")     echo -e "\033[36m$2\033[0m" ;; # 青色   可用
-        "white")    echo -e "\033[37m$2\033[0m" ;; # 白色(灰白)   可用
-        "gray")     echo -e "\033[90m$2\033[0m" ;; # 灰色
-        "skyBlue")  echo -e "\033[1;36m$2\033[0m" ;; # 天蓝色（高亮青色）   可用
-        "lightRed") echo -e "\033[91m$2\033[0m" ;; # 亮红色
-        "lightGreen") echo -e "\033[92m$2\033[0m" ;; # 亮绿色
-        "lightYellow") echo -e "\033[93m$2\033[0m" ;; # 亮黄色
-        "lightBlue") echo -e "\033[94m$2\033[0m" ;; # 亮蓝色
-        "lightMagenta") echo -e "\033[95m$2\033[0m" ;; # 亮品红
-        "lightCyan") echo -e "\033[96m$2\033[0m" ;; # 亮青色
-        *) echo "$2" ;; # 默认无色
+    local color=$1
+    local text=$2
+    local noline=$3
+    local opt="-e"
+    [[ "$noline" == "n" ]] && opt="-ne"
+    case $color in
+        "black")    echo $opt "\033[30m${text}\033[0m" ;;
+        "red")      echo $opt "\033[31m${text}\033[0m" ;;
+        "green")    echo $opt "\033[32m${text}\033[0m" ;;
+        "yellow")   echo $opt "\033[33m${text}\033[0m" ;;
+        "blue")     echo $opt "\033[34m${text}\033[0m" ;;
+        "magenta")  echo $opt "\033[35m${text}\033[0m" ;;
+        "cyan")     echo $opt "\033[36m${text}\033[0m" ;;
+        "white")    echo $opt "\033[37m${text}\033[0m" ;;
+        "gray")     echo $opt "\033[90m${text}\033[0m" ;;
+        "skyBlue")  echo $opt "\033[1;36m${text}\033[0m" ;;
+        "lightRed") echo $opt "\033[91m${text}\033[0m" ;;
+        "lightGreen") echo $opt "\033[92m${text}\033[0m" ;;
+        "lightYellow") echo $opt "\033[93m${text}\033[0m" ;;
+        "lightBlue") echo $opt "\033[94m${text}\033[0m" ;;
+        "lightMagenta") echo $opt "\033[95m${text}\033[0m" ;;
+        "lightCyan") echo $opt "\033[96m${text}\033[0m" ;;
+        *) [[ "$noline" == "n" ]] && echo -n "$text" || echo "$text" ;;
     esac
 }
 
+# 颜色输出测试
+#echoContent black "black 黑色"
+#echoContent red "red 红色"
+#echoContent green "green 绿色"
+#echoContent yellow "yellow 黄色"
+#echoContent blue "blue 蓝色"
+#echoContent magenta "magenta 品红/紫色"
+#echoContent cyan "cyan 青色"
+#echoContent white "white 白色"
+#echoContent gray "gray 灰色"
+#echoContent skyBlue "skyBlue 天蓝色"
+#echoContent lightRed "lightRed 亮红色"
+#echoContent lightGreen "lightGreen 亮绿色"
+#echoContent lightYellow "lightYellow 亮黄色"
+#echoContent lightBlue "lightBlue 亮蓝色"
+#echoContent lightMagenta "lightMagenta 亮品红"
+#echoContent lightCyan "lightCyan 亮青色"
 
 # 颜色输出函数
 _red() { echo -e ${red}$@${none}; }
@@ -210,7 +255,7 @@ uninstall_script() {
     source ~/.bashrc
     
     _green "脚本卸载完成！"
-    
+    #删除exec bash刷新shell线程，否则无法执行其它卸载流程。
     
     
 }
@@ -746,7 +791,7 @@ EOF
     rm -f /etc/systemd/system/v2ray-agent.service
     systemctl daemon-reload 2>/dev/null
     _green "mack-a sing-box卸载完成！"
-    
+    #删除exec bash刷新shell线程，否则无法执行其它卸载流程。
 }
 
 # 主函数
@@ -785,7 +830,7 @@ main() {
             5)
                 uninstall_script
                 _green "脚本已卸载，程序将退出"
-                exec bash
+                exec bash  #主流程刷新shell
                 ;;
             6)
                 show_script_info
@@ -806,28 +851,10 @@ main() {
                 echo -e "${yellow}第3步：等于添加其他订阅地址(域名端口别名)${none}"
                 echo -e "${yellow}第4步：等于生成其它VPS同用户邮箱订阅${none}\n"
 
-                # 颜色输出测试
-                echoContent black "black 黑色"
-                echoContent red "red 红色"
-                echoContent green "green 绿色"
-                echoContent yellow "yellow 黄色"
-                echoContent blue "blue 蓝色"
-                echoContent magenta "magenta 品红/紫色"
-                echoContent cyan "cyan 青色"
-                echoContent white "white 白色"
-                echoContent gray "gray 灰色"
-                echoContent skyBlue "skyBlue 天蓝色"
-                echoContent lightRed "lightRed 亮红色"
-                echoContent lightGreen "lightGreen 亮绿色"
-                echoContent lightYellow "lightYellow 亮黄色"
-                echoContent lightBlue "lightBlue 亮蓝色"
-                echoContent lightMagenta "lightMagenta 亮品红"
-                echoContent lightCyan "lightCyan 亮青色"
-                
-
                 _yellow "请输入要配置的域名"
                 _red "-(例如: www.v2ray-agent.com或aaa.v2ray-agent.com，注意前缀和解析地址)"
-                echoContent black "域名:"
+                echoContent black "域名:"n
+                
                 read domain
                 if [[ -z "$domain" ]]; then
                     _red "域名不能为空"
@@ -864,7 +891,7 @@ main() {
                 uninstall_script
                 uninstall_expect
                 _green "所有组件已卸载完成，程序将退出"
-                exec bash
+                exec bash #主流程刷新shell
                 ;;
             0)
                 _green "感谢使用，再见！"
