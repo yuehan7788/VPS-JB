@@ -374,6 +374,8 @@ setup_alias() {
         _yellow "请执行以下命令使别名生效："
         _yellow "source ~/.bashrc"
     fi
+    # 自动加载别名到当前 shell。•	•	如果你希望每次执行 setup_alias 都自动加载别名，建议放在 fi 下边（外部）。
+    source ~/.bashrc
 }
 
 # 自动化安装mack-a sing-box
@@ -915,7 +917,7 @@ main() {
                 _yellow "请输入要配置的域名"
                 _yellow "-(例如: www.v2ray-agent.com或aaa.v2ray-agent.com，注意前缀和解析地址)"
                 #echoContent blue "域名:" n
-                echo -e " \033[42m域名:\033[0m"
+                echo -ne " \033[42m域名:\033[0m"
                 read domain
                 if [[ -z "$domain" ]]; then
                     _red "域名不能为空"
