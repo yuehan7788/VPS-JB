@@ -2,7 +2,7 @@
 
 # 作者信息
 author="Yu G"
-version="1.0.3"
+version="1.0.4"
 
 # 颜色定义
 red='\e[31m'
@@ -335,6 +335,7 @@ set timeout 120
 set domain "$domain"
 set username "$username"
 set salt "$salt"
+set merge_info "$merge_info"
 
 # 启动安装脚本
 spawn bash -c "wget -P /root -N --no-check-certificate \"https://raw.githubusercontent.com/mack-a/v2ray-agent/master/install.sh\" && chmod 700 /root/install.sh && /root/install.sh"
