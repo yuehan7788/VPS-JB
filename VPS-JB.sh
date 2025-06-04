@@ -2,7 +2,7 @@
 
 # 作者信息
 author="Yu G"
-version="1.0.5"
+version="1.0.6"
 
 # 颜色定义
 red='\e[31m'
@@ -556,7 +556,7 @@ set timeout 120
 
 # 设置变量
 set merge_info "$merge_info"
-set email "\$email\r"
+set email "$email"
 # 启动新的mack脚本进程
 spawn /etc/v2ray-agent/install.sh
 
@@ -787,7 +787,7 @@ main() {
                 read username
                 username=${username:-admin}  # 如果用户名为空，使用默认值 admin
 
-                _yellow "请输入合并订阅邮箱 (例如: vps@gmail.com): "
+                _yellow "请输入合并订阅邮箱 (例如:***@gmail.com): "
                 read email
                 if [[ -z "$email" ]]; then
                     _red "邮箱不能为空"
