@@ -211,6 +211,7 @@ uninstall_script() {
     
     _green "脚本卸载完成！"
     _yellow "请重新打开终端或执行 'exec bash' 使更改生效"
+    exit 0
 }
 
 # 设置别名
@@ -734,6 +735,7 @@ EOF
     fi
     
     _green "mack-a sing-box卸载完成！"
+    exit 0
 }
 
 # 主函数
