@@ -915,7 +915,7 @@ main() {
                 _yellow "请输入要配置的域名"
                 _yellow "-(例如: www.v2ray-agent.com或aaa.v2ray-agent.com，注意前缀和解析地址)"
                 #echoContent blue "域名:" n
-                echo -e " \033[42;域名:[ 53%]\033[0m"
+                echo -e " \033[42m域名:\033[0m"
                 read domain
                 if [[ -z "$domain" ]]; then
                     _red "域名不能为空"
