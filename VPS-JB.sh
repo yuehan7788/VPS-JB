@@ -210,8 +210,8 @@ uninstall_script() {
     source ~/.bashrc
     
     _green "脚本卸载完成！"
-    _yellow "即将自动刷新 shell 环境..."
-    exec bash
+    
+    
     
 }
 
@@ -746,7 +746,7 @@ EOF
     rm -f /etc/systemd/system/v2ray-agent.service
     systemctl daemon-reload 2>/dev/null
     _green "mack-a sing-box卸载完成！"
-    exec bash
+    
 }
 
 # 主函数
