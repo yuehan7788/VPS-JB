@@ -2,7 +2,7 @@
 
 # 作者信息
 author="Yu G"
-version="1.0.6"
+version="1.1.6"
 
 # 颜色定义
 red='\e[31m'
