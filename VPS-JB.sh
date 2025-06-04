@@ -37,6 +37,8 @@ none='\e[0m'
 #    esac
 #}
 
+
+
 echoContent() {
     local color=$1
     local text=$2
@@ -879,23 +881,36 @@ main() {
                 echo -e "${yellow}第4步：等于生成其它VPS同用户邮箱订阅${none}\n"
 
 
-                #颜色输出测试
-                echoContent black "black 黑色"
-                echoContent red "red 红色"
-                echoContent green "green 绿色"
-                echoContent yellow "yellow 黄色"
-                echoContent blue "blue 蓝色"
-                echoContent magenta "magenta 品红/紫色"
-                echoContent cyan "cyan 青色"
-                echoContent white "white 白色"
-                echoContent gray "gray 灰色"
-                echoContent skyBlue "skyBlue 天蓝色"
-                echoContent lightRed "lightRed 亮红色"
-                echoContent lightGreen "lightGreen 亮绿色"
-                echoContent lightYellow "lightYellow 亮黄色"
-                echoContent lightBlue "lightBlue 亮蓝色"
-                echoContent lightMagenta "lightMagenta 亮品红"
-                echoContent lightCyan "lightCyan 亮青色"
+                # echoContent 测试项及备注
+                echoContent black "black 黑色字体"
+                echoContent red "red 红色字体"
+                echoContent green "green 绿色字体"
+                echoContent yellow "yellow 黄色字体"
+                echoContent blue "blue 蓝色字体"
+                echoContent magenta "magenta 品红/紫色字体"
+                echoContent cyan "cyan 青色字体"
+                echoContent white "white 白色字体"
+                echoContent gray "gray 灰色字体"
+                echoContent skyBlue "skyBlue 天蓝色字体(高亮青色)"
+                echoContent lightRed "lightRed 亮红色字体"
+                echoContent lightGreen "lightGreen 亮绿色字体"
+                echoContent lightYellow "lightYellow 亮黄色字体"
+                echoContent lightBlue "lightBlue 亮蓝色字体"
+                echoContent lightMagenta "lightMagenta 亮品红字体"
+                echoContent lightCyan "lightCyan 亮青色字体"
+
+                echoContent red_bg "red_bg 红色背景"
+                echoContent green_bg "green_bg 绿色背景"
+                echoContent yellow_bg "yellow_bg 黄色背景"
+                echoContent blue_bg "blue_bg 蓝色背景"
+                echoContent magenta_bg "magenta_bg 品红背景"
+                echoContent cyan_bg "cyan_bg 青色背景"
+                echoContent white_bg "white_bg 白色背景"
+                echoContent gray_bg "gray_bg 灰色背景"
+
+                echoContent white_on_red "white_on_red 白字红底"
+                echoContent black_on_yellow "black_on_yellow 黑字黄底"
+                echoContent red_on_white "red_on_white 红字白底"
 
                 _yellow "请输入要配置的域名"
                 _yellow "-(例如: www.v2ray-agent.com或aaa.v2ray-agent.com，注意前缀和解析地址)"
