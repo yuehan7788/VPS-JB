@@ -926,24 +926,24 @@ main() {
                 
                 _yellow "请输入salt加密值"
                 _yellow "(回车使用随机值，合并订阅必须用相同的值)"
-                echoContent blue "salt值:" n
+                echo -ne "\033[42;30msalt值:\033[0m"
                 read salt
                 salt=${salt:-""}  # 如果salt为空，使用空字符串，让系统生成随机值
 
                 _yellow "请输入合并订阅所拉取的其他VPS的订阅地址"
                 _yellow "域名:端口:别名 (例如: vps1.com:443:server1，回车默认不合并)"
-                echoContent blue "订阅地址:" n
+                echo -ne "\033[42;30m订阅地址:\033[0m"
                 read merge_info
 
                 _yellow "请输入用户名 (回车默认: admin，合并订阅必须用相同用户名): "
                 _yellow "(回车默认: admin，合并订阅必须用相同用户名)"
-                echoContent blue "用户名:" n
+                echo -ne "\033[42;30m用户名:\033[0m"
                 read username
                 username=${username:-admin}  # 如果用户名为空，使用默认值 admin
 
                 _yellow "请输入合并订阅邮箱 (例如:***@gmail.com): "
                 _yellow "(例如:***@gmail.com，合并订阅)"
-                echoContent blue "邮箱:" n
+                echo -ne "\033[42;30m邮箱:\033[0m"
                 read email
                 if [[ -z "$email" ]]; then
                     _red "邮箱不能为空"
