@@ -210,8 +210,9 @@ uninstall_script() {
     source ~/.bashrc
     
     _green "脚本卸载完成！"
-    _yellow "请重新打开终端或执行 'exec bash' 使更改生效"
-    exit 0
+    _yellow "即将自动刷新 shell 环境..."
+    exec bash
+    
 }
 
 # 设置别名
@@ -733,9 +734,19 @@ EOF
     else
         _yellow "未找到acme配置目录"
     fi
-    
+
+    # 删除 mack-a/v2ray-agent 主目录
+    if [[ -d "/etc/v2ray-agent" ]]; then
+        rm -rf /etc/v2ray-agent
+        _green "/etc/v2ray-agent 目录已删除"
+    fi
+    rm -rf /usr/bin/v2ray-agent
+    rm -rf /usr/local/bin/v2ray-agent
+    rm -rf /var/log/v2ray-agent
+    rm -f /etc/systemd/system/v2ray-agent.service
+    systemctl daemon-reload 2>/dev/null
     _green "mack-a sing-box卸载完成！"
-    exit 0
+    exec bash
 }
 
 # 主函数
@@ -774,7 +785,7 @@ main() {
             5)
                 uninstall_script
                 _green "脚本已卸载，程序将退出"
-                exit 0
+                exec bash
                 ;;
             6)
                 show_script_info
@@ -816,7 +827,7 @@ main() {
 
                 _yellow "请输入要配置的域名"
                 _red "-(例如: www.v2ray-agent.com或aaa.v2ray-agent.com，注意前缀和解析地址)"
-                _lightYellow "域名:"
+                _black "域名:"
                 read domain
                 if [[ -z "$domain" ]]; then
                     _red "域名不能为空"
@@ -853,7 +864,7 @@ main() {
                 uninstall_script
                 uninstall_expect
                 _green "所有组件已卸载完成，程序将退出"
-                exit 0
+                exec bash
                 ;;
             0)
                 _green "感谢使用，再见！"
