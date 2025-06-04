@@ -17,48 +17,26 @@ none='\e[0m'
 #颜色定义2
 echoContent() {
     case $1 in
-    # 红色
-    "red")
-        # shellcheck disable=SC2154
-        ${echoType} "\033[31m${printN}$2 \033[0m"
-        ;;
-        # 天蓝色
-    "skyBlue")
-        ${echoType} "\033[1;36m${printN}$2 \033[0m"
-        ;;
-        # 绿色
-    "green")
-        ${echoType} "\033[32m${printN}$2 \033[0m"
-        ;;
-        # 白色
-    "white")
-        ${echoType} "\033[37m${printN}$2 \033[0m"
-        ;;
-    "magenta")
-        ${echoType} "\033[31m${printN}$2 \033[0m"
-        ;;
-        # 黄色
-    "yellow")
-        ${echoType} "\033[33m${printN}$2 \033[0m"
-        ;;
+        "black")    echo -e "\033[30m$2\033[0m" ;; # 黑色
+        "red")      echo -e "\033[31m$2\033[0m" ;; # 红色
+        "green")    echo -e "\033[32m$2\033[0m" ;; # 绿色
+        "yellow")   echo -e "\033[33m$2\033[0m" ;; # 黄色
+        "blue")     echo -e "\033[34m$2\033[0m" ;; # 蓝色
+        "magenta")  echo -e "\033[35m$2\033[0m" ;; # 品红/紫色
+        "cyan")     echo -e "\033[36m$2\033[0m" ;; # 青色
+        "white")    echo -e "\033[37m$2\033[0m" ;; # 白色
+        "gray")     echo -e "\033[90m$2\033[0m" ;; # 灰色
+        "skyBlue")  echo -e "\033[1;36m$2\033[0m" ;; # 天蓝色（高亮青色）
+        "lightRed") echo -e "\033[91m$2\033[0m" ;; # 亮红色
+        "lightGreen") echo -e "\033[92m$2\033[0m" ;; # 亮绿色
+        "lightYellow") echo -e "\033[93m$2\033[0m" ;; # 亮黄色
+        "lightBlue") echo -e "\033[94m$2\033[0m" ;; # 亮蓝色
+        "lightMagenta") echo -e "\033[95m$2\033[0m" ;; # 亮品红
+        "lightCyan") echo -e "\033[96m$2\033[0m" ;; # 亮青色
+        *) echo "$2" ;; # 默认无色
     esac
 }
 
-#颜色定义3
-echoContent() {
-    case $1 in
-    "green")
-        echo -e "\033[32m$2\033[0m"
-        ;;
-    "red")
-        echo -e "\033[31m$2\033[0m"
-        ;;
-    "yellow")
-        echo -e "\033[33m$2\033[0m"
-        ;;
-    # ... 其他颜色
-    esac
-}
 
 # 颜色输出函数
 _red() { echo -e ${red}$@${none}; }
@@ -817,10 +795,12 @@ main() {
 
                 #字体颜色测试
                 echoContent green "作者：mack-a"
-                echoContent green "作者：mack-a"
+                
+                echoContent lightRed "作者：mack-a"
 
                 _yellow "请输入要配置的域名"
                 _red "-(例如: www.v2ray-agent.com或aaa.v2ray-agent.com，注意前缀和解析地址)"
+                _lightRed "域名:"
                 read domain
                 if [[ -z "$domain" ]]; then
                     _red "域名不能为空"
