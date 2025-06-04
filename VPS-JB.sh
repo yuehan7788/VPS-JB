@@ -2,7 +2,7 @@
 
 # 作者信息
 author="Yu G"
-version="1.0.4"
+version="1.0.5"
 
 # 颜色定义
 red='\e[31m'
@@ -556,7 +556,7 @@ set timeout 120
 
 # 设置变量
 set merge_info "$merge_info"
-
+set email "\$email\r"
 # 启动新的mack脚本进程
 spawn /etc/v2ray-agent/install.sh
 
