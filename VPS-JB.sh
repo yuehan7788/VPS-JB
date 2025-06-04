@@ -282,6 +282,7 @@ auto_install_macka_singbox() {
     local username=$2
     local salt=$3
     local merge_info=$4
+    local email=$5
     if [[ -z "$domain" ]]; then
         _red "域名不能为空"
         return 1
@@ -580,6 +581,25 @@ send "y\r"
 expect "读取到其他订阅，是否更新"
 send "y\r"
 
+# 继续执行新的步骤
+# 启动新的mack脚本进程
+spawn /etc/v2ray-agent/install.sh
+
+expect "请选择:"
+send "7\r"
+
+expect "请输入:"
+send "4\r"
+
+expect "请选择:"
+send "1\r"
+
+expect "请输入合法的UUID，\[回车\]随机UUID:"
+send "\r"
+
+expect "请输入合法的email，\[回车\]随机email:"
+send "\$email\r"
+
 # 让mack脚本自己控制后续流程
 interact
 EOF
@@ -736,6 +756,18 @@ main() {
                 ;;
             7)
                 # 在选项7执行时立即提示输入域名和用户名
+                echo -e "\n${green}=== 用户管理设置说明 ===${none}"
+                echo -e "${green}1. 相同值Salt${none}"
+                echo -e "${green}2. 相同用户名${none}"
+                echo -e "${green}3. 添加订阅地址格式[域名:端口:机器别名](不带www.)非HTTP订阅${none}"
+                echo -e "${green}4. 相同的用户邮箱${none}\n"
+
+                echo -e "${yellow}=== 用户管理操作步骤说明 ===${none}"
+                echo -e "${yellow}第1步：安装后自动查看可忽略${none}"
+                echo -e "${yellow}第2步：等于生成订阅${none}"
+                echo -e "${yellow}第3步：等于添加其他订阅地址(域名端口别名)${none}"
+                echo -e "${yellow}第4步：等于生成其它VPS同用户邮箱订阅${none}\n"
+
                 _yellow "请输入要配置的域名 (例如: www.v2ray-agent.com或aaa.v2ray-agent.com，注意前缀和解析地址): "
                 read domain
                 if [[ -z "$domain" ]]; then
@@ -743,19 +775,26 @@ main() {
                     continue
                 fi
                 
-                _yellow "请输入用户名 (默认: admin，合并订阅用相同用户名): "
-                read username
-                username=${username:-admin}  # 如果用户名为空，使用默认值 admin
-                
-                _yellow "请输入salt值 (直接回车使用随机值，合并订阅用相同的值): "
+                _yellow "请输入salt加密值 (回车使用随机值，合并订阅必须用相同的值): "
                 read salt
                 salt=${salt:-""}  # 如果salt为空，使用空字符串，让系统生成随机值
 
-                _yellow "请输入其他VPS的域名:端口:别名 (例如: vps1.com:443:server1，回车默认不合并): "
+                _yellow "请输入合并订阅所拉取的其他VPS的域名:端口:别名 (例如: vps1.com:443:server1，回车默认不合并): "
                 read merge_info
+
+                _yellow "请输入用户名 (回车默认: admin，合并订阅必须用相同用户名): "
+                read username
+                username=${username:-admin}  # 如果用户名为空，使用默认值 admin
+
+                _yellow "请输入合并订阅邮箱 (例如: vps@gmail.com): "
+                read email
+                if [[ -z "$email" ]]; then
+                    _red "邮箱不能为空"
+                    continue
+                fi
                 
-                # 传递域名、用户名、salt值和合并信息参数给auto_install_macka_singbox函数
-                auto_install_macka_singbox "$domain" "$username" "$salt" "$merge_info"
+                # 传递域名、用户名、salt值、合并信息和邮箱参数给auto_install_macka_singbox函数
+                auto_install_macka_singbox "$domain" "$username" "$salt" "$merge_info" "$email"
                 ;;
             8)
                 uninstall_expect
