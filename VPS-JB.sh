@@ -795,12 +795,14 @@ main() {
 
                 #字体颜色测试
                 echoContent green "作者：mack-a"
-                
+                echoContent skyBlu "作者：mack-a"
                 echoContent lightRed "作者：mack-a"
+                echoContent cyan "作者：mack-a"
+                
 
                 _yellow "请输入要配置的域名"
                 _red "-(例如: www.v2ray-agent.com或aaa.v2ray-agent.com，注意前缀和解析地址)"
-                _lightRed "域名:"
+                _skyBlu "域名:"
                 read domain
                 if [[ -z "$domain" ]]; then
                     _red "域名不能为空"
