@@ -37,33 +37,60 @@ none='\e[0m'
 #    esac
 #}
 
-#颜色定义-兼容光标换行和不换行(加n)
 echoContent() {
     local color=$1
     local text=$2
     local noline=$3
-    local opt="-e"
-    [[ "$noline" == "n" ]] && opt="-ne"
+    local end="\n"
+    [[ "$noline" == "n" ]] && end=""
     case $color in
-        "black")    echo $opt "\033[30m${text}\033[0m" ;;
-        "red")      echo $opt "\033[31m${text}\033[0m" ;;
-        "green")    echo $opt "\033[32m${text}\033[0m" ;;
-        "yellow")   echo $opt "\033[33m${text}\033[0m" ;;
-        "blue")     echo $opt "\033[34m${text}\033[0m" ;;
-        "magenta")  echo $opt "\033[35m${text}\033[0m" ;;
-        "cyan")     echo $opt "\033[36m${text}\033[0m" ;;
-        "white")    echo $opt "\033[37m${text}\033[0m" ;;
-        "gray")     echo $opt "\033[90m${text}\033[0m" ;;
-        "skyBlue")  echo $opt "\033[1;36m${text}\033[0m" ;;
-        "lightRed") echo $opt "\033[91m${text}\033[0m" ;;
-        "lightGreen") echo $opt "\033[92m${text}\033[0m" ;;
-        "lightYellow") echo $opt "\033[93m${text}\033[0m" ;;
-        "lightBlue") echo $opt "\033[94m${text}\033[0m" ;;
-        "lightMagenta") echo $opt "\033[95m${text}\033[0m" ;;
-        "lightCyan") echo $opt "\033[96m${text}\033[0m" ;;
-        *) [[ "$noline" == "n" ]] && echo -n "$text" || echo "$text" ;;
+        "black")    printf "\033[30m%s\033[0m${end}" "$text" ;;
+        "red")      printf "\033[31m%s\033[0m${end}" "$text" ;;
+        "green")    printf "\033[32m%s\033[0m${end}" "$text" ;;
+        "yellow")   printf "\033[33m%s\033[0m${end}" "$text" ;;
+        "blue")     printf "\033[34m%s\033[0m${end}" "$text" ;;
+        "magenta")  printf "\033[35m%s\033[0m${end}" "$text" ;;
+        "cyan")     printf "\033[36m%s\033[0m${end}" "$text" ;;
+        "white")    printf "\033[37m%s\033[0m${end}" "$text" ;;
+        "gray")     printf "\033[90m%s\033[0m${end}" "$text" ;;
+        "skyBlue")  printf "\033[1;36m%s\033[0m${end}" "$text" ;;
+        "lightRed") printf "\033[91m%s\033[0m${end}" "$text" ;;
+        "lightGreen") printf "\033[92m%s\033[0m${end}" "$text" ;;
+        "lightYellow") printf "\033[93m%s\033[0m${end}" "$text" ;;
+        "lightBlue") printf "\033[94m%s\033[0m${end}" "$text" ;;
+        "lightMagenta") printf "\033[95m%s\033[0m${end}" "$text" ;;
+        "lightCyan") printf "\033[96m%s\033[0m${end}" "$text" ;;
+        *) [[ "$noline" == "n" ]] && printf "%s" "$text" || printf "%s\n" "$text" ;;
     esac
 }
+
+#颜色定义-兼容光标换行和不换行(加n)
+   #echoContent() {
+   #    local color=$1
+   #    local text=$2
+   #    local noline=$3
+   #    local opt="-e"
+   #    [[ "$noline" == "n" ]] && opt="-ne"
+   #    case $color in
+   #        "black")    echo $opt "\033[30m${text}\033[0m" ;;
+   #        "red")      echo $opt "\033[31m${text}\033[0m" ;;
+   #        "green")    echo $opt "\033[32m${text}\033[0m" ;;
+   #        "yellow")   echo $opt "\033[33m${text}\033[0m" ;;
+   #        "blue")     echo $opt "\033[34m${text}\033[0m" ;;
+   #        "magenta")  echo $opt "\033[35m${text}\033[0m" ;;
+   #        "cyan")     echo $opt "\033[36m${text}\033[0m" ;;
+   #        "white")    echo $opt "\033[37m${text}\033[0m" ;;
+   #        "gray")     echo $opt "\033[90m${text}\033[0m" ;;
+   #        "skyBlue")  echo $opt "\033[1;36m${text}\033[0m" ;;
+   #        "lightRed") echo $opt "\033[91m${text}\033[0m" ;;
+   #        "lightGreen") echo $opt "\033[92m${text}\033[0m" ;;
+   #        "lightYellow") echo $opt "\033[93m${text}\033[0m" ;;
+   #        "lightBlue") echo $opt "\033[94m${text}\033[0m" ;;
+   #        "lightMagenta") echo $opt "\033[95m${text}\033[0m" ;;
+   #        "lightCyan") echo $opt "\033[96m${text}\033[0m" ;;
+   #        *) [[ "$noline" == "n" ]] && echo -n "$text" || echo "$text" ;;
+   #    esac
+   #}
 
 # 颜色输出测试
 #echoContent black "black 黑色"
