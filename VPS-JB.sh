@@ -14,7 +14,7 @@ version="1.1.6"
    #cyan='\e[96m'
    #none='\e[0m'
 
-   [[ -t 1 ]] && export FORCE_COLOR=true  # 检测到终端时启用颜色
+  
 
 echoContent() {
     local color=$1
