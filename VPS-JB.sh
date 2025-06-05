@@ -15,49 +15,29 @@ version="1.1.6"
    #none='\e[0m'
 
 
-# 全局颜色变量定义
-red='\033[31m'
-green='\033[32m'
-yellow='\033[33m'
-blue='\033[34m'
-magenta='\033[35m'
-cyan='\033[36m'
-white='\033[90m'  
-gray='\033[37m'   
-skyBlue='\033[1;36m'
-lightRed='\033[91m'
-lightGreen='\033[92m'
-lightYellow='\033[93m'
-lightBlue='\033[94m'
-lightMagenta='\033[95m'
-lightCyan='\033[96m'
-none='\033[0m'
-
 echoContent() {
     local color=$1
     local text=$2
     local noline=$3
     local end="\n"
     [[ "$noline" == "n" ]] && end=""
-
-    # 使用全局颜色变量
     case $color in
-        "black")    printf "${black}%s${none}${end}" "$text" ;;
-        "red")      printf "${red}%s${none}${end}" "$text" ;;
-        "green")    printf "${green}%s${none}${end}" "$text" ;;
-        "yellow")   printf "${yellow}%s${none}${end}" "$text" ;;
-        "blue")     printf "${blue}%s${none}${end}" "$text" ;;
-        "magenta")  printf "${magenta}%s${none}${end}" "$text" ;;
-        "cyan")     printf "${cyan}%s${none}${end}" "$text" ;;
-        "white")    printf "${white}%s${none}${end}" "$text" ;;
-        "gray")     printf "${gray}%s${none}${end}" "$text" ;;
-        "skyBlue")  printf "${skyBlue}%s${none}${end}" "$text" ;;
-        "lightRed") printf "${lightRed}%s${none}${end}" "$text" ;;
-        "lightGreen") printf "${lightGreen}%s${none}${end}" "$text" ;;
-        "lightYellow") printf "${lightYellow}%s${none}${end}" "$text" ;;
-        "lightBlue") printf "${lightBlue}%s${none}${end}" "$text" ;;
-        "lightMagenta") printf "${lightMagenta}%s${none}${end}" "$text" ;;
-        "lightCyan") printf "${lightCyan}%s${none}${end}" "$text" ;;
+        "black")    printf "\033[30m%s\033[0m${end}" "$text" ;;
+        "red")      printf "\033[31m%s\033[0m${end}" "$text" ;;
+        "green")    printf "\033[32m%s\033[0m${end}" "$text" ;;
+        "yellow")   printf "\033[33m%s\033[0m${end}" "$text" ;;
+        "blue")     printf "\033[34m%s\033[0m${end}" "$text" ;;
+        "magenta")  printf "\033[35m%s\033[0m${end}" "$text" ;;
+        "cyan")     printf "\033[36m%s\033[0m${end}" "$text" ;;
+        "white")    printf "\033[37m%s\033[0m${end}" "$text" ;;
+        "gray")     printf "\033[90m%s\033[0m${end}" "$text" ;;
+        "skyBlue")  printf "\033[1;36m%s\033[0m${end}" "$text" ;;
+        "lightRed") printf "\033[91m%s\033[0m${end}" "$text" ;;
+        "lightGreen") printf "\033[92m%s\033[0m${end}" "$text" ;;
+        "lightYellow") printf "\033[93m%s\033[0m${end}" "$text" ;;
+        "lightBlue") printf "\033[94m%s\033[0m${end}" "$text" ;;
+        "lightMagenta") printf "\033[95m%s\033[0m${end}" "$text" ;;
+        "lightCyan") printf "\033[96m%s\033[0m${end}" "$text" ;;
         *) [[ "$noline" == "n" ]] && printf "%s" "$text" || printf "%s\n" "$text" ;;
     esac
 }
