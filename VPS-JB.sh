@@ -768,7 +768,7 @@ main() {
 
                 # 执行安装
                 auto_install_macka_singbox "$domain" "$username" "$salt" "$merge_info" "$email"
-
+                ;;
             8)
                 uninstall_expect
                 ;;
