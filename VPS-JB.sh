@@ -100,18 +100,7 @@ echoContent lightBlue "lightBlue 亮蓝色字体"
 echoContent lightMagenta "lightMagenta 亮品红字体"
 echoContent lightCyan "lightCyan 亮青色字体"
 
-echoContent red_bg "red_bg 红色背景"
-echoContent green_bg "green_bg 绿色背景"
-echoContent yellow_bg "yellow_bg 黄色背景"
-echoContent blue_bg "blue_bg 蓝色背景"
-echoContent magenta_bg "magenta_bg 品红背景"
-echoContent cyan_bg "cyan_bg 青色背景"
-echoContent white_bg "white_bg 白色背景"
-echoContent gray_bg "gray_bg 灰色背景"
 
-echoContent white_on_red "white_on_red 白字红底"
-echoContent black_on_yellow "black_on_yellow 黑字黄底"
-echoContent red_on_white "red_on_white 红字白底"
 
 # 颜色输出函数
 _red() { echo -e ${red}$@${none}; }
