@@ -372,12 +372,24 @@ uninstall_script() {
 }
 
 # 设置别名
+  # setup_alias() {
+  #     local system_script="/usr/local/bin/VPS-JB.sh"
+  #     local alias_config="/etc/profile.d/vps-jb-bieming.sh"
+  #     local github_url="https://raw.githubusercontent.com/yuehan7788/VPS-JB/refs/heads/yuehan7788-patch-2/VPS-JB.sh"
+  #     local show_info=$1  # 新增参数控制是否显示详细信息
+  #     local is_first_install=0
+
+  # 设置别名
 setup_alias() {
     local system_script="/usr/local/bin/VPS-JB.sh"
     local alias_config="/etc/profile.d/vps-jb-bieming.sh"
     local github_url="https://raw.githubusercontent.com/yuehan7788/VPS-JB/refs/heads/yuehan7788-patch-2/VPS-JB.sh"
-    local show_info=$1  # 新增参数控制是否显示详细信息
+    local show_info=$1
     local is_first_install=0
+
+    echo "DEBUG: 进入 setup_alias, show_info=$show_info"
+    echo "DEBUG: setup_alias 检查 $system_script 是否存在: $(if [[ -f "$system_script" ]]; then echo yes; else echo no; fi)"
+    echo "DEBUG: setup_alias 检查 $system_script 是否非空: $(if [[ -s "$system_script" ]]; then echo yes; else echo no; fi)"
     
     # 检查脚本是否已经安装
     if [[ ! -f "$system_script" ]] || [[ ! -s "$system_script" ]]; then
