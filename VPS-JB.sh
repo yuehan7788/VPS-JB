@@ -338,7 +338,7 @@ setup_alias() {
     source ~/.bashrc
 }
 
-# 自动化安装mack-a sing-box
+# 自动化安装mack-a sing-box（分步 expect 脚本实现，含“第X步”中文备注）
 auto_install_macka_singbox() {
     local domain=$1
     local username=$2
@@ -350,7 +350,7 @@ auto_install_macka_singbox() {
         return 1
     fi
 
-    # 检查并安装expect
+    # 第 0 步：检查并安装 expect 工具
     if ! command -v expect &> /dev/null; then
         _yellow "正在安装expect..."
         if command -v apt &> /dev/null; then
@@ -377,7 +377,7 @@ auto_install_macka_singbox() {
         _green "expect安装成功！"
     fi
 
-    # 合并后的 expect 脚本
+    # 生成 expect 脚本，带“第X步”备注
     cat > /tmp/macka_allinone.exp << 'EOF'
 #!/usr/bin/expect -f
 
@@ -390,63 +390,53 @@ set email [lindex $argv 4]
 set timeout 120
 
 # ========== 主安装流程 ==========
-# 第0步：下载安装并启动 mack-a 主脚本
+# 第 1 步：下载安装并启动 mack-a 主脚本
 spawn bash -c "wget -P /root -N --no-check-certificate \"https://raw.githubusercontent.com/mack-a/v2ray-agent/master/install.sh\" && chmod 700 /root/install.sh && /root/install.sh"
 
-# 通用超时处理
-expect_before {
-    timeout {
-        expect_user -re "(.*)\n"
-        send "$expect_out(1,string)\r"
-        exp_continue
-    }
-    eof { exit }
-}
-
-# 第1步：主菜单选择1
+# 第 2 步：主菜单选择1
 expect "请选择:"
 send "1\r"
-# 第2步：子菜单选择2
+# 第 3 步：子菜单选择2
 expect "请选择:"
 send "2\r"
-# 第3步：输入域名
+# 第 4 步：输入域名
 expect "请输入要配置的域名 例: www.v2ray-agent.com ---> "
 send "$domain\r"
-# 第4步：是否使用DNS API申请证书
+# 第 5 步：是否使用DNS API申请证书
 expect -re "是否使用DNS API申请证书.*y/n"
 send "n\r"
-# 第5步：选择默认
+# 第 6 步：选择默认
 expect "请选择"
 expect "使用默认"
 send "\r"
-# 第6步：UUID
+# 第 7 步：UUID
 expect "UUID:"
 send "\r"
-# 第7步：用户名
+# 第 8 步：用户名
 expect "用户名:"
 send "$username\r"
-# 第8步：自定义端口1
+# 第 9 步：自定义端口1
 expect "请输入自定义端口"
 send "\r"
-# 第9步：自定义端口2
+# 第 10 步：自定义端口2
 expect "请输入自定义端口"
 send "\r"
-# 第10步：路径
+# 第 11 步：路径
 expect "路径:"
 send "\r"
-# 第11步：自定义端口3
+# 第 12 步：自定义端口3
 expect "请输入自定义端口"
 send "\r"
-# 第12步：读取上次安装记录
+# 第 13 步：读取上次安装记录
 expect -re "读取到上次安装记录.*path路径.*y/n"
 send "y\r"
-# 第13步：是否使用此域名作为Reality目标域名
+# 第 14 步：是否使用此域名作为Reality目标域名
 expect -re "是否使用 .* 此域名作为Reality目标域名 ？.*y/n"
 send "y\r"
-# 第14步：自定义端口4
+# 第 15 步：自定义端口4
 expect "请输入自定义端口"
 send "\r"
-# 第15步：伪装站点检测
+# 第 16 步：伪装站点检测
 expect {
     -re "检测到安装伪装站点，是否需要重新安装.*y/n" {
         send "y\r"
@@ -456,66 +446,67 @@ expect {
         send "\r"
     }
 }
-# 第16步：再次确认Reality目标域名
+# 第 17 步：再次确认Reality目标域名
 expect -re "是否使用 .* 此域名作为Reality目标域名 ？.*y/n"
 send "y\r"
-# 第17步：自定义端口5
+# 第 18 步：自定义端口5
 expect "请输入自定义端口"
 send "\r"
-# 第18步：自定义端口6
+# 第 19 步：自定义端口6
 expect "请输入自定义端口"
 send "\r"
-# 第19步：下行速度
+# 第 20 步：下行速度
 expect "下行速度:"
 send "10000\r"
-# 第20步：上行速度
+# 第 21 步：上行速度
 expect "上行速度:"
 send "50\r"
-# 第21步：自定义端口7
+# 第 22 步：自定义端口7
 expect "请输入自定义端口"
 send "\r"
-# 第22步：自定义端口8
+# 第 23 步：自定义端口8
 expect "请输入自定义端口"
 send "\r"
-# 第23步：请选择
+# 第 24 步：请选择
 expect "请选择:"
 send "\r"
-# 第24步：自定义端口9
+# 第 25 步：自定义端口9
 expect "请输入自定义端口"
 send "\r"
-# 第25步：自定义端口10
+# 第 26 步：自定义端口10
 expect "请输入自定义端口"
 send "\r"
-# 第26步：再次读取上次安装记录
+# 第 27 步：再次读取上次安装记录
 expect -re "读取到上次安装记录.*path路径.*y/n"
 send "y\r"
-# 第27步：是否继续
-expect "是否继续"
-send "y\r"
-# 第28步：是否安装
-expect "是否安装"
-send "y\r"
-# 第29步：是否卸载
-expect "是否卸载"
-send "n\r"
-# 第30步：是否删除
-expect "是否删除"
-send "n\r"
-# 第31步：是否更新
-expect "是否更新"
-send "y\r"
-# 第32步：是否重启
-expect "是否重启"
-send "y\r"
-# 第33步：按回车继续
-expect "按回车继续"
-send "\r"
+   ## 第 28 步：是否继续
+   #expect "是否继续"
+   #send "y\r"
+   ## 第 29 步：是否安装
+   #expect "是否安装"
+   #send "y\r"
+   ## 第 30 步：是否卸载
+   #expect "是否卸载"
+   #send "n\r"
+   ## 第 31 步：是否删除
+   #expect "是否删除"
+   #send "n\r"
+   ## 第 32 步：是否更新
+   #expect "是否更新"
+   #send "y\r"
+   ## 第 33 步：是否重启
+   #expect "是否重启"
+   #send "y\r"
+   ## 第 34 步：按回车继续
+   #expect "按回车继续"
+   #send "\r"
 # 主流程结束
-#expect eof
+expect eof
+puts "主流程结束，准备进入后续配置"
 
-# ========== 继续配置流程（可选） ==========
+# ========== 订阅配置-生成订阅（可选） ==========
 if { "$salt" != "" } {
-    # 第34步：进入继续配置
+    # 第 35 步：进入继续配置
     spawn /etc/v2ray-agent/install.sh
     expect "请选择:"
     send "7\r"
@@ -528,7 +519,7 @@ if { "$salt" != "" } {
 
 # ========== 合并订阅流程（可选） ==========
 if { "$merge_info" != "" && "$email" != "" } {
-    # 第35步：合并订阅-第一阶段
+    # 第 36 步：合并订阅-添加其它订阅
     spawn /etc/v2ray-agent/install.sh
     expect "请选择:"
     send "7\r"
@@ -545,7 +536,7 @@ if { "$merge_info" != "" && "$email" != "" } {
     expect "读取到其他订阅，是否更新"
     send "y\r"
 
-    # 第36步：合并订阅-第二阶段
+    # 第 37 步：合并订阅-生成合并其它订阅
     spawn /etc/v2ray-agent/install.sh
     expect "请选择:"
     send "7\r"
