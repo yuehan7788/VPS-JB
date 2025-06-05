@@ -646,7 +646,7 @@ EOF
     fi
 
     # 删除 mack-a/v2ray-agent 主目录
-    _yellow "mack-a/v2ray-agent 主目录."
+    _yellow "正在删除mack-a/v2ray-agent 主目录."
     if [[ -d "/etc/v2ray-agent" ]]; then
         rm -rf /etc/v2ray-agent
         _green "/etc/v2ray-agent 目录已删除"
