@@ -479,27 +479,7 @@ send "\r"
 # 第 27 步：再次读取上次安装记录
 expect -re "读取到上次安装记录.*path路径.*y/n"
 send "y\r"
-   ## 第 28 步：是否继续
-   #expect "是否继续"
-   #send "y\r"
-   ## 第 29 步：是否安装
-   #expect "是否安装"
-   #send "y\r"
-   ## 第 30 步：是否卸载
-   #expect "是否卸载"
-   #send "n\r"
-   ## 第 31 步：是否删除
-   #expect "是否删除"
-   #send "n\r"
-   ## 第 32 步：是否更新
-   #expect "是否更新"
-   #send "y\r"
-   ## 第 33 步：是否重启
-   #expect "是否重启"
-   #send "y\r"
-   ## 第 34 步：按回车继续
-   #expect "按回车继续"
-   #send "\r"
+
 # 主流程结束
 expect eof
 puts "主流程结束，准备进入后续配置"
@@ -718,16 +698,13 @@ main() {
                 echo -e "${green}4. 相同的用户邮箱${none}\n"
 
                 echo -e "${yellow}=== 用户管理操作步骤说明 ===${none}"
-                echo -e "${yellow}第1步：安装后自动查看可忽略${none}"
+                echo -e "${yellow}第1步：等于生成节点，安装后自动查看可忽略${none}"
                 echo -e "${yellow}第2步：等于生成订阅${none}"
                 echo -e "${yellow}第3步：等于添加其他订阅地址(域名端口别名)${none}"
-                echo -e "${yellow}第4步：等于生成其它VPS同用户邮箱订阅${none}\n"
+                echo -e "${yellow}第4步：等于生成合并其它同用户邮箱订阅${none}\n"
 
 
-                
-
-
-                _yellow "请输入要配置的域名"
+                _yellow "请输入要配置的域名-->必填"
                 _yellow "-(例如: www.v2ray-agent.com或aaa.v2ray-agent.com，注意前缀和解析地址)"
                 #echoContent blue "域名:" n
                 echo -ne "\033[42;30m域名:\033[0m"
@@ -737,29 +714,30 @@ main() {
                     continue
                 fi
                 
-                _yellow "请输入salt加密值"
-                _yellow "(回车使用随机值，合并订阅必须用相同的值)"
+                _yellow "请输入salt加密值-->使用订阅、合并订阅必填。"
+                _yellow "(回车默认随机值，合并订阅必须用相同的值，只生成节点回车默认)"
                 echo -ne "\033[42;30msalt值:\033[0m"
                 read salt
                 salt=${salt:-""}  # 如果salt为空，使用空字符串，让系统生成随机值
 
-                _yellow "请输入合并订阅所拉取的其他VPS的订阅地址"
+                _yellow "请输入添加合并订阅的其他VPS订阅地址-->合并订阅必填"
                 _yellow "域名:端口:别名 (例如: vps1.com:443:server1，回车默认不合并)"
                 echo -ne "\033[42;30m订阅地址:\033[0m"
                 read merge_info
 
-                _yellow "请输入用户名 (回车默认: admin，合并订阅必须用相同用户名): "
+                _yellow "请输入用户名-->合并订阅必填"
                 _yellow "(回车默认: admin，合并订阅必须用相同用户名)"
                 echo -ne "\033[42;30m用户名:\033[0m"
                 read username
                 username=${username:-admin}  # 如果用户名为空，使用默认值 admin
 
-                _yellow "请输入合并订阅邮箱 (例如:***@gmail.com): "
-                _yellow "(例如:***@gmail.com，合并订阅)"
+                _yellow "请输入合并订阅其它VPS邮箱-->仅合并订阅时必填，回车默认不填"
+                _yellow "(例如:***@gmail.com)"
                 echo -ne "\033[42;30m邮箱:\033[0m"
                 read email
-                if [[ -z "$email" ]]; then
-                    _red "邮箱不能为空"
+                # 只有在合并订阅时才校验邮箱必填
+                if [[ -n "$merge_info" && -z "$email" ]]; then
+                    _red "合并订阅时邮箱不能为空"
                     continue
                 fi
                 
