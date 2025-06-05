@@ -703,6 +703,13 @@ main() {
                 echo -e "${yellow}第3步：等于添加其他订阅地址(域名端口别名)${none}"
                 echo -e "${yellow}第4步：等于生成合并其它同用户邮箱订阅${none}\n"
 
+                echoContent green "=== 输入项说明 ==="
+                echoContent green "-(例如: www.v2ray-agent.com或aaa.v2ray-agent.com，注意前缀和解析地址)"
+                echoContent green "(回车默认随机值，合并订阅必须用相同的值，只生成节点回车默认)"
+                echoContent green "域名:端口:别名 (例如: vps1.com:443:server1，回车默认不合并)"
+                echoContent green "(回车默认: admin，合并订阅必须用相同用户名)"
+                echoContent green "(例如:***@gmail.com)"
+
 
                 _yellow "请输入要配置的域名-->必填"
                 _yellow "-(例如: www.v2ray-agent.com或aaa.v2ray-agent.com，注意前缀和解析地址)"
@@ -743,6 +750,8 @@ main() {
                     fi
                     break
                 done
+
+                
                 
                 # 传递域名、用户名、salt值、合并信息和邮箱参数给auto_install_macka_singbox函数
                 auto_install_macka_singbox "$domain" "$username" "$salt" "$merge_info" "$email"
