@@ -45,24 +45,6 @@ echoContent() {
 #   echo -e "\033[38;5;208;5m警示橙闪烁\033[0m"  # 前景色为208（橙色）并闪烁
 #   echo -e "\033[38;5;15;48;5;0;5m白字黑底闪烁\033[0m"  
 
-# echoContent 字体色测试项
-#   echoContent black "black 黑色字体"
-#   echoContent red "red 红色字体"
-#   echoContent green "green 绿色字体"
-#   echoContent yellow "yellow 黄色字体"
-#   echoContent blue "blue 蓝色字体"
-#   echoContent magenta "magenta 品红/紫色字体"
-#   echoContent cyan "cyan 青色字体"
-#   echoContent white "white 白色字体"
-#   echoContent gray "gray 灰色字体"
-#   echoContent skyBlue "skyBlue 天蓝色字体(高亮青色)"
-#   echoContent lightRed "lightRed 亮红色字体"
-#   echoContent lightGreen "lightGreen 亮绿色字体"
-#   echoContent lightYellow "lightYellow 亮黄色字体"
-#   echoContent lightBlue "lightBlue 亮蓝色字体"
-#   echoContent lightMagenta "lightMagenta 亮品红字体"
-#   echoContent lightCyan "lightCyan 亮青色字体"
-
 # 颜色定义
 red='\e[31m'
 yellow='\e[33m'
@@ -715,6 +697,26 @@ main() {
                 bash
                 ;;
             7)
+                
+                # echoContent 字体色测试项
+                echoContent black "black 黑色字体"
+                echoContent red "red 红色字体"
+                echoContent green "green 绿色字体"
+                echoContent yellow "yellow 黄色字体"
+                echoContent blue "blue 蓝色字体"
+                echoContent magenta "magenta 品红/紫色字体"
+                echoContent cyan "cyan 青色字体"
+                echoContent white "white 白色字体"
+                echoContent gray "gray 灰色字体"
+                echoContent skyBlue "skyBlue 天蓝色字体(高亮青色)"
+                echoContent lightRed "lightRed 亮红色字体"
+                echoContent lightGreen "lightGreen 亮绿色字体"
+                echoContent lightYellow "lightYellow 亮黄色字体"
+                echoContent lightBlue "lightBlue 亮蓝色字体"
+                echoContent lightMagenta "lightMagenta 亮品红字体"
+                echoContent lightCyan "lightCyan 亮青色字体"
+            
+            
                 # 域名
                 _yellow "请输入要配置的域名（必填，例如: www.v2ray-agent.com 或 aaa.v2ray-agent.com，注意前缀和解析地址）"
                 echo -ne "\033[42;30m域名:\033[0m"
