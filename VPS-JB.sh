@@ -698,23 +698,23 @@ main() {
                 ;;
             7)
                 
-                # echoContent 字体色测试项
-                echoContent black "black 黑色字体"
-                echoContent red "red 红色字体"
-                echoContent green "green 绿色字体"
-                echoContent yellow "yellow 黄色字体"
-                echoContent blue "blue 蓝色字体"
-                echoContent magenta "magenta 品红/紫色字体"
-                echoContent cyan "cyan 青色字体"
-                echoContent white "white 白色字体"
-                echoContent gray "gray 灰色字体"
-                echoContent skyBlue "skyBlue 天蓝色字体(高亮青色)"
-                echoContent lightRed "lightRed 亮红色字体"
-                echoContent lightGreen "lightGreen 亮绿色字体"
-                echoContent lightYellow "lightYellow 亮黄色字体"
-                echoContent lightBlue "lightBlue 亮蓝色字体"
-                echoContent lightMagenta "lightMagenta 亮品红字体"
-                echoContent lightCyan "lightCyan 亮青色字体"
+                 #  # echoContent 字体色测试项
+                 #  echoContent black "black 黑色字体"
+                 #  echoContent red "red 红色字体"
+                 #  echoContent green "green 绿色字体"
+                 #  echoContent yellow "yellow 黄色字体"
+                 #  echoContent blue "blue 蓝色字体"
+                 #  echoContent magenta "magenta 品红/紫色字体"
+                 #  echoContent cyan "cyan 青色字体"
+                 #  echoContent white "white 白色字体"
+                 #  echoContent gray "gray 灰色字体"
+                 #  echoContent skyBlue "skyBlue 天蓝色字体(高亮青色)"
+                 #  echoContent lightRed "lightRed 亮红色字体"
+                 #  echoContent lightGreen "lightGreen 亮绿色字体"
+                 #  echoContent lightYellow "lightYellow 亮黄色字体"
+                 #  echoContent lightBlue "lightBlue 亮蓝色字体"
+                 #  echoContent lightMagenta "lightMagenta 亮品红字体"
+                 #  echoContent lightCyan "lightCyan 亮青色字体"
             
             
                 # 域名
