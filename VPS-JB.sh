@@ -205,7 +205,7 @@ run_install() {
 
 # 卸载脚本
 uninstall_script() {
-    _yellow "开始卸载脚本..."
+    _yellow "开始卸载脚本vps-jb..."
     
     # 定义要删除的文件
     local files_to_remove=(
@@ -646,6 +646,7 @@ EOF
     fi
 
     # 删除 mack-a/v2ray-agent 主目录
+    _yellow "mack-a/v2ray-agent 主目录."
     if [[ -d "/etc/v2ray-agent" ]]; then
         rm -rf /etc/v2ray-agent
         _green "/etc/v2ray-agent 目录已删除"
