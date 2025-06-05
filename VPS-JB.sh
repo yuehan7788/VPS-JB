@@ -691,68 +691,84 @@ main() {
                 bash
                 ;;
             7)
-                # 在选项7执行时立即提示输入域名和用户名
-                echo -e "\n${green}=== 用户管理设置说明 ===${none}"
-                echo -e "${green}1. 相同值Salt${none}"
-                echo -e "${green}2. 相同用户名${none}"
-                echo -e "${green}3. 添加订阅地址格式[域名:端口:机器别名](不带www.)非HTTP订阅${none}"
-                echo -e "${green}4. 相同的用户邮箱${none}\n"
+                # 用户管理设置说明 - 深蓝色标题
+                echo -e "\n\033[1;34m=== 用户管理设置说明 ===\033[0m"
+                echo -e "\033[1;34m1. 相同值Salt\033[0m"
+                echo -e "\033[1;34m2. 相同用户名\033[0m"
+                echo -e "\033[1;34m3. 添加订阅地址格式[域名:端口:机器别名](不带www.)非HTTP订阅\033[0m"
+                echo -e "\033[1;34m4. 相同的用户邮箱\033[0m\n"
 
-                echo -e "${yellow}=== 用户管理操作步骤说明 ===${none}"
-                echo -e "${yellow}第1步：等于生成节点，安装后自动查看可忽略${none}"
-                echo -e "${yellow}第2步：等于生成订阅${none}"
-                echo -e "${yellow}第3步：等于添加其他订阅地址(域名端口别名)${none}"
-                echo -e "${yellow}第4步：等于生成合并其它同用户邮箱订阅${none}\n"
+                # 操作步骤说明 - 金黄色
+                echo -e "\033[1;33m=== 用户管理操作步骤说明 ===\033[0m"
+                echo -e "\033[1;33m第1步：等于生成节点，安装后自动查看可忽略\033[0m"
+                echo -e "\033[1;33m第2步：等于生成订阅\033[0m"
+                echo -e "\033[1;33m第3步：等于添加其他订阅地址(域名端口别名)\033[0m"
+                echo -e "\033[1;33m第4步：等于生成合并其它同用户邮箱订阅\033[0m\n"
 
-                echoContent green "=== 输入项说明 ==="
-                echoContent green "-(例如: www.v2ray-agent.com或aaa.v2ray-agent.com，注意前缀和解析地址)"
-                echoContent green "(回车默认随机值，合并订阅必须用相同的值，只生成节点回车默认)"
-                echoContent green "域名:端口:别名 (例如: vps1.com:443:server1，回车默认不合并)"
-                echoContent green "(回车默认: admin，合并订阅必须用相同用户名)"
-                echoContent green "(例如:***@gmail.com)"
+                # 输入提示 - 蓝色
+                echo -e "\033[1;34m=== 输入项说明 ===\033[0m"
+                echo -e "\033[1;34m-(例如: www.example.com或sub.example.com，注意前缀和解析地址)\033[0m"
+                echo -e "\033[1;34m(回车默认随机值，合并订阅必须用相同的值，只生成节点回车默认)\033[0m"
+                echo -e "\033[1;34m域名:端口:别名 (例如: vps1.com:443:server1，回车默认不合并)\033[0m"
+                echo -e "\033[1;34m(回车默认: admin，合并订阅必须用相同用户名)\033[0m"
+                echo -e "\033[1;34m(例如:***@gmail.com)\033[0m"
 
-
-                # 域名
-                _yellow "请输入要配置的域名（必填，例如: www.v2ray-agent.com 或 aaa.v2ray-agent.com，注意前缀和解析地址）"
-                echo -ne "\033[42;30m域名:\033[0m"
+                # 域名输入 - 强化视觉设计
+                echo # 空行分隔
+                echo -e "\033[1;34m▌\033[44;37m 域名输入 \033[0m\033[1;34m──────────────────────────────\033[0m"
+                echo -e "\033[1;37m请输入要配置的域名（必填）\033[0m"
+                echo -e "\033[1;33m格式示例: www.example.com 或 sub.example.com\033[0m"
+                echo -ne "\033[44;37m 请输入域名 ► \033[0m "
                 read domain
-                if [[ -z "$domain" ]]; then
-                    _red "域名不能为空"
+                [[ -z "$domain" ]] && {
+                    echo -e "\033[1;31m✘ 错误：域名不能为空！\033[0m"
                     continue
-                fi
+                }
 
-                # salt
-                _yellow "请输入 salt 加密值（可选，回车默认随机值。合并订阅需用相同值）"
-                echo -ne "\033[42;30msalt值:\033[0m"
+                # Salt输入 - 蓝底白字输入框
+                echo
+                echo -e "\033[1;34m▌\033[44;37m 加密设置 \033[0m\033[1;34m──────────────────────────────\033[0m"
+                echo -e "\033[1;37m请输入 salt 加密值（可选）\033[0m"
+                echo -e "\033[1;33m提示: 合并订阅需用相同值，回车使用随机值\033[0m"
+                echo -ne "\033[44;37m 请输入salt值 ► \033[0m "
                 read salt
                 salt=${salt:-""}
 
-                # 订阅地址
-                _yellow "请输入合并订阅的其他VPS订阅地址（可选，格式: 域名:端口:别名，例如: vps1.com:443:server1，回车默认不合并）"
-                echo -ne "\033[42;30m订阅地址:\033[0m"
+                # 订阅地址输入
+                echo
+                echo -e "\033[1;34m▌\033[44;37m 订阅管理 \033[0m\033[1;34m──────────────────────────────\033[0m"
+                echo -e "\033[1;37m请输入合并订阅的其他VPS地址（可选）\033[0m"
+                echo -e "\033[1;33m格式: 域名:端口:别名 (示例: vps1.com:443:server1)\033[0m"
+                echo -ne "\033[44;37m 请输入订阅地址 ► \033[0m "
                 read merge_info
 
-                # 用户名
-                _yellow "请输入用户名（可选，回车默认 admin，合并订阅需用相同用户名）"
-                echo -ne "\033[42;30m用户名:\033[0m"
+                # 用户名输入
+                echo
+                echo -e "\033[1;34m▌\033[44;37m 用户认证 \033[0m\033[1;34m──────────────────────────────\033[0m"
+                echo -e "\033[1;37m请输入用户名（可选）\033[0m"
+                echo -e "\033[1;33m提示: 合并订阅需相同用户名，回车默认admin\033[0m"
+                echo -ne "\033[44;37m 请输入用户名 ► \033[0m "
                 read username
                 username=${username:-admin}
 
-                # 邮箱
-                _yellow "请输入合并订阅其它VPS邮箱（仅合并订阅时必填，回车默认不填，例如: ***@gmail.com）"
+                # 邮箱验证 - 带错误校验
+                echo
+                echo -e "\033[1;34m▌\033[44;37m 邮箱验证 \033[0m\033[1;34m──────────────────────────────\033[0m"
                 while true; do
-                    echo -ne "\033[42;30m邮箱:\033[0m"
+                    echo -e "\033[1;37m请输入合并订阅邮箱\033[0m"
+                    echo -e "\033[1;33m提示: 合并订阅时必填 (示例: ***@gmail.com)\033[0m"
+                    echo -ne "\033[44;37m 请输入邮箱 ► \033[0m "
                     read email
-                    if [[ -n "$merge_info" && -z "$email" ]]; then
-                        _red "合并订阅时邮箱不能为空，请重新输入！"
+                    [[ -n "$merge_info" && -z "$email" ]] && {
+                        echo -e "\033[41;37m 错误！合并订阅时邮箱不能为空 \033[0m"
                         continue
-                    fi
+                    }
                     break
                 done
 
-                # 传递域名、用户名、salt值、合并信息和邮箱参数给auto_install_macka_singbox函数
+                # 执行安装
                 auto_install_macka_singbox "$domain" "$username" "$salt" "$merge_info" "$email"
-                ;;
+
             8)
                 uninstall_expect
                 ;;
