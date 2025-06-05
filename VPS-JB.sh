@@ -161,12 +161,12 @@ show_script_info() {
     echo -e "${yellow}第3步：等于添加其他订阅地址(域名端口别名)${none}"
     echo -e "${yellow}第4步：等于生成合并其它同用户邮箱订阅${none}\n"
 
-    echoContent gray "=== 八合一输入项说明 ==="
-    echoContent gray "例如: www.v2ray-agent.com或aaa.v2ray-agent.com，注意前缀和解析地址"
-    echoContent gray "回车默认随机值，合并订阅必须用相同的值，只生成节点回车默认"
-    echoContent gray "域名:端口:别名-例如: vps1.com:443:server1，回车默认不合并"
-    echoContent gray "回车默认: admin，合并订阅必须用相同用户名"
-    echoContent gray "邮箱例如:***@gmail.com，合并订阅必须相同邮箱"
+    echoContent lightMagenta "=== 八合一输入项说明 ==="
+    echoContent lightMagenta "例如: www.v2ray-agent.com或aaa.v2ray-agent.com，注意前缀和解析地址"
+    echoContent lightMagenta "回车默认随机值，合并订阅必须用相同的值，只生成节点回车默认"
+    echoContent lightMagenta "域名:端口:别名-例如: vps1.com:443:server1，回车默认不合并"
+    echoContent lightMagenta "回车默认: admin，合并订阅必须用相同用户名"
+    echoContent lightMagenta "邮箱例如:***@gmail.com，合并订阅必须相同邮箱"
     return
 
 
