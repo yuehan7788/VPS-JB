@@ -14,6 +14,7 @@ version="1.1.6"
    #cyan='\e[96m'
    #none='\e[0m'
 
+   [[ -t 1 ]] && export FORCE_COLOR=true  # 检测到终端时启用颜色
 
 echoContent() {
     local color=$1
@@ -36,8 +37,16 @@ echoContent() {
         #"white")    printf "\033[37m%s\033[0m${end}" "$text" ;;
         "gray")     printf "\033[37m%s\033[0m${end}" "$text" ;;
         "skyBlue")  printf "\033[1;36m%s\033[0m${end}" "$text" ;;
-        "lightRed") printf "\033[91m%s\033[0m${end}" "$text" ;;
-        "lightGreen") printf "\033[92m%s\033[0m${end}" "$text" ;;
+
+        # 方案1：使用传统高亮模式（兼容性更好）
+        "lightRed")    printf "\033[1;31m%s\033[0m${end}" "$text" ;;  # 粗体+红色
+        "lightGreen")  printf "\033[1;32m%s\033[0m${end}" "$text" ;;
+
+
+
+
+        #"lightRed") printf "\033[91m%s\033[0m${end}" "$text" ;;
+        #"lightGreen") printf "\033[92m%s\033[0m${end}" "$text" ;;
         "lightYellow") printf "\033[93m%s\033[0m${end}" "$text" ;;
         "lightBlue") printf "\033[94m%s\033[0m${end}" "$text" ;;
         "lightMagenta") printf "\033[95m%s\033[0m${end}" "$text" ;;
