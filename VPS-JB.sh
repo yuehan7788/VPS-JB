@@ -682,6 +682,7 @@ main() {
             5)
                 uninstall_script
                 _green "脚本已卸载，程序将退出，如需手动重置：exec bash"
+                green "自动重置完成：exec bash"
                 exec bash  #主流程刷新shell
                 ;;
             6)
@@ -711,39 +712,37 @@ main() {
                 echoContent green "(例如:***@gmail.com)"
 
 
-                _yellow "请输入要配置的域名-->必填"
-                _yellow "-(例如: www.v2ray-agent.com或aaa.v2ray-agent.com，注意前缀和解析地址)"
-                #echoContent blue "域名:" n
+                # 域名
+                _yellow "请输入要配置的域名（必填，例如: www.v2ray-agent.com 或 aaa.v2ray-agent.com，注意前缀和解析地址）"
                 echo -ne "\033[42;30m域名:\033[0m"
                 read domain
                 if [[ -z "$domain" ]]; then
                     _red "域名不能为空"
                     continue
                 fi
-                
-                _yellow "请输入salt加密值-->使用订阅、合并订阅必填。"
-                _yellow "(回车默认随机值，合并订阅必须用相同的值，只生成节点回车默认)"
+
+                # salt
+                _yellow "请输入 salt 加密值（可选，回车默认随机值。合并订阅需用相同值）"
                 echo -ne "\033[42;30msalt值:\033[0m"
                 read salt
-                salt=${salt:-""}  # 如果salt为空，使用空字符串，让系统生成随机值
+                salt=${salt:-""}
 
-                _yellow "请输入添加合并订阅的其他VPS订阅地址-->合并订阅必填"
-                _yellow "域名:端口:别名 (例如: vps1.com:443:server1，回车默认不合并)"
+                # 订阅地址
+                _yellow "请输入合并订阅的其他VPS订阅地址（可选，格式: 域名:端口:别名，例如: vps1.com:443:server1，回车默认不合并）"
                 echo -ne "\033[42;30m订阅地址:\033[0m"
                 read merge_info
 
-                _yellow "请输入用户名-->合并订阅必填"
-                _yellow "(回车默认: admin，合并订阅必须用相同用户名)"
+                # 用户名
+                _yellow "请输入用户名（可选，回车默认 admin，合并订阅需用相同用户名）"
                 echo -ne "\033[42;30m用户名:\033[0m"
                 read username
-                username=${username:-admin}  # 如果用户名为空，使用默认值 admin
+                username=${username:-admin}
 
-                _yellow "请输入合并订阅其它VPS邮箱-->仅合并订阅时必填，回车默认不填"
-                _yellow "(例如:***@gmail.com)"
+                # 邮箱
+                _yellow "请输入合并订阅其它VPS邮箱（仅合并订阅时必填，回车默认不填，例如: ***@gmail.com）"
                 while true; do
                     echo -ne "\033[42;30m邮箱:\033[0m"
                     read email
-                    # 只有在合并订阅时才校验邮箱必填
                     if [[ -n "$merge_info" && -z "$email" ]]; then
                         _red "合并订阅时邮箱不能为空，请重新输入！"
                         continue
@@ -751,8 +750,6 @@ main() {
                     break
                 done
 
-                
-                
                 # 传递域名、用户名、salt值、合并信息和邮箱参数给auto_install_macka_singbox函数
                 auto_install_macka_singbox "$domain" "$username" "$salt" "$merge_info" "$email"
                 ;;
@@ -765,6 +762,7 @@ main() {
                 uninstall_script
                 uninstall_expect
                 _green "所有组件已卸载完成，程序将退出，如需手动重置：exec bash"
+                _green "自动重置完成：exec bash"
                 exec bash #主流程刷新shell
                 ;;
             0)
