@@ -30,7 +30,7 @@ echoContent() {
     [[ "$noline" == "n" ]] && end=""
 
     # 调试信息（添加在这里）
-    #echo "DEBUG: 颜色模式=$color, 转义序列=\\033[91m" >&2
+    echo "DEBUG: 颜色模式=$color, 转义序列=\\033[91m" >&2
 
     case $color in
         "black")    printf "\033[30m%s\033[0m${end}" "$text" ;;
@@ -69,6 +69,8 @@ echoContent() {
     esac
 }
 
+
+
 # 测试256色（需终端支持）
 echo -e "\033[38;5;196m亮红\033[0m"      # 标准亮红
 echo -e "\033[38;5;214m橙黄\033[0m"      # 介于黄橙之间
@@ -76,8 +78,9 @@ echo -e "\033[38;5;141m紫罗兰\033[0m"    # 柔和紫色
 echo -e "\033[38;5;122m水绿色\033[0m"    # 明亮青绿
 echo -e "\033[38;5;208m警示橙\033[0m"    # 高对比度橙色
 
-
-
+\x1b[5;39;48;5;0m
+\033[5;39;48;5;0m
+echo -e "\033[5;39;48;5;0m慢闪烁\033[0m"
 
 # echoContent 字体色测试项
 echoContent black "black 黑色字体"
