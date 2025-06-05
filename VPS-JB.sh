@@ -4,16 +4,6 @@
 author="Yu G"
 version="1.1.6"
 
-# 颜色定义
-red='\e[31m'
-yellow='\e[33m'
-gray='\e[90m'
-green='\e[92m'
-blue='\e[94m'
-magenta='\e[95m'
-cyan='\e[96m'
-none='\e[0m'
-
 echoContent() {
     local color=$1
     local text=$2
@@ -75,6 +65,16 @@ echoContent() {
 #   echoContent lightBlue "lightBlue 亮蓝色字体"
 #   echoContent lightMagenta "lightMagenta 亮品红字体"
 #   echoContent lightCyan "lightCyan 亮青色字体"
+
+# 颜色定义
+red='\e[31m'
+yellow='\e[33m'
+gray='\e[90m'
+green='\e[92m'
+blue='\e[94m'
+magenta='\e[95m'
+cyan='\e[96m'
+none='\e[0m'
 
 # 颜色输出函数
 _red() { echo -e ${red}$@${none}; }
