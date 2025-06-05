@@ -14,7 +14,7 @@ echoContent() {
     case $color in
         "black")    printf "\033[30m%s\033[0m${end}" "$text" ;;
         "red")      printf "\033[31m%s\033[0m${end}" "$text" ;;
-        "green")    printf "\033[32m%s\033[0m${end}" "$text" ;;
+       # "green")    printf "\033[32m%s\033[0m${end}" "$text" ;;
         "yellow")   printf "\033[33m%s\033[0m${end}" "$text" ;;
         "blue")     printf "\033[34m%s\033[0m${end}" "$text" ;;
         "magenta")  printf "\033[35m%s\033[0m${end}" "$text" ;;
