@@ -4,20 +4,15 @@
 author="Yu G"
 version="1.1.6"
 
-   ## 颜色定义
-   #red='\e[31m'
-   #yellow='\e[33m'
-   #gray='\e[90m'
-   #green='\e[92m'
-   #blue='\e[94m'
-   #magenta='\e[95m'
-   #cyan='\e[96m'
-   #none='\e[0m'
-
-   #[[ -t 1 ]] && export FORCE_COLOR=true  # 检测到终端时启用颜色
-
-  
-
+# 颜色定义
+red='\e[31m'
+yellow='\e[33m'
+gray='\e[90m'
+green='\e[92m'
+blue='\e[94m'
+magenta='\e[95m'
+cyan='\e[96m'
+none='\e[0m'
 
 echoContent() {
     local color=$1
@@ -37,75 +32,49 @@ echoContent() {
         "blue")     printf "\033[34m%s\033[0m${end}" "$text" ;;
         "magenta")  printf "\033[35m%s\033[0m${end}" "$text" ;;
         "cyan")     printf "\033[36m%s\033[0m${end}" "$text" ;;
-        #"white")    printf "\033[37m%s\033[0m${end}" "$text" ;;
+        "white")    printf "\033[90m%s\033[0m${end}" "$text" ;;
         "gray")     printf "\033[37m%s\033[0m${end}" "$text" ;;
         "skyBlue")  printf "\033[1;36m%s\033[0m${end}" "$text" ;;
 
         # 方案1：使用传统高亮模式（兼容性更好）
         "lightRed")    printf "\033[1;31m%s\033[0m${end}" "$text" ;;  # 粗体+红色
         "lightGreen")  printf "\033[1;32m%s\033[0m${end}" "$text" ;;
-
-        
         "lightYellow") printf "\033[38;5;229m%s\033[0m${end}" "$text" ;;  # 浅黄色（256色）
         "lightBlue") printf "\033[38;5;117m%s\033[0m${end}" "$text" ;;    # 浅蓝色（256色）
         "lightMagenta") printf "\033[38;5;219m%s\033[0m${end}" "$text" ;; # 浅洋红色（256色）
         "lightCyan") printf "\033[38;5;159m%s\033[0m${end}" "$text" ;;    # 浅青色（256色）
 
-
-
-
-        # 方案2：强制启用扩展颜色（需终端支持）
-        #"lightRed")    printf "\033[91m%s\033[0m${end}" "$text" ;;  # 直接使用亮色代码
-        #"lightGreen")  printf "\033[92m%s\033[0m${end}" "$text" ;;
-
-
-
-
-        #"lightRed") printf "\033[91m%s\033[0m${end}" "$text" ;;
-        #"lightGreen") printf "\033[92m%s\033[0m${end}" "$text" ;;
-       # "lightYellow") printf "\033[93m%s\033[0m${end}" "$text" ;;
-       # "lightBlue") printf "\033[94m%s\033[0m${end}" "$text" ;;
-       # "lightMagenta") printf "\033[95m%s\033[0m${end}" "$text" ;;
-       # "lightCyan") printf "\033[96m%s\033[0m${end}" "$text" ;;
         *) [[ "$noline" == "n" ]] && printf "%s" "$text" || printf "%s\n" "$text" ;;
     esac
 }
 
-
-
 # 测试256色（需终端支持）
-echo -e "\033[38;5;196m亮红\033[0m"      # 标准亮红
-echo -e "\033[38;5;214m橙黄\033[0m"      # 介于黄橙之间
-echo -e "\033[38;5;141m紫罗兰\033[0m"    # 柔和紫色
-echo -e "\033[38;5;122m水绿色\033[0m"    # 明亮青绿
-echo -e "\033[38;5;208m警示橙\033[0m"    # 高对比度橙色
-
-
-echo -e "\033[5;39;48;5;0m慢闪烁\033[0m"
-echo -e "\033[38;5;208;5m警示橙闪烁\033[0m"  # 前景色为208（橙色）并闪烁
-echo -e "\033[38;5;15;48;5;0;5m白字黑底闪烁\033[0m"  
-
-
+#   echo -e "\033[38;5;196m亮红\033[0m"      # 标准亮红
+#   echo -e "\033[38;5;214m橙黄\033[0m"      # 介于黄橙之间
+#   echo -e "\033[38;5;141m紫罗兰\033[0m"    # 柔和紫色
+#   echo -e "\033[38;5;122m水绿色\033[0m"    # 明亮青绿
+#   echo -e "\033[38;5;208m警示橙\033[0m"    # 高对比度橙色
+#   echo -e "\033[5;39;48;5;0m慢闪烁\033[0m"
+#   echo -e "\033[38;5;208;5m警示橙闪烁\033[0m"  # 前景色为208（橙色）并闪烁
+#   echo -e "\033[38;5;15;48;5;0;5m白字黑底闪烁\033[0m"  
 
 # echoContent 字体色测试项
-echoContent black "black 黑色字体"
-echoContent red "red 红色字体"
-echoContent green "green 绿色字体"
-echoContent yellow "yellow 黄色字体"
-echoContent blue "blue 蓝色字体"
-echoContent magenta "magenta 品红/紫色字体"
-echoContent cyan "cyan 青色字体"
-echoContent white "white 白色字体"
-echoContent gray "gray 灰色字体"
-echoContent skyBlue "skyBlue 天蓝色字体(高亮青色)"
-echoContent lightRed "lightRed 亮红色字体"
-echoContent lightGreen "lightGreen 亮绿色字体"
-echoContent lightYellow "lightYellow 亮黄色字体"
-echoContent lightBlue "lightBlue 亮蓝色字体"
-echoContent lightMagenta "lightMagenta 亮品红字体"
-echoContent lightCyan "lightCyan 亮青色字体"
-
-
+#   echoContent black "black 黑色字体"
+#   echoContent red "red 红色字体"
+#   echoContent green "green 绿色字体"
+#   echoContent yellow "yellow 黄色字体"
+#   echoContent blue "blue 蓝色字体"
+#   echoContent magenta "magenta 品红/紫色字体"
+#   echoContent cyan "cyan 青色字体"
+#   echoContent white "white 白色字体"
+#   echoContent gray "gray 灰色字体"
+#   echoContent skyBlue "skyBlue 天蓝色字体(高亮青色)"
+#   echoContent lightRed "lightRed 亮红色字体"
+#   echoContent lightGreen "lightGreen 亮绿色字体"
+#   echoContent lightYellow "lightYellow 亮黄色字体"
+#   echoContent lightBlue "lightBlue 亮蓝色字体"
+#   echoContent lightMagenta "lightMagenta 亮品红字体"
+#   echoContent lightCyan "lightCyan 亮青色字体"
 
 # 颜色输出函数
 _red() { echo -e ${red}$@${none}; }
