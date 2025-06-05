@@ -14,32 +14,54 @@ magenta='\e[95m'
 cyan='\e[96m'
 none='\e[0m'
 
+
+# 全局颜色变量定义
+red='\033[31m'
+green='\033[32m'
+yellow='\033[33m'
+blue='\033[34m'
+magenta='\033[35m'
+cyan='\033[36m'
+white='\033[37m'
+gray='\033[90m'
+skyBlue='\033[1;36m'
+lightRed='\033[91m'
+lightGreen='\033[92m'
+lightYellow='\033[93m'
+lightBlue='\033[94m'
+lightMagenta='\033[95m'
+lightCyan='\033[96m'
+none='\033[0m'
+
 echoContent() {
     local color=$1
     local text=$2
     local noline=$3
     local end="\n"
     [[ "$noline" == "n" ]] && end=""
+
+    # 使用全局颜色变量
     case $color in
-        "black")    printf "\033[30m%s\033[0m${end}" "$text" ;;
-        "red")      printf "\033[31m%s\033[0m${end}" "$text" ;;
-        "green")    printf "\033[32m%s\033[0m${end}" "$text" ;;
-        "yellow")   printf "\033[33m%s\033[0m${end}" "$text" ;;
-        "blue")     printf "\033[34m%s\033[0m${end}" "$text" ;;
-        "magenta")  printf "\033[35m%s\033[0m${end}" "$text" ;;
-        "cyan")     printf "\033[36m%s\033[0m${end}" "$text" ;;
-        "white")    printf "\033[37m%s\033[0m${end}" "$text" ;;
-        "gray")     printf "\033[90m%s\033[0m${end}" "$text" ;;
-        "skyBlue")  printf "\033[1;36m%s\033[0m${end}" "$text" ;;
-        "lightRed") printf "\033[91m%s\033[0m${end}" "$text" ;;
-        "lightGreen") printf "\033[92m%s\033[0m${end}" "$text" ;;
-        "lightYellow") printf "\033[93m%s\033[0m${end}" "$text" ;;
-        "lightBlue") printf "\033[94m%s\033[0m${end}" "$text" ;;
-        "lightMagenta") printf "\033[95m%s\033[0m${end}" "$text" ;;
-        "lightCyan") printf "\033[96m%s\033[0m${end}" "$text" ;;
+        "black")    printf "${black}%s${none}${end}" "$text" ;;
+        "red")      printf "${red}%s${none}${end}" "$text" ;;
+        "green")    printf "${green}%s${none}${end}" "$text" ;;
+        "yellow")   printf "${yellow}%s${none}${end}" "$text" ;;
+        "blue")     printf "${blue}%s${none}${end}" "$text" ;;
+        "magenta")  printf "${magenta}%s${none}${end}" "$text" ;;
+        "cyan")     printf "${cyan}%s${none}${end}" "$text" ;;
+        "white")    printf "${white}%s${none}${end}" "$text" ;;
+        "gray")     printf "${gray}%s${none}${end}" "$text" ;;
+        "skyBlue")  printf "${skyBlue}%s${none}${end}" "$text" ;;
+        "lightRed") printf "${lightRed}%s${none}${end}" "$text" ;;
+        "lightGreen") printf "${lightGreen}%s${none}${end}" "$text" ;;
+        "lightYellow") printf "${lightYellow}%s${none}${end}" "$text" ;;
+        "lightBlue") printf "${lightBlue}%s${none}${end}" "$text" ;;
+        "lightMagenta") printf "${lightMagenta}%s${none}${end}" "$text" ;;
+        "lightCyan") printf "${lightCyan}%s${none}${end}" "$text" ;;
         *) [[ "$noline" == "n" ]] && printf "%s" "$text" || printf "%s\n" "$text" ;;
     esac
 }
+
 
 #   # echoContent 字体色测试项
 #   echoContent black "black 黑色字体"
@@ -166,9 +188,12 @@ show_script_info() {
     echoContent gray "域名:端口:别名-例如: vps1.com:443:server1，回车默认不合并"
     echoContent gray "回车默认: admin，合并订阅必须用相同用户名"
     echoContent gray "邮箱例如:***@gmail.com，合并订阅必须相同邮箱"
-    show_script_info
+    return
+
+
+    #show_script_info
     # 显示信息后直接跳转到root命令行
-    bash
+    #bash
 }
 
 # 执行安装命令
