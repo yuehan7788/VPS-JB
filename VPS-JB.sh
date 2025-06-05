@@ -773,10 +773,14 @@ EOF
 main() {
     # 检查是否是首次安装
     local is_first_run=0
+    echo "DEBUG: 检查 /usr/local/bin/VPS-JB.sh 是否存在: $(if [[ -f "/usr/local/bin/VPS-JB.sh" ]]; then echo yes; else echo no; fi)"
+    echo "DEBUG: 检查 /usr/local/bin/VPS-JB.sh 是否非空: $(if [[ -s "/usr/local/bin/VPS-JB.sh" ]]; then echo yes; else echo no; fi)"
     if [[ ! -f "/usr/local/bin/VPS-JB.sh" ]]; then
         is_first_run=1
+        echo "DEBUG: 进入首次安装分支，调用 setup_alias \"true\""
         setup_alias "true"  # 首次安装时显示详细信息
     else
+        echo "DEBUG: 进入已安装分支，调用 setup_alias \"false\""
         setup_alias "false"  # 非首次安装时不显示详细信息
     fi
     
