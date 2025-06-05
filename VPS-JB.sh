@@ -93,26 +93,51 @@ check_alias_conflict() {
     return 0
 }
 
-# 显示菜单
+ #  # 显示菜单
+ #  show_menu() {
+ #      clear
+ #      echo -e "${cyan}========================================${none}"
+ #      echo -e "${green}        一键安装脚本合集 v$version${none}"
+ #      echo -e "${cyan}========================================${none}"
+ #      echo -e "${yellow}1.${none} 安装 Xray(233boy急速)"
+ #      echo -e "${yellow}2.${none} 安装 八合一键脚本mack-a&(歇斯底里)"
+ #      echo -e "${yellow}3.${none} 安装 FranzKafkaYu/x-ui"
+ #      echo -e "${yellow}4.${none} 安装 kejilong工具"
+ #      echo -e "${yellow}5.${none} 卸载脚本"
+ #      echo -e "${yellow}6.${none} 脚本信息"
+ #      echo -e "${yellow}7.${none} 自动安装 mack-a sing-box Hysteria2 "
+ #      echo -e "${yellow}8.${none} 卸载expect工具"
+ #      echo -e "${yellow}9.${none} 一键卸载mack-a sing-box和VPS-JB脚本"
+ #      echo -e "${yellow}0.${none} 退出"
+ #      echo -e "${cyan}========================================${none}"
+ #      echo -n "请输入选项 [0-9]: "
+ #
+ #  }
+
+ # 显示菜单（美国风格配色）
 show_menu() {
     clear
-    echo -e "${cyan}========================================${none}"
-    echo -e "${green}        一键安装脚本合集 v$version${none}"
-    echo -e "${cyan}========================================${none}"
-    echo -e "${yellow}1.${none} 安装 Xray(233boy急速)"
-    echo -e "${yellow}2.${none} 安装 八合一键脚本mack-a&(歇斯底里)"
-    echo -e "${yellow}3.${none} 安装 FranzKafkaYu/x-ui"
-    echo -e "${yellow}4.${none} 安装 kejilong工具"
-    echo -e "${yellow}5.${none} 卸载脚本"
-    echo -e "${yellow}6.${none} 脚本信息"
-    echo -e "${yellow}7.${none} 自动安装 mack-a sing-box Hysteria2 "
-    echo -e "${yellow}8.${none} 卸载expect工具"
-    echo -e "${yellow}9.${none} 一键卸载mack-a sing-box和VPS-JB脚本"
-    echo -e "${yellow}0.${none} 退出"
-    echo -e "${cyan}========================================${none}"
-    echo -n "请输入选项 [0-9]: "
-
+    # 蓝色分隔符
+    echo -e "\033[1;34m========================================\033[0m"
+    # 白色标题
+    echo -e "\033[1;97m        One-Key Install Script v$version\033[0m"
+    echo -e "\033[1;34m========================================\033[0m"
+    # 红色编号，白色内容
+    echo -e "\033[1;31m1.\033[0m \033[1;97mInstall Xray (233boy Fast)\033[0m"
+    echo -e "\033[1;31m2.\033[0m \033[1;97mInstall mack-a 8-in-1 Script (Hysteria)\033[0m"
+    echo -e "\033[1;31m3.\033[0m \033[1;97mInstall FranzKafkaYu/x-ui\033[0m"
+    echo -e "\033[1;31m4.\033[0m \033[1;97mInstall kejilong Tool\033[0m"
+    echo -e "\033[1;31m5.\033[0m \033[1;97mUninstall Script\033[0m"
+    echo -e "\033[1;31m6.\033[0m \033[1;97mScript Info\033[0m"
+    echo -e "\033[1;31m7.\033[0m \033[1;97mAuto Install mack-a sing-box Hysteria2\033[0m"
+    echo -e "\033[1;31m8.\033[0m \033[1;97mUninstall expect Tool\033[0m"
+    echo -e "\033[1;31m9.\033[0m \033[1;97mOne-Key Uninstall mack-a sing-box & VPS-JB\033[0m"
+    echo -e "\033[1;31m0.\033[0m \033[1;97mExit\033[0m"
+    echo -e "\033[1;34m========================================\033[0m"
+    # 蓝色提示
+    echo -ne "\033[1;36mPlease enter your choice [0-9]: \033[0m"
 }
+
 
 # 显示脚本信息
 show_script_info() {
@@ -153,38 +178,38 @@ show_script_info() {
 
 
     
-    #!/bin/bash
-
-    # 标题
-    echo -e "\033[1;34m=== Welcome to American Style Demo ===\033[0m"
-
-    # 分隔符
-    echo -e "\033[1;37m----------------------------------------\033[0m"
-
-    # 普通说明
-    echo -e "\033[1;33m请输入您的用户名（Username）:\033[0m"
-
-    # 输入框（蓝底白字）
-    echo -ne "\033[44;97mUsername:\033[0m "
-    read username
-
-    # 提示
-    echo -e "\033[1;36m提示：用户名区分大小写。\033[0m"
-
-    # 警告
-    echo -e "\033[1;35m警告：请勿输入特殊字符！\033[0m"
-
-    # 错误
-    if [[ -z "$username" ]]; then
-        echo -e "\033[1;31m错误：用户名不能为空！\033[0m"
-        exit 1
-    fi
-
-    # 成功
-    echo -e "\033[1;32m注册成功，欢迎您，$username！\033[0m"
-
-    # 结束分隔符
-    echo -e "\033[1;34m========================================\033[0m"
+     #  #!/bin/bash
+     #
+     #  # 标题
+     #  echo -e "\033[1;34m=== Welcome to American Style Demo ===\033[0m"
+     #
+     #  # 分隔符
+     #  echo -e "\033[1;37m----------------------------------------\033[0m"
+     #
+     #  # 普通说明
+     #  echo -e "\033[1;33m请输入您的用户名（Username）:\033[0m"
+     #
+     #  # 输入框（蓝底白字）
+     #  echo -ne "\033[44;97mUsername:\033[0m "
+     #  read username
+     #
+     #  # 提示
+     #  echo -e "\033[1;36m提示：用户名区分大小写。\033[0m"
+     #
+     #  # 警告
+     #  echo -e "\033[1;35m警告：请勿输入特殊字符！\033[0m"
+     #
+     #  # 错误
+     #  if [[ -z "$username" ]]; then
+     #      echo -e "\033[1;31m错误：用户名不能为空！\033[0m"
+     #      exit 1
+     #  fi
+     #
+     #  # 成功
+     #  echo -e "\033[1;32m注册成功，欢迎您，$username！\033[0m"
+     #
+     #  # 结束分隔符
+     #  echo -e "\033[1;34m========================================\033[0m"
 
 
     return
