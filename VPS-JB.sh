@@ -733,13 +733,16 @@ main() {
 
                 _yellow "请输入合并订阅其它VPS邮箱-->仅合并订阅时必填，回车默认不填"
                 _yellow "(例如:***@gmail.com)"
-                echo -ne "\033[42;30m邮箱:\033[0m"
-                read email
-                # 只有在合并订阅时才校验邮箱必填
-                if [[ -n "$merge_info" && -z "$email" ]]; then
-                    _red "合并订阅时邮箱不能为空"
-                    continue
-                fi
+                while true; do
+                    echo -ne "\033[42;30m邮箱:\033[0m"
+                    read email
+                    # 只有在合并订阅时才校验邮箱必填
+                    if [[ -n "$merge_info" && -z "$email" ]]; then
+                        _red "合并订阅时邮箱不能为空，请重新输入！"
+                        continue
+                    fi
+                    break
+                done
                 
                 # 传递域名、用户名、salt值、合并信息和邮箱参数给auto_install_macka_singbox函数
                 auto_install_macka_singbox "$domain" "$username" "$salt" "$merge_info" "$email"
