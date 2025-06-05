@@ -14,31 +14,6 @@ magenta='\e[95m'
 cyan='\e[96m'
 none='\e[0m'
 
-#颜色定义2
-#echoContent() {
-#    case $1 in
-#        "black")    echo -e "\033[30m$2\033[0m" ;; # 黑色   可用
-#        "red")      echo -e "\033[31m$2\033[0m" ;; # 红色   可用
-#        "green")    echo -e "\033[32m$2\033[0m" ;; # 绿色   可用
-#        "yellow")   echo -e "\033[33m$2\033[0m" ;; # 黄色   可用
-#        "blue")     echo -e "\033[34m$2\033[0m" ;; # 蓝色   可用
-#        "magenta")  echo -e "\033[35m$2\033[0m" ;; # 品红/紫色   可用
-#        "cyan")     echo -e "\033[36m$2\033[0m" ;; # 青色   可用
-#        "white")    echo -e "\033[37m$2\033[0m" ;; # 白色(灰白)   可用
-#        "gray")     echo -e "\033[90m$2\033[0m" ;; # 灰色
-#        "skyBlue")  echo -e "\033[1;36m$2\033[0m" ;; # 天蓝色（高亮青色）   可用
-#        "lightRed") echo -e "\033[91m$2\033[0m" ;; # 亮红色
-#        "lightGreen") echo -e "\033[92m$2\033[0m" ;; # 亮绿色
-#        "lightYellow") echo -e "\033[93m$2\033[0m" ;; # 亮黄色
-#        "lightBlue") echo -e "\033[94m$2\033[0m" ;; # 亮蓝色
-#        "lightMagenta") echo -e "\033[95m$2\033[0m" ;; # 亮品红
-#        "lightCyan") echo -e "\033[96m$2\033[0m" ;; # 亮青色
-#        *) echo "$2" ;; # 默认无色
-#    esac
-#}
-
-
-
 echoContent() {
     local color=$1
     local text=$2
@@ -66,51 +41,36 @@ echoContent() {
     esac
 }
 
-#颜色定义-兼容光标换行和不换行(加n)
-   #echoContent() {
-   #    local color=$1
-   #    local text=$2
-   #    local noline=$3
-   #    local opt="-e"
-   #    [[ "$noline" == "n" ]] && opt="-ne"
-   #    case $color in
-   #        "black")    echo $opt "\033[30m${text}\033[0m" ;;
-   #        "red")      echo $opt "\033[31m${text}\033[0m" ;;
-   #        "green")    echo $opt "\033[32m${text}\033[0m" ;;
-   #        "yellow")   echo $opt "\033[33m${text}\033[0m" ;;
-   #        "blue")     echo $opt "\033[34m${text}\033[0m" ;;
-   #        "magenta")  echo $opt "\033[35m${text}\033[0m" ;;
-   #        "cyan")     echo $opt "\033[36m${text}\033[0m" ;;
-   #        "white")    echo $opt "\033[37m${text}\033[0m" ;;
-   #        "gray")     echo $opt "\033[90m${text}\033[0m" ;;
-   #        "skyBlue")  echo $opt "\033[1;36m${text}\033[0m" ;;
-   #        "lightRed") echo $opt "\033[91m${text}\033[0m" ;;
-   #        "lightGreen") echo $opt "\033[92m${text}\033[0m" ;;
-   #        "lightYellow") echo $opt "\033[93m${text}\033[0m" ;;
-   #        "lightBlue") echo $opt "\033[94m${text}\033[0m" ;;
-   #        "lightMagenta") echo $opt "\033[95m${text}\033[0m" ;;
-   #        "lightCyan") echo $opt "\033[96m${text}\033[0m" ;;
-   #        *) [[ "$noline" == "n" ]] && echo -n "$text" || echo "$text" ;;
-   #    esac
-   #}
+# echoContent 字体色测试项
+echoContent black "black 黑色字体"
+echoContent red "red 红色字体"
+echoContent green "green 绿色字体"
+echoContent yellow "yellow 黄色字体"
+echoContent blue "blue 蓝色字体"
+echoContent magenta "magenta 品红/紫色字体"
+echoContent cyan "cyan 青色字体"
+echoContent white "white 白色字体"
+echoContent gray "gray 灰色字体"
+echoContent skyBlue "skyBlue 天蓝色字体(高亮青色)"
+echoContent lightRed "lightRed 亮红色字体"
+echoContent lightGreen "lightGreen 亮绿色字体"
+echoContent lightYellow "lightYellow 亮黄色字体"
+echoContent lightBlue "lightBlue 亮蓝色字体"
+echoContent lightMagenta "lightMagenta 亮品红字体"
+echoContent lightCyan "lightCyan 亮青色字体"
 
-# 颜色输出测试
-#echoContent black "black 黑色"
-#echoContent red "red 红色"
-#echoContent green "green 绿色"
-#echoContent yellow "yellow 黄色"
-#echoContent blue "blue 蓝色"
-#echoContent magenta "magenta 品红/紫色"
-#echoContent cyan "cyan 青色"
-#echoContent white "white 白色"
-#echoContent gray "gray 灰色"
-#echoContent skyBlue "skyBlue 天蓝色"
-#echoContent lightRed "lightRed 亮红色"
-#echoContent lightGreen "lightGreen 亮绿色"
-#echoContent lightYellow "lightYellow 亮黄色"
-#echoContent lightBlue "lightBlue 亮蓝色"
-#echoContent lightMagenta "lightMagenta 亮品红"
-#echoContent lightCyan "lightCyan 亮青色"
+echoContent red_bg "red_bg 红色背景"
+echoContent green_bg "green_bg 绿色背景"
+echoContent yellow_bg "yellow_bg 黄色背景"
+echoContent blue_bg "blue_bg 蓝色背景"
+echoContent magenta_bg "magenta_bg 品红背景"
+echoContent cyan_bg "cyan_bg 青色背景"
+echoContent white_bg "white_bg 白色背景"
+echoContent gray_bg "gray_bg 灰色背景"
+
+echoContent white_on_red "white_on_red 白字红底"
+echoContent black_on_yellow "black_on_yellow 黑字黄底"
+echoContent red_on_white "red_on_white 红字白底"
 
 # 颜色输出函数
 _red() { echo -e ${red}$@${none}; }
@@ -393,59 +353,49 @@ auto_install_macka_singbox() {
     # 检查并安装expect
     if ! command -v expect &> /dev/null; then
         _yellow "正在安装expect..."
-        
-        # 检测系统类型并安装
         if command -v apt &> /dev/null; then
-            # Debian/Ubuntu系统
             _yellow "检测到Debian/Ubuntu系统，使用apt安装..."
             apt update
             apt install -y expect
         elif command -v dnf &> /dev/null; then
-            # Rocky Linux/CentOS 8+/Fedora系统
             _yellow "检测到Rocky Linux/CentOS 8+/Fedora系统，使用dnf安装..."
             dnf install -y expect
         elif command -v yum &> /dev/null; then
-            # CentOS 7/RHEL 7系统
             _yellow "检测到CentOS 7/RHEL 7系统，使用yum安装..."
             yum install -y expect
         elif command -v pacman &> /dev/null; then
-            # Arch Linux系统
             _yellow "检测到Arch Linux系统，使用pacman安装..."
             pacman -Sy --noconfirm expect
         else
             _red "无法检测系统类型，请手动安装expect"
             return 1
         fi
-        
-        # 验证安装
         if ! command -v expect &> /dev/null; then
             _red "安装expect失败，请手动安装"
             return 1
         fi
-        
         _green "expect安装成功！"
     fi
 
-    # 创建expect脚本
-    cat > /tmp/install.exp << EOF
+    # 合并后的 expect 脚本
+    cat > /tmp/macka_allinone.exp << 'EOF'
 #!/usr/bin/expect -f
 
-# 设置超时时间
+# 读取参数
+set domain [lindex $argv 0]
+set username [lindex $argv 1]
+set salt [lindex $argv 2]
+set merge_info [lindex $argv 3]
+set email [lindex $argv 4]
 set timeout 120
 
-# 设置域名和用户名变量
-set domain "$domain"
-set username "$username"
-set salt "$salt"
-set merge_info "$merge_info"
-
-# 启动安装脚本
+# ========== 主安装流程 ==========
+# 第0步：下载安装并启动 mack-a 主脚本
 spawn bash -c "wget -P /root -N --no-check-certificate \"https://raw.githubusercontent.com/mack-a/v2ray-agent/master/install.sh\" && chmod 700 /root/install.sh && /root/install.sh"
 
-# 设置通用输入处理
+# 通用超时处理
 expect_before {
     timeout {
-        # 当超时时，允许用户输入
         expect_user -re "(.*)\n"
         send "$expect_out(1,string)\r"
         exp_continue
@@ -453,272 +403,172 @@ expect_before {
     eof { exit }
 }
 
-# 第 1 步:处理交互
+# 第1步：主菜单选择1
 expect "请选择:"
 send "1\r"
-
+# 第2步：子菜单选择2
 expect "请选择:"
 send "2\r"
-
-# 第 2 步:使用预先输入的域名
+# 第3步：输入域名
 expect "请输入要配置的域名 例: www.v2ray-agent.com ---> "
-send "\$domain\r"
-
-# 第 3 步:处理DNS API证书申请
+send "$domain\r"
+# 第4步：是否使用DNS API申请证书
 expect -re "是否使用DNS API申请证书.*y/n"
 send "n\r"
-
-# 第 4 步:处理默认选项
+# 第5步：选择默认
 expect "请选择"
 expect "使用默认"
 send "\r"
-
-# 第 5 步:处理UUID和用户名
+# 第6步：UUID
 expect "UUID:"
 send "\r"
-
+# 第7步：用户名
 expect "用户名:"
-send "\$username\r"
-
-# 第 6 步:处理端口输入
+send "$username\r"
+# 第8步：自定义端口1
 expect "请输入自定义端口"
 send "\r"
-
+# 第9步：自定义端口2
 expect "请输入自定义端口"
 send "\r"
-
-# 第 7 步:处理路径
+# 第10步：路径
 expect "路径:"
 send "\r"
-
-# 第 8 步:处理端口输入
+# 第11步：自定义端口3
 expect "请输入自定义端口"
 send "\r"
-
-# 第 9 步:处理上次安装记录
+# 第12步：读取上次安装记录
 expect -re "读取到上次安装记录.*path路径.*y/n"
 send "y\r"
-
-# 第 10 步:处理Reality目标域名
+# 第13步：是否使用此域名作为Reality目标域名
 expect -re "是否使用 .* 此域名作为Reality目标域名 ？.*y/n"
 send "y\r"
-
-# 第 11 步:处理端口输入
+# 第14步：自定义端口4
 expect "请输入自定义端口"
 send "\r"
-
-# 第 12 步:处理伪装站点，哪个模式先出现就匹配哪个。
+# 第15步：伪装站点检测
 expect {
     -re "检测到安装伪装站点，是否需要重新安装.*y/n" {
         send "y\r"
         exp_continue
     }
     "请输入自定义端口" {
-        # 如果直接出现端口输入提示，说明没有检测到伪装站点
-        # 直接进入第13步
         send "\r"
     }
 }
-
-# 第 13 步:处理端口输入
-#expect "请输入自定义端口"
-#send "\r"
-
-# 第 14 步:处理Reality目标域名
+# 第16步：再次确认Reality目标域名
 expect -re "是否使用 .* 此域名作为Reality目标域名 ？.*y/n"
 send "y\r"
-
-# 第 15 步:处理端口输入
+# 第17步：自定义端口5
 expect "请输入自定义端口"
 send "\r"
-
+# 第18步：自定义端口6
 expect "请输入自定义端口"
 send "\r"
-
-# 第 16 步:处理速度设置
+# 第19步：下行速度
 expect "下行速度:"
 send "10000\r"
-
+# 第20步：上行速度
 expect "上行速度:"
 send "50\r"
-
-# 第 17 步:处理端口输入
+# 第21步：自定义端口7
 expect "请输入自定义端口"
 send "\r"
-
+# 第22步：自定义端口8
 expect "请输入自定义端口"
 send "\r"
-
-# 第 18 步:处理选择
+# 第23步：请选择
 expect "请选择:"
 send "\r"
-
-# 第 19 步:处理端口输入
+# 第24步：自定义端口9
 expect "请输入自定义端口"
 send "\r"
-
-# 第 20 步:处理端口输入
+# 第25步：自定义端口10
 expect "请输入自定义端口"
 send "\r"
-
-# 第 21 步:处理上次安装记录
+# 第26步：再次读取上次安装记录
 expect -re "读取到上次安装记录.*path路径.*y/n"
 send "y\r"
-
-# 第 22 步:继续处理后续步骤
+# 第27步：是否继续
 expect "是否继续"
 send "y\r"
-
+# 第28步：是否安装
 expect "是否安装"
 send "y\r"
-
+# 第29步：是否卸载
 expect "是否卸载"
 send "n\r"
-
+# 第30步：是否删除
 expect "是否删除"
 send "n\r"
-
+# 第31步：是否更新
 expect "是否更新"
 send "y\r"
-
+# 第32步：是否重启
 expect "是否重启"
 send "y\r"
-
+# 第33步：按回车继续
 expect "按回车继续"
 send "\r"
+# 主流程结束
+expect eof
 
-# 第 23 步:处理内核更新OK提示（放在最后）
-expect {
-    timeout {
-        send "\r"
-        exp_continue
-    }
-    "请选择:" {
-        # 继续下一步
-    }
+# ========== 继续配置流程（可选） ==========
+if { "$salt" != "" } {
+    # 第34步：进入继续配置
+    spawn /etc/v2ray-agent/install.sh
+    expect "请选择:"
+    send "7\r"
+    expect "请输入:"
+    send "2\r"
+    expect "请输入salt值"
+    send "$salt\r"
+    interact
 }
 
-# 让mack脚本自己控制流程
-expect eof
+# ========== 合并订阅流程（可选） ==========
+if { "$merge_info" != "" && "$email" != "" } {
+    # 第35步：合并订阅-第一阶段
+    spawn /etc/v2ray-agent/install.sh
+    expect "请选择:"
+    send "7\r"
+    expect "请输入:"
+    send "3\r"
+    expect "请选择:"
+    send "1\r"
+    expect "请输入域名 端口 机器别名:"
+    send "$merge_info\r"
+    expect "是否是HTTP订阅？"
+    send "n\r"
+    expect "是否使用上次生成的Salt"
+    send "y\r"
+    expect "读取到其他订阅，是否更新"
+    send "y\r"
+
+    # 第36步：合并订阅-第二阶段
+    spawn /etc/v2ray-agent/install.sh
+    expect "请选择:"
+    send "7\r"
+    expect "请输入:"
+    send "4\r"
+    expect "请输入要添加的用户数量:"
+    send "1\r"
+    expect "UUID:"
+    send "\r"
+    expect "随机email:"
+    send "$email\r"
+    interact
+}
 EOF
 
-    # 给expect脚本添加执行权限
-    chmod +x /tmp/install.exp
+    chmod +x /tmp/macka_allinone.exp
 
-    # 运行安装脚本
     _yellow "开始自动化安装和配置mack-a sing-box..."
     _yellow "当提示输入域名时，请输入您的域名并按回车"
-    expect /tmp/install.exp
+    expect /tmp/macka_allinone.exp "$domain" "$username" "$salt" "$merge_info" "$email"
 
     # 清理临时文件
-    rm -f /tmp/install.exp
-    
-    # 创建新的expect脚本来处理后续选择
-    cat > /tmp/continue.exp << EOF
-#!/usr/bin/expect -f
-
-# 设置超时时间
-set timeout 120
-
-# 设置变量
-set salt "$salt"
-set merge_info "$merge_info"
-
-# 启动mack脚本
-spawn /etc/v2ray-agent/install.sh
-
-# 等待并选择选项7
-expect "请选择:"
-send "7\r"
-
-# 等待并选择选项2
-expect "请输入:"
-send "2\r"
-
-expect "请输入salt值"
-send "\$salt\r"
-
-# 让mack脚本自己控制后续流程
-interact
-EOF
-
-    # 给新的expect脚本添加执行权限
-    chmod +x /tmp/continue.exp
-
-    # 执行新的expect脚本
-    expect /tmp/continue.exp
-
-    # 如果需要合并订阅，启动新的进程
-    if [[ -n "$merge_info" ]]; then
-        cat > /tmp/merge.exp << EOF
-#!/usr/bin/expect -f
-
-# 设置超时时间
-set timeout 120
-
-# 设置变量
-set merge_info "$merge_info"
-set email "$email"
-# 启动新的mack脚本进程
-spawn /etc/v2ray-agent/install.sh
-
-# 等待并选择选项7
-expect "请选择:"
-send "7\r"
-
-expect "请输入:"
-send "3\r"
-
-expect "请选择:"
-send "1\r"
-
-expect "请输入域名 端口 机器别名:"
-send "\$merge_info\r"
-
-expect "是否是HTTP订阅？"
-send "n\r"
-
-expect "是否使用上次生成的Salt"
-send "y\r"
-
-expect "读取到其他订阅，是否更新"
-send "y\r"
-
-# 继续执行新的步骤
-# 启动新的mack脚本进程
-spawn /etc/v2ray-agent/install.sh
-
-expect "请选择:"
-send "7\r"
-
-expect "请输入:"
-send "4\r"
-
-expect "请输入要添加的用户数量:"
-send "1\r"
-
-expect "UUID:"
-send "\r"
-
-expect "随机email:"
-send "\$email\r"
-
-# 让mack脚本自己控制后续流程
-interact
-EOF
-
-        # 给合并脚本添加执行权限
-        chmod +x /tmp/merge.exp
-
-        # 执行合并脚本
-        expect /tmp/merge.exp
-
-        # 清理临时文件
-        rm -f /tmp/merge.exp
-    fi
-
-    # 清理临时文件
-    rm -f /tmp/continue.exp
+    rm -f /tmp/macka_allinone.exp
 }
 
 # 卸载expect
@@ -883,36 +733,8 @@ main() {
                 echo -e "${yellow}第4步：等于生成其它VPS同用户邮箱订阅${none}\n"
 
 
-                # echoContent 字体色测试项及备注
-                echoContent black "black 黑色字体"
-                echoContent red "red 红色字体"
-                echoContent green "green 绿色字体"
-                echoContent yellow "yellow 黄色字体"
-                echoContent blue "blue 蓝色字体"
-                echoContent magenta "magenta 品红/紫色字体"
-                echoContent cyan "cyan 青色字体"
-                echoContent white "white 白色字体"
-                echoContent gray "gray 灰色字体"
-                echoContent skyBlue "skyBlue 天蓝色字体(高亮青色)"
-                echoContent lightRed "lightRed 亮红色字体"
-                echoContent lightGreen "lightGreen 亮绿色字体"
-                echoContent lightYellow "lightYellow 亮黄色字体"
-                echoContent lightBlue "lightBlue 亮蓝色字体"
-                echoContent lightMagenta "lightMagenta 亮品红字体"
-                echoContent lightCyan "lightCyan 亮青色字体"
+                
 
-                echoContent red_bg "red_bg 红色背景"
-                echoContent green_bg "green_bg 绿色背景"
-                echoContent yellow_bg "yellow_bg 黄色背景"
-                echoContent blue_bg "blue_bg 蓝色背景"
-                echoContent magenta_bg "magenta_bg 品红背景"
-                echoContent cyan_bg "cyan_bg 青色背景"
-                echoContent white_bg "white_bg 白色背景"
-                echoContent gray_bg "gray_bg 灰色背景"
-
-                echoContent white_on_red "white_on_red 白字红底"
-                echoContent black_on_yellow "black_on_yellow 黑字黄底"
-                echoContent red_on_white "red_on_white 红字白底"
 
                 _yellow "请输入要配置的域名"
                 _yellow "-(例如: www.v2ray-agent.com或aaa.v2ray-agent.com，注意前缀和解析地址)"
