@@ -41,36 +41,36 @@ echoContent() {
     esac
 }
 
-# echoContent 字体色测试项
-echoContent black "black 黑色字体"
-echoContent red "red 红色字体"
-echoContent green "green 绿色字体"
-echoContent yellow "yellow 黄色字体"
-echoContent blue "blue 蓝色字体"
-echoContent magenta "magenta 品红/紫色字体"
-echoContent cyan "cyan 青色字体"
-echoContent white "white 白色字体"
-echoContent gray "gray 灰色字体"
-echoContent skyBlue "skyBlue 天蓝色字体(高亮青色)"
-echoContent lightRed "lightRed 亮红色字体"
-echoContent lightGreen "lightGreen 亮绿色字体"
-echoContent lightYellow "lightYellow 亮黄色字体"
-echoContent lightBlue "lightBlue 亮蓝色字体"
-echoContent lightMagenta "lightMagenta 亮品红字体"
-echoContent lightCyan "lightCyan 亮青色字体"
-
-echoContent red_bg "red_bg 红色背景"
-echoContent green_bg "green_bg 绿色背景"
-echoContent yellow_bg "yellow_bg 黄色背景"
-echoContent blue_bg "blue_bg 蓝色背景"
-echoContent magenta_bg "magenta_bg 品红背景"
-echoContent cyan_bg "cyan_bg 青色背景"
-echoContent white_bg "white_bg 白色背景"
-echoContent gray_bg "gray_bg 灰色背景"
-
-echoContent white_on_red "white_on_red 白字红底"
-echoContent black_on_yellow "black_on_yellow 黑字黄底"
-echoContent red_on_white "red_on_white 红字白底"
+#   # echoContent 字体色测试项
+#   echoContent black "black 黑色字体"
+#   echoContent red "red 红色字体"
+#   echoContent green "green 绿色字体"
+#   echoContent yellow "yellow 黄色字体"
+#   echoContent blue "blue 蓝色字体"
+#   echoContent magenta "magenta 品红/紫色字体"
+#   echoContent cyan "cyan 青色字体"
+#   echoContent white "white 白色字体"
+#   echoContent gray "gray 灰色字体"
+#   echoContent skyBlue "skyBlue 天蓝色字体(高亮青色)"
+#   echoContent lightRed "lightRed 亮红色字体"
+#   echoContent lightGreen "lightGreen 亮绿色字体"
+#   echoContent lightYellow "lightYellow 亮黄色字体"
+#   echoContent lightBlue "lightBlue 亮蓝色字体"
+#   echoContent lightMagenta "lightMagenta 亮品红字体"
+#   echoContent lightCyan "lightCyan 亮青色字体"
+#
+#   echoContent red_bg "red_bg 红色背景"
+#   echoContent green_bg "green_bg 绿色背景"
+#   echoContent yellow_bg "yellow_bg 黄色背景"
+#   echoContent blue_bg "blue_bg 蓝色背景"
+#   echoContent magenta_bg "magenta_bg 品红背景"
+#   echoContent cyan_bg "cyan_bg 青色背景"
+#   echoContent white_bg "white_bg 白色背景"
+#   echoContent gray_bg "gray_bg 灰色背景"
+#
+#   echoContent white_on_red "white_on_red 白字红底"
+#   echoContent black_on_yellow "black_on_yellow 黑字黄底"
+#   echoContent red_on_white "red_on_white 红字白底"
 
 # 颜色输出函数
 _red() { echo -e ${red}$@${none}; }
@@ -146,6 +146,26 @@ show_script_info() {
     echo -e "${yellow}八合一键脚本mack-a：${none}\t= (歇斯底里) & 命令 vasma"
     echo -e "${yellow}kejilong工具：${none}\t= 命令 k"
     echo -e "${cyan}========================================${none}"
+
+    
+    echo -e "\n${green}=== 八合一用户管理设置说明 ===${none}"
+    echo -e "${green}1. 相同值Salt${none}"
+    echo -e "${green}2. 相同用户名${none}"
+    echo -e "${green}3. 添加订阅地址格式[域名:端口:机器别名](不带www.)非HTTP订阅${none}"
+    echo -e "${green}4. 相同的用户邮箱${none}\n"
+
+    echo -e "${yellow}=== 八合一用户管理操作步骤说明 ===${none}"
+    echo -e "${yellow}第1步：等于生成节点，安装后自动查看可忽略${none}"
+    echo -e "${yellow}第2步：等于生成订阅${none}"
+    echo -e "${yellow}第3步：等于添加其他订阅地址(域名端口别名)${none}"
+    echo -e "${yellow}第4步：等于生成合并其它同用户邮箱订阅${none}\n"
+
+    echoContent gray "=== 八合一输入项说明 ==="
+    echoContent gray "例如: www.v2ray-agent.com或aaa.v2ray-agent.com，注意前缀和解析地址"
+    echoContent gray "回车默认随机值，合并订阅必须用相同的值，只生成节点回车默认"
+    echoContent gray "域名:端口:别名-例如: vps1.com:443:server1，回车默认不合并"
+    echoContent gray "回车默认: admin，合并订阅必须用相同用户名"
+    echoContent gray "邮箱例如:***@gmail.com，合并订阅必须相同邮箱"
     show_script_info
     # 显示信息后直接跳转到root命令行
     bash
@@ -691,82 +711,45 @@ main() {
                 bash
                 ;;
             7)
-                # 用户管理设置说明 - 深蓝色标题
-                echo -e "\n\033[1;34m=== 用户管理设置说明 ===\033[0m"
-                echo -e "\033[1;34m1. 相同值Salt\033[0m"
-                echo -e "\033[1;34m2. 相同用户名\033[0m"
-                echo -e "\033[1;34m3. 添加订阅地址格式[域名:端口:机器别名](不带www.)非HTTP订阅\033[0m"
-                echo -e "\033[1;34m4. 相同的用户邮箱\033[0m\n"
-
-                # 操作步骤说明 - 金黄色
-                echo -e "\033[1;33m=== 用户管理操作步骤说明 ===\033[0m"
-                echo -e "\033[1;33m第1步：等于生成节点，安装后自动查看可忽略\033[0m"
-                echo -e "\033[1;33m第2步：等于生成订阅\033[0m"
-                echo -e "\033[1;33m第3步：等于添加其他订阅地址(域名端口别名)\033[0m"
-                echo -e "\033[1;33m第4步：等于生成合并其它同用户邮箱订阅\033[0m\n"
-
-                # 输入提示 - 蓝色
-                echo -e "\033[1;34m=== 输入项说明 ===\033[0m"
-                echo -e "\033[1;34m-(例如: www.example.com或sub.example.com，注意前缀和解析地址)\033[0m"
-                echo -e "\033[1;34m(回车默认随机值，合并订阅必须用相同的值，只生成节点回车默认)\033[0m"
-                echo -e "\033[1;34m域名:端口:别名 (例如: vps1.com:443:server1，回车默认不合并)\033[0m"
-                echo -e "\033[1;34m(回车默认: admin，合并订阅必须用相同用户名)\033[0m"
-                echo -e "\033[1;34m(例如:***@gmail.com)\033[0m"
-
-                # 域名输入 - 强化视觉设计
-                echo # 空行分隔
-                echo -e "\033[1;34m▌\033[44;37m 域名输入 \033[0m\033[1;34m──────────────────────────────\033[0m"
-                echo -e "\033[1;37m请输入要配置的域名（必填）\033[0m"
-                echo -e "\033[1;33m格式示例: www.example.com 或 sub.example.com\033[0m"
-                echo -ne "\033[44;37m 请输入域名 ► \033[0m "
+                # 域名
+                _yellow "请输入要配置的域名（必填，例如: www.v2ray-agent.com 或 aaa.v2ray-agent.com，注意前缀和解析地址）"
+                echo -ne "\033[42;30m域名:\033[0m"
                 read domain
-                [[ -z "$domain" ]] && {
-                    echo -e "\033[1;31m✘ 错误：域名不能为空！\033[0m"
+                if [[ -z "$domain" ]]; then
+                    _red "域名不能为空"
                     continue
-                }
+                fi
 
-                # Salt输入 - 蓝底白字输入框
-                echo
-                echo -e "\033[1;34m▌\033[44;37m 加密设置 \033[0m\033[1;34m──────────────────────────────\033[0m"
-                echo -e "\033[1;37m请输入 salt 加密值（可选）\033[0m"
-                echo -e "\033[1;33m提示: 合并订阅需用相同值，回车使用随机值\033[0m"
-                echo -ne "\033[44;37m 请输入salt值 ► \033[0m "
+                # salt
+                _yellow "请输入 salt 加密值（可选，回车默认随机值。合并订阅需用相同值）"
+                echo -ne "\033[42;30msalt值:\033[0m"
                 read salt
                 salt=${salt:-""}
 
-                # 订阅地址输入
-                echo
-                echo -e "\033[1;34m▌\033[44;37m 订阅管理 \033[0m\033[1;34m──────────────────────────────\033[0m"
-                echo -e "\033[1;37m请输入合并订阅的其他VPS地址（可选）\033[0m"
-                echo -e "\033[1;33m格式: 域名:端口:别名 (示例: vps1.com:443:server1)\033[0m"
-                echo -ne "\033[44;37m 请输入订阅地址 ► \033[0m "
+                # 订阅地址
+                _yellow "请输入合并订阅的其他VPS订阅地址（可选，格式: 域名:端口:别名，例如: vps1.com:443:server1，回车默认不合并）"
+                echo -ne "\033[42;30m订阅地址:\033[0m"
                 read merge_info
 
-                # 用户名输入
-                echo
-                echo -e "\033[1;34m▌\033[44;37m 用户认证 \033[0m\033[1;34m──────────────────────────────\033[0m"
-                echo -e "\033[1;37m请输入用户名（可选）\033[0m"
-                echo -e "\033[1;33m提示: 合并订阅需相同用户名，回车默认admin\033[0m"
-                echo -ne "\033[44;37m 请输入用户名 ► \033[0m "
+                # 用户名
+                _yellow "请输入用户名（可选，回车默认 admin，合并订阅需用相同用户名）"
+                echo -ne "\033[42;30m用户名:\033[0m"
                 read username
                 username=${username:-admin}
 
-                # 邮箱验证 - 带错误校验
-                echo
-                echo -e "\033[1;34m▌\033[44;37m 邮箱验证 \033[0m\033[1;34m──────────────────────────────\033[0m"
+                # 邮箱
+                _yellow "请输入合并订阅其它VPS邮箱（仅合并订阅时必填，回车默认不填，例如: ***@gmail.com）"
                 while true; do
-                    echo -e "\033[1;37m请输入合并订阅邮箱\033[0m"
-                    echo -e "\033[1;33m提示: 合并订阅时必填 (示例: ***@gmail.com)\033[0m"
-                    echo -ne "\033[44;37m 请输入邮箱 ► \033[0m "
+                    echo -ne "\033[42;30m邮箱:\033[0m"
                     read email
-                    [[ -n "$merge_info" && -z "$email" ]] && {
-                        echo -e "\033[41;37m 错误！合并订阅时邮箱不能为空 \033[0m"
+                    if [[ -n "$merge_info" && -z "$email" ]]; then
+                        _red "合并订阅时邮箱不能为空，请重新输入！"
                         continue
-                    }
+                    fi
                     break
                 done
 
-                # 执行安装
+                # 传递域名、用户名、salt值、合并信息和邮箱参数给auto_install_macka_singbox函数
                 auto_install_macka_singbox "$domain" "$username" "$salt" "$merge_info" "$email"
                 ;;
             8)
