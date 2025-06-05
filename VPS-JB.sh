@@ -14,7 +14,7 @@ version="1.1.6"
    #cyan='\e[96m'
    #none='\e[0m'
 
-  
+   #[[ -t 1 ]] && export FORCE_COLOR=true  # 检测到终端时启用颜色
 
 echoContent() {
     local color=$1
@@ -41,6 +41,10 @@ echoContent() {
         # 方案1：使用传统高亮模式（兼容性更好）
         "lightRed")    printf "\033[1;31m%s\033[0m${end}" "$text" ;;  # 粗体+红色
         "lightGreen")  printf "\033[1;32m%s\033[0m${end}" "$text" ;;
+
+        # 方案2：强制启用扩展颜色（需终端支持）
+        "lightRed")    printf "\033[91m%s\033[0m${end}" "$text" ;;  # 直接使用亮色代码
+        "lightGreen")  printf "\033[92m%s\033[0m${end}" "$text" ;;
 
 
 
