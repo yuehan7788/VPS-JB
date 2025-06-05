@@ -30,7 +30,7 @@ echoContent() {
     [[ "$noline" == "n" ]] && end=""
 
     # 调试信息（添加在这里）
-    echo "DEBUG: 颜色模式=$color, 转义序列=\\033[91m" >&2
+    #echo "DEBUG: 颜色模式=$color, 转义序列=\\033[91m" >&2
 
     case $color in
         "black")    printf "\033[30m%s\033[0m${end}" "$text" ;;
