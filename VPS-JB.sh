@@ -4,36 +4,36 @@
 author="Yu G"
 version="1.1.6"
 
-   #echoContent() {
-   #    local color=$1
-   #    local text=$2
-   #    local noline=$3
-   #    local end="\n"
-   #    [[ "$noline" == "n" ]] && end=""
-   #
-   #    case $color in
-   #        "black")    printf "\033[30m%s\033[0m${end}" "$text" ;;
-   #        "red")      printf "\033[31m%s\033[0m${end}" "$text" ;;
-   #        "green")    printf "\033[32m%s\033[0m${end}" "$text" ;;
-   #        "yellow")   printf "\033[33m%s\033[0m${end}" "$text" ;;
-   #        "blue")     printf "\033[34m%s\033[0m${end}" "$text" ;;
-   #        "magenta")  printf "\033[35m%s\033[0m${end}" "$text" ;;
-   #        "cyan")     printf "\033[36m%s\033[0m${end}" "$text" ;;
-   #        "white")    printf "\033[90m%s\033[0m${end}" "$text" ;;
-   #        "gray")     printf "\033[37m%s\033[0m${end}" "$text" ;;
-   #        "skyBlue")  printf "\033[1;36m%s\033[0m${end}" "$text" ;;
-   #
-   #        # 方案1：使用传统高亮模式（兼容性更好）
-   #        "lightRed")    printf "\033[1;31m%s\033[0m${end}" "$text" ;;  # 粗体+红色
-   #        "lightGreen")  printf "\033[1;32m%s\033[0m${end}" "$text" ;;
-   #        "lightYellow") printf "\033[38;5;229m%s\033[0m${end}" "$text" ;;  # 浅黄色（256色）
-   #        "lightBlue") printf "\033[38;5;117m%s\033[0m${end}" "$text" ;;    # 浅蓝色（256色）
-   #        "lightMagenta") printf "\033[38;5;219m%s\033[0m${end}" "$text" ;; # 浅洋红色（256色）
-   #        "lightCyan") printf "\033[38;5;159m%s\033[0m${end}" "$text" ;;    # 浅青色（256色）
-   #
-   #        *) [[ "$noline" == "n" ]] && printf "%s" "$text" || printf "%s\n" "$text" ;;
-   #    esac
-   #}
+echoContent() {
+    local color=$1
+    local text=$2
+    local noline=$3
+    local end="\n"
+    [[ "$noline" == "n" ]] && end=""
+   
+    case $color in
+        "black")    printf "\033[30m%s\033[0m${end}" "$text" ;;
+        "red")      printf "\033[31m%s\033[0m${end}" "$text" ;;
+        "green")    printf "\033[32m%s\033[0m${end}" "$text" ;;
+        "yellow")   printf "\033[33m%s\033[0m${end}" "$text" ;;
+        "blue")     printf "\033[34m%s\033[0m${end}" "$text" ;;
+        "magenta")  printf "\033[35m%s\033[0m${end}" "$text" ;;
+        "cyan")     printf "\033[36m%s\033[0m${end}" "$text" ;;
+        "white")    printf "\033[90m%s\033[0m${end}" "$text" ;;
+        "gray")     printf "\033[37m%s\033[0m${end}" "$text" ;;
+        "skyBlue")  printf "\033[1;36m%s\033[0m${end}" "$text" ;;
+   
+        # 方案1：使用传统高亮模式（兼容性更好）
+        "lightRed")    printf "\033[1;31m%s\033[0m${end}" "$text" ;;  # 粗体+红色
+        "lightGreen")  printf "\033[1;32m%s\033[0m${end}" "$text" ;;
+        "lightYellow") printf "\033[38;5;229m%s\033[0m${end}" "$text" ;;  # 浅黄色（256色）
+        "lightBlue") printf "\033[38;5;117m%s\033[0m${end}" "$text" ;;    # 浅蓝色（256色）
+        "lightMagenta") printf "\033[38;5;219m%s\033[0m${end}" "$text" ;; # 浅洋红色（256色）
+        "lightCyan") printf "\033[38;5;159m%s\033[0m${end}" "$text" ;;    # 浅青色（256色）
+   
+        *) [[ "$noline" == "n" ]] && printf "%s" "$text" || printf "%s\n" "$text" ;;
+    esac
+}
 
 # 测试256色（需终端支持）
 #   echo -e "\033[38;5;196m亮红\033[0m"      # 标准亮红
