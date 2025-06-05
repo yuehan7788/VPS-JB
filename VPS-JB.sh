@@ -251,7 +251,14 @@ uninstall_script() {
     
     _green "脚本卸载完成！"
     #删除exec bash刷新shell线程，否则无法执行其它卸载流程。
-    
+
+    # 清理别名和函数
+    unalias y 2>/dev/null
+    unalias vps-jb 2>/dev/null
+    unset -f _red _blue _cyan _green _yellow _magenta _red_bg
+    unset -f echoContent
+    unset is_err is_warn
+    _green "清理别名和函数完成！"
     
 }
 
