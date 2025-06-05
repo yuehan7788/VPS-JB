@@ -29,8 +29,8 @@ echoContent() {
         "blue")     printf "\033[34m%s\033[0m${end}" "$text" ;;
         "magenta")  printf "\033[35m%s\033[0m${end}" "$text" ;;
         "cyan")     printf "\033[36m%s\033[0m${end}" "$text" ;;
-        "white")    printf "\033[37m%s\033[0m${end}" "$text" ;;
-        "gray")     printf "\033[90m%s\033[0m${end}" "$text" ;;
+        #"white")    printf "\033[37m%s\033[0m${end}" "$text" ;;
+        "gray")     printf "\033[37m%s\033[0m${end}" "$text" ;;
         "skyBlue")  printf "\033[1;36m%s\033[0m${end}" "$text" ;;
         "lightRed") printf "\033[91m%s\033[0m${end}" "$text" ;;
         "lightGreen") printf "\033[92m%s\033[0m${end}" "$text" ;;
