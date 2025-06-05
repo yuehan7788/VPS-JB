@@ -149,7 +149,7 @@ show_script_info() {
     echo -e "${cyan}========================================${none}"
 
     
-    echo -e "\n${green}=== 八合一用户管理设置说明 ===${none}"
+    echo -e "${green}=== 八合一用户管理设置说明 ===${none}"
     echo -e "${green}1. 相同值Salt${none}"
     echo -e "${green}2. 相同用户名${none}"
     echo -e "${green}3. 添加订阅地址格式[域名:端口:机器别名](不带www.)非HTTP订阅${none}"
