@@ -16,6 +16,12 @@ version="1.1.6"
 
    #[[ -t 1 ]] && export FORCE_COLOR=true  # 检测到终端时启用颜色
 
+   # 检测终端颜色支持级别
+COLOR_SUPPORT=8  # 默认8色
+[[ "$TERM" =~ 256color|direct-color ]] && COLOR_SUPPORT=256
+[[ -n "$SSH_CONNECTION" ]] && COLOR_SUPPORT=8  # SSH会话强制回退到基础色
+
+
 echoContent() {
     local color=$1
     local text=$2
@@ -24,7 +30,7 @@ echoContent() {
     [[ "$noline" == "n" ]] && end=""
 
     # 调试信息（添加在这里）
-    #echo "DEBUG: 颜色模式=$color, 转义序列=\\033[91m" >&2
+    echo "DEBUG: 颜色模式=$color, 转义序列=\\033[91m" >&2
 
     case $color in
         "black")    printf "\033[30m%s\033[0m${end}" "$text" ;;
@@ -39,8 +45,17 @@ echoContent() {
         "skyBlue")  printf "\033[1;36m%s\033[0m${end}" "$text" ;;
 
         # 方案1：使用传统高亮模式（兼容性更好）
-       # "lightRed")    printf "\033[1;31m%s\033[0m${end}" "$text" ;;  # 粗体+红色
-       # "lightGreen")  printf "\033[1;32m%s\033[0m${end}" "$text" ;;
+        "lightRed")    printf "\033[1;31m%s\033[0m${end}" "$text" ;;  # 粗体+红色
+        "lightGreen")  printf "\033[1;32m%s\033[0m${end}" "$text" ;;
+
+        # 测试256色（需终端支持）
+        echo -e "\033[38;5;196m亮红\033[0m"      # 标准亮红
+        echo -e "\033[38;5;214m橙黄\033[0m"      # 介于黄橙之间
+        echo -e "\033[38;5;141m紫罗兰\033[0m"    # 柔和紫色
+        echo -e "\033[38;5;122m水绿色\033[0m"    # 明亮青绿
+        echo -e "\033[38;5;208m警示橙\033[0m"    # 高对比度橙色
+
+
 
         # 方案2：强制启用扩展颜色（需终端支持）
         "lightRed")    printf "\033[91m%s\033[0m${end}" "$text" ;;  # 直接使用亮色代码
