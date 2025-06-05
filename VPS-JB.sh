@@ -112,39 +112,6 @@ show_menu() {
     echo -e "${cyan}========================================${none}"
     echo -n "请输入选项 [0-9]: "
 
-    #!/bin/bash
-
-    # 标题
-    echo -e "\033[1;34m=== Welcome to American Style Demo ===\033[0m"
-
-    # 分隔符
-    echo -e "\033[1;37m----------------------------------------\033[0m"
-
-    # 普通说明
-    echo -e "\033[1;33m请输入您的用户名（Username）:\033[0m"
-
-    # 输入框（蓝底白字）
-    echo -ne "\033[44;97mUsername:\033[0m "
-    read username
-
-    # 提示
-    echo -e "\033[1;36m提示：用户名区分大小写。\033[0m"
-
-    # 警告
-    echo -e "\033[1;35m警告：请勿输入特殊字符！\033[0m"
-
-    # 错误
-    if [[ -z "$username" ]]; then
-        echo -e "\033[1;31m错误：用户名不能为空！\033[0m"
-        exit 1
-    fi
-
-    # 成功
-    echo -e "\033[1;32m注册成功，欢迎您，$username！\033[0m"
-
-    # 结束分隔符
-    echo -e "\033[1;34m========================================\033[0m"
-
 }
 
 # 显示脚本信息
@@ -183,6 +150,43 @@ show_script_info() {
     echoContent lightMagenta "域名:端口:别名-例如: vps1.com:443:server1，回车默认不合并"
     echoContent lightMagenta "回车默认: admin，合并订阅必须用相同用户名"
     echoContent lightMagenta "邮箱例如:***@gmail.com，合并订阅必须相同邮箱"
+
+
+    
+    #!/bin/bash
+
+    # 标题
+    echo -e "\033[1;34m=== Welcome to American Style Demo ===\033[0m"
+
+    # 分隔符
+    echo -e "\033[1;37m----------------------------------------\033[0m"
+
+    # 普通说明
+    echo -e "\033[1;33m请输入您的用户名（Username）:\033[0m"
+
+    # 输入框（蓝底白字）
+    echo -ne "\033[44;97mUsername:\033[0m "
+    read username
+
+    # 提示
+    echo -e "\033[1;36m提示：用户名区分大小写。\033[0m"
+
+    # 警告
+    echo -e "\033[1;35m警告：请勿输入特殊字符！\033[0m"
+
+    # 错误
+    if [[ -z "$username" ]]; then
+        echo -e "\033[1;31m错误：用户名不能为空！\033[0m"
+        exit 1
+    fi
+
+    # 成功
+    echo -e "\033[1;32m注册成功，欢迎您，$username！\033[0m"
+
+    # 结束分隔符
+    echo -e "\033[1;34m========================================\033[0m"
+
+
     return
 
 
