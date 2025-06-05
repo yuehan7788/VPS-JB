@@ -46,22 +46,27 @@ echoContent() {
         "lightGreen")  printf "\033[1;32m%s\033[0m${end}" "$text" ;;
 
         
+        "lightYellow") printf "\033[38;5;229m%s\033[0m${end}" "$text" ;;  # 浅黄色（256色）
+        "lightBlue") printf "\033[38;5;117m%s\033[0m${end}" "$text" ;;    # 浅蓝色（256色）
+        "lightMagenta") printf "\033[38;5;219m%s\033[0m${end}" "$text" ;; # 浅洋红色（256色）
+        "lightCyan") printf "\033[38;5;159m%s\033[0m${end}" "$text" ;;    # 浅青色（256色）
+
 
 
 
         # 方案2：强制启用扩展颜色（需终端支持）
-        "lightRed")    printf "\033[91m%s\033[0m${end}" "$text" ;;  # 直接使用亮色代码
-        "lightGreen")  printf "\033[92m%s\033[0m${end}" "$text" ;;
+        #"lightRed")    printf "\033[91m%s\033[0m${end}" "$text" ;;  # 直接使用亮色代码
+        #"lightGreen")  printf "\033[92m%s\033[0m${end}" "$text" ;;
 
 
 
 
         #"lightRed") printf "\033[91m%s\033[0m${end}" "$text" ;;
         #"lightGreen") printf "\033[92m%s\033[0m${end}" "$text" ;;
-        "lightYellow") printf "\033[93m%s\033[0m${end}" "$text" ;;
-        "lightBlue") printf "\033[94m%s\033[0m${end}" "$text" ;;
-        "lightMagenta") printf "\033[95m%s\033[0m${end}" "$text" ;;
-        "lightCyan") printf "\033[96m%s\033[0m${end}" "$text" ;;
+       # "lightYellow") printf "\033[93m%s\033[0m${end}" "$text" ;;
+       # "lightBlue") printf "\033[94m%s\033[0m${end}" "$text" ;;
+       # "lightMagenta") printf "\033[95m%s\033[0m${end}" "$text" ;;
+       # "lightCyan") printf "\033[96m%s\033[0m${end}" "$text" ;;
         *) [[ "$noline" == "n" ]] && printf "%s" "$text" || printf "%s\n" "$text" ;;
     esac
 }
