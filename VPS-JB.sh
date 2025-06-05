@@ -78,6 +78,8 @@ echo -e "\033[38;5;208m警示橙\033[0m"    # 高对比度橙色
 
 echo -e "\033[5;39;48;5;0m慢闪烁\033[0m"
 echo -e "\033[38;5;208;5m警示橙闪烁\033[0m"  # 前景色为208（橙色）并闪烁
+echo -e "\033[38;5;15;48;5;0;5m白字黑底闪烁\033[0m"  
+
 
 
 # echoContent 字体色测试项
@@ -315,7 +317,7 @@ uninstall_script() {
 setup_alias() {
     local system_script="/usr/local/bin/VPS-JB.sh"
     local alias_config="/etc/profile.d/vps-jb-bieming.sh"
-    local github_url="https://raw.githubusercontent.com/yuehan7788/VPS-JB/refs/heads/yuehan7788-patch-2/VPS-JB.sh?t=$(date +%s)"
+    local github_url="https://raw.githubusercontent.com/yuehan7788/VPS-JB/refs/heads/yuehan7788-patch-2/VPS-JB.sh"
     local show_info=$1  # 新增参数控制是否显示详细信息
     local is_first_install=0
     
