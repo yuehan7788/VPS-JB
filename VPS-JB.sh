@@ -39,8 +39,8 @@ echoContent() {
         "skyBlue")  printf "\033[1;36m%s\033[0m${end}" "$text" ;;
 
         # 方案1：使用传统高亮模式（兼容性更好）
-        "lightRed")    printf "\033[1;31m%s\033[0m${end}" "$text" ;;  # 粗体+红色
-        "lightGreen")  printf "\033[1;32m%s\033[0m${end}" "$text" ;;
+       # "lightRed")    printf "\033[1;31m%s\033[0m${end}" "$text" ;;  # 粗体+红色
+       # "lightGreen")  printf "\033[1;32m%s\033[0m${end}" "$text" ;;
 
         # 方案2：强制启用扩展颜色（需终端支持）
         "lightRed")    printf "\033[91m%s\033[0m${end}" "$text" ;;  # 直接使用亮色代码
