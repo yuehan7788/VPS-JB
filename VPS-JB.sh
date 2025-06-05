@@ -17,9 +17,9 @@ version="1.1.6"
    #[[ -t 1 ]] && export FORCE_COLOR=true  # 检测到终端时启用颜色
 
    # 检测终端颜色支持级别
-#COLOR_SUPPORT=8  # 默认8色
-#[[ "$TERM" =~ 256color|direct-color ]] && COLOR_SUPPORT=256
-#[[ -n "$SSH_CONNECTION" ]] && COLOR_SUPPORT=8  # SSH会话强制回退到基础色
+COLOR_SUPPORT=8  # 默认8色
+[[ "$TERM" =~ 256color|direct-color ]] && COLOR_SUPPORT=256
+[[ -n "$SSH_CONNECTION" ]] && COLOR_SUPPORT=8  # SSH会话强制回退到基础色
 
 
 echoContent() {
