@@ -511,7 +511,7 @@ send "y\r"
 expect "按回车继续"
 send "\r"
 # 主流程结束
-expect eof
+#expect eof
 
 # ========== 继续配置流程（可选） ==========
 if { "$salt" != "" } {
