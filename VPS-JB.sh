@@ -16,10 +16,7 @@ version="1.1.6"
 
    #[[ -t 1 ]] && export FORCE_COLOR=true  # 检测到终端时启用颜色
 
-   # 检测终端颜色支持级别
-COLOR_SUPPORT=8  # 默认8色
-[[ "$TERM" =~ 256color|direct-color ]] && COLOR_SUPPORT=256
-[[ -n "$SSH_CONNECTION" ]] && COLOR_SUPPORT=8  # SSH会话强制回退到基础色
+  
 
 
 echoContent() {
@@ -30,7 +27,7 @@ echoContent() {
     [[ "$noline" == "n" ]] && end=""
 
     # 调试信息（添加在这里）
-    echo "DEBUG: 颜色模式=$color, 转义序列=\\033[91m" >&2
+    #echo "DEBUG: 颜色模式=$color, 转义序列=\\033[91m" >&2
 
     case $color in
         "black")    printf "\033[30m%s\033[0m${end}" "$text" ;;
